@@ -1,12 +1,13 @@
-using Bakis.Infrastructure.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Bakis.Configurations;
+using Bakis.Infrastructure.Database;
+using Bakis.Infrastructure.Database.Models;
 
 namespace Bakis
 {
@@ -23,13 +24,15 @@ namespace Bakis
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.SetUpIdentity();
+            services.SetUpAutoMapper();
+            services.SetUpDatabase(Configuration);
+            //services.SetupJtwAuthentication(Configuration);
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-            services.AddDbContext<AppDbContext>(options =>
-      options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
