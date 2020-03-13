@@ -40,28 +40,6 @@ namespace Bakis.Controllers
                 return BadRequest();
             }
 
-        [Route("register")]
-        [HttpPost]
-        public async Task<IActionResult> Register(AuthenticateDto request)
-        {
-            if (request.Email != null && request.Password != null)
-            {
-                var result = await _authenticationService.Authenticate(request.Email, request.Password);
-
-                if (result != null)
-                {
-                    return Ok(new
-                    {
-                        result.Consumer.Id,
-                        result.Consumer.Token
-                    });
-                }
-
-                return Unauthorized();
-            }
-            return BadRequest();
-        }
-
         [HttpGet]
             [Route("roles")]
             public async Task<IActionResult> GetRoles()

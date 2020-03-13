@@ -27,7 +27,7 @@ namespace Bakis
             services.SetUpIdentity();
             services.SetUpAutoMapper();
             services.SetUpDatabase(Configuration);
-            //services.SetupJtwAuthentication(Configuration);
+            services.SetupJtwAuthentication(Configuration);
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
