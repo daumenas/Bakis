@@ -10,6 +10,8 @@ namespace Bakis.Services.Interfaces
     public interface IAuthenticationService
     {
         Task<User> Authenticate(string email, string password);
+
+        Task<User> Register(string email, string password);
         Task<List<IdentityRole>> GetAllRoles();
     }
 }
