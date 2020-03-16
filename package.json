@@ -1,0 +1,19 @@
+{
+  "name": "bakis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daumenas/Bakis.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daumenas/Bakis/issues"
+  },
+  "homepage": "https://github.com/daumenas/Bakis#readme"
+}
