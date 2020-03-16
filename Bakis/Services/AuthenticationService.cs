@@ -12,6 +12,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Bakis.Configurations;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text.Encodings.Web;
 
 namespace Bakis.Services
 {
@@ -44,6 +46,23 @@ namespace Bakis.Services
                 var user = await _userManager.Users.Include(e => e.Consumer).SingleAsync(x => x.Email == email);
                 user.Consumer.Token = await CreateJwt(user);
                 return user;
+            }
+
+            return null;
+        }
+
+        public async Task<User> Register(string email, string password)
+        {
+            var userToVerify = await _userManager.FindByEmailAsync(email);
+
+            if (userToVerify == null)
+            {
+                var user = new User { Email = email };
+                var result = await _userManager.CreateAsync(user, password);
+                if (result.Succeeded)
+                {
+                    Console.Write("User created a new account with password.");
+                }
             }
 
             return null;

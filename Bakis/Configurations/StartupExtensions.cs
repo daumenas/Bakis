@@ -92,35 +92,34 @@ namespace Bakis.Configurations
             });
         }
 
-        //public static IServiceCollection SetupJtwAuthentication(this IServiceCollection services, IConfiguration configuration)
-        //{
-        //    var appSettingsSection = configuration.GetSection("AppSettings");
-        //    services.Configure<AppSettings>(appSettingsSection);
+        public static IServiceCollection SetupJtwAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            var appSettingsSection = configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
 
-        //    // configure jwt authentication
-        //    var appSettings = appSettingsSection.Get<AppSettings>();
-        //    var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            // configure jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services
+                .AddAuthentication(auth =>
+                {
+                    auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(bearer =>
+                {
+                    bearer.RequireHttpsMetadata = false;
+                    bearer.SaveToken = true;
+                    bearer.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
 
-        //    services
-        //        .AddAuthentication(auth =>
-        //        {
-        //            auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        //            auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        //        })
-        //        .AddJwtBearer(bearer =>
-        //        {
-        //            bearer.RequireHttpsMetadata = false;
-        //            bearer.SaveToken = true;
-        //            bearer.TokenValidationParameters = new TokenValidationParameters
-        //            {
-        //                ValidateIssuerSigningKey = true,
-        //                IssuerSigningKey = new SymmetricSecurityKey(key),
-        //                ValidateIssuer = false,
-        //                ValidateAudience = false
-        //            };
-        //        });
-
-        //    return services;
-        //}
+            return services;
+        }
     }
 }

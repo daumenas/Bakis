@@ -60,7 +60,6 @@ namespace Bakis.Controllers
 
         // PUT: api/Consumers/5
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateConsumerDto updateConsumerDto)
         {
             await _consumersService.Update(id, updateConsumerDto);
@@ -71,7 +70,6 @@ namespace Bakis.Controllers
         // POST: api/Consumers
         [HttpPost]
         [Produces(typeof(NewConsumerDto))]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post(NewConsumerDto newConsumerDto)
         {
             var createdConsumer = await _consumersService.Create(newConsumerDto);
