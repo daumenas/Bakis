@@ -9,19 +9,35 @@
 
         <mat-card-content>
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Username">
+            <input matInput placeholder="Name">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Surname">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [min]="minDate" [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Email</mat-label>
+            <input matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+                   placeholder="name@mail.com">
+            <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+              Please enter a valid email address
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hide ? 'text' : 'password'" [formControl]="passwordFormControl">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
           </mat-form-field>
 
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Email">
-          </mat-form-field>
-
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Password">
-          </mat-form-field>
-
-          <mat-form-field class="example-full-width">
-            <mat-label>Choose a role...</mat-label>
+            <mat-label>Choose a role</mat-label>
             <mat-select [(value)]="selected">
               <mat-option [value]="roles" *ngFor="let roles of Roles">
                 {{roles}}
