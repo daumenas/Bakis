@@ -58,8 +58,18 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
     return formUserData;
   }
 
+  addNewUser(newUser: NewUser) {
+    this.userService.registerUser(newUser).subscribe(() => {
+
+    });
+  }
+
   onSubmit() {
     const user = this.getFormUserData();
+    this.addNewUser(user);
+    if (this.registerUserForm.valid) {
+      console.log("Form Submitted!");
+    }
     this.userService.registerUser(user);
   }
 
