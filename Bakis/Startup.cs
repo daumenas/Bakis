@@ -28,6 +28,8 @@ namespace Bakis
             services.SetUpAutoMapper();
             services.SetUpDatabase(Configuration);
             services.SetupJtwAuthentication(Configuration);
+            services.ConfigureCors();
+            services.AddAllDependencies();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -36,7 +38,7 @@ namespace Bakis
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -49,8 +51,11 @@ namespace Bakis
                 app.UseHsts();
             }
 
+            app.UseCorsExt();
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+
+            app.SetUpStaticFiles(Configuration);
+
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
@@ -58,6 +63,8 @@ namespace Bakis
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -74,6 +81,7 @@ namespace Bakis
 
                 if (env.IsDevelopment())
                 {
+                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200/");
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });

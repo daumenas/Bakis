@@ -34,6 +34,7 @@ namespace Bakis.Configurations
             });
         }
 
+
         public static void SetUpDatabase(this IServiceCollection services, IConfiguration configuration)
         {
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
