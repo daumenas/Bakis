@@ -27,6 +27,7 @@ namespace Bakis.Configurations
         public static IServiceCollection AddApplicationDependencies(this IServiceCollection service)
         {
             return service
+                .AddScoped<IUserService, UserService>()
                 .AddScoped<IConsumersService, ConsumersService>();
         }
     }
