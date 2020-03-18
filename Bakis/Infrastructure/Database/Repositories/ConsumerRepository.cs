@@ -20,16 +20,16 @@ namespace Bakis.Infrastructure.Database.Repositories
 
         public async Task<ICollection<Consumer>> GetAll()
         {
-            var employees = await Context.Consumers.ToArrayAsync();
+            var consumers = await Context.Consumers.ToArrayAsync();
 
-            return employees;
+            return consumers;
         }
 
         public async Task<Consumer> GetById(int id)
         {
-            var employee = await Context.Consumers.FindAsync(id);
+            var consumer = await Context.Consumers.FindAsync(id);
 
-            return employee;
+            return consumer;
         }
 
         public async Task<int> Create(Consumer newConsumer)
@@ -40,17 +40,17 @@ namespace Bakis.Infrastructure.Database.Repositories
             return newConsumer.Id;
         }
 
-        public async Task<bool> Update(Consumer employee)
+        public async Task<bool> Update(Consumer consumer)
         {
-            Context.Consumers.Attach(employee);
+            Context.Consumers.Attach(consumer);
             var changes = await Context.SaveChangesAsync();
 
             return changes > 0;
         }
 
-        public async Task<bool> Delete(Consumer employee)
+        public async Task<bool> Delete(Consumer consumer)
         {
-            Context.Consumers.Remove(employee);
+            Context.Consumers.Remove(consumer);
             var changes = await Context.SaveChangesAsync();
 
             return changes > 0;
