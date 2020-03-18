@@ -36,11 +36,8 @@
           </mat-form-field>
 
           <mat-form-field class="example-full-width">
-            <mat-label>Choose a role</mat-label>
-            <mat-select [(value)]="selected" formControlName="roleFormControl">
-              <mat-option [value]="roles" *ngFor="let roles of Roles">
-                {{roles}}
-              </mat-option>
+            <mat-select placeholder="Role" formControlName="role">
+              <mat-option *ngFor="let role of roles" [value]="role.name">{{role.name}}</mat-option>
             </mat-select>
           </mat-form-field>
 

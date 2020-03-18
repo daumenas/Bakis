@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder, ControlValueAccessor } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { UserService } from '../../../app/services/user-service';
 import { NewUser } from '../../models/new-user';
+import { Role } from 'src/app/models/role';
+import { AuthenticationService } from '../../services/authentication.service';
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -22,34 +24,35 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
   registerUserForm: FormGroup; 
   minDate: Date;
 
+  @Input() roles: Role[]
+
   matcher = new MyErrorStateMatcher();
 
-  Roles: any = ['User', 'Event Organizer'];
-
-  constructor(private userService: UserService, private formBuilder: FormBuilder) {
-    const currentYear = new Date().getFullYear();
-    this.minDate = new Date(currentYear - 120, 0, 1);
+  constructor(private userService: UserService, private authenticationService: AuthenticationService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
     this.registerUserForm = this.formBuilder.group({
-      emailFormControl: ['', [
+      email: ['', [
         Validators.required,
         Validators.email,
       ]],
-      passwordFormControl: ['', [
+      passwordl: ['', [
         Validators.required
       ]],
-      nameFormControl: ['', [
+      name: ['', [
         Validators.required
       ]],
-      surnameFormControl: ['', [
+      surname: ['', [
         Validators.required
       ]],
-      dateFormControl: ['', [
-        Validators.required
-      ]],
-      roleFormControl: [],
+      role: [],
+    });
+  }
+
+  getAllRoles() {
+    this.authenticationService.getRoles().subscribe(roles => {
+      this.roles = roles;
     });
   }
 
@@ -60,7 +63,6 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
 
   addNewUser(newUser: NewUser) {
     this.userService.registerUser(newUser).subscribe(() => {
-
     });
   }
 
