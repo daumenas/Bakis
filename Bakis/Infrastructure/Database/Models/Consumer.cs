@@ -18,8 +18,6 @@ namespace Bakis.Infrastructure.Database.Models
         [MaxLength(20)]
         public string Surname { get; set; }
         [Required]
-        public DateTime BirthdayDate { get; set; }
-        [Required]
         [MinLength(4)]
         public string Email { get; set; }
         [NotMapped]

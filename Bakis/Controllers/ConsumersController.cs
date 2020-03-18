@@ -70,7 +70,7 @@ namespace Bakis.Controllers
         // POST: api/Consumers
         [HttpPost]
         [Produces(typeof(NewConsumerDto))]
-        public async Task<IActionResult> Post(NewConsumerDto newConsumerDto)
+        public async Task<IActionResult> Post([FromBody]NewConsumerDto newConsumerDto)
         {
             var createdConsumer = await _consumersService.Create(newConsumerDto);
 

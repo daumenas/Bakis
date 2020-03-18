@@ -40,7 +40,7 @@ namespace Bakis.Controllers
                 return BadRequest();
             }
 
-        [HttpGet]
+            [HttpGet]
             [Route("roles")]
             public async Task<IActionResult> GetRoles()
             {

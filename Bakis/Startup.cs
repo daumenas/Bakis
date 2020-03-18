@@ -85,6 +85,7 @@ namespace Bakis
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+            IdentityDataSeeder.SeedData(userManager, roleManager, Configuration);
         }
     }
 }
