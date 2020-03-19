@@ -1,0 +1,54 @@
+<div class="box-wrapper">
+  <div class="register-wrapper" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card class="box">
+      <mat-card-header>
+        <mat-card-title>Register</mat-card-title>
+      </mat-card-header>
+
+      <form [formGroup]="registerUserForm" class="example-form">
+        <mat-card-content>
+          <mat-form-field class="example-full-width">
+            <input matInput formControlName="name" placeholder="Name">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput formControlName="surname" placeholder="Surname">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [min]="minDate" formControlName="birthday" [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" [errorStateMatcher]="matcher"
+                   placeholder="name@mail.com">
+            <mat-error *ngIf="registerUserForm.controls.email.invalid">
+              Please enter a valid email address
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hide ? 'text' : 'password'" formControlName="password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <mat-label>Choose a role</mat-label>
+            <mat-select [(value)]="selected" formControlName="role">
+              <mat-option [value]="roles" *ngFor="let roles of Roles">
+                {{roles}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </mat-card-content>
+
+        <button type="submit" mat-stroked-button color="accent" (click)="onSubmit()" [disabled]="!registerUserForm.valid" class="btn-block">Register</button>
+
+      </form>
+    </mat-card>
+  </div>
+</div>
