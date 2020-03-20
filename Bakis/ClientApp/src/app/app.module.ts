@@ -14,6 +14,11 @@ import { RegisterComponent } from './components/register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './angular-material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ConsumerPageComponent } from './components/consumer-page/consumer-page.component';
+import { EventPageComponent } from './components/event-page/event-page.component';
+import { SightPageComponent } from './components/sight-page/sight-page.component';
+import { AddSightComponent } from './components/add-sight/add-sight.component';
+import { AddEventComponent } from './components/add-event/add-event.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +28,12 @@ import { ReactiveFormsModule } from '@angular/forms';
     CounterComponent,
     FetchDataComponent,
     LogInComponent,
-    RegisterComponent
+    RegisterComponent,
+    ConsumerPageComponent,
+    EventPageComponent,
+    SightPageComponent,
+    AddSightComponent,
+    AddEventComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -34,7 +44,11 @@ import { ReactiveFormsModule } from '@angular/forms';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'login', component: LogInComponent },
-      { path: 'register', component: RegisterComponent }
+      { path: 'register', component: RegisterComponent },
+      { path: 'consumerpage', component: ConsumerPageComponent },
+      { path: 'eventpage', component: EventPageComponent },
+      { path: 'sightpage', component: SightPageComponent },
+      { path: 'addevent', component: AddEventComponent }
     ]),
     BrowserAnimationsModule,
     AngularMaterialModule,

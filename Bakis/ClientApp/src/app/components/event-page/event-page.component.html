@@ -1,0 +1,81 @@
+<div>
+  <br>
+  <button mat-flat-button class="top-of-page-actions" color="primary" (click)=openAddForm()>Add new event</button>
+  <br>
+  <mat-form-field class="top-of-page-actions">
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search...">
+  </mat-form-field>
+  <br>
+</div>
+
+<div class="table-wrapper">
+  <div class="table-scroll">
+    <table mat-table [dataSource]="eventDataSource">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let event">{{event.id}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let event"> {{event.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let event"> {{event.description}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="points">
+        <th mat-header-cell *matHeaderCellDef> Points </th>
+        <td mat-cell *matCellDef="let event"> {{event.points}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let event"> {{event.address}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="latitude">
+        <th mat-header-cell *matHeaderCellDef> Latitude </th>
+        <td mat-cell *matCellDef="let event"> {{event.latitude}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="longtitude">
+        <th mat-header-cell *matHeaderCellDef> Longtitude </th>
+        <td mat-cell *matCellDef="let event"> {{event.longtitude}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fromDate">
+        <th mat-header-cell *matHeaderCellDef> From Date </th>
+        <td mat-cell *matCellDef="let event"> {{event.fromDate | date}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="toDate">
+        <th mat-header-cell *matHeaderCellDef> To Date </th>
+        <td mat-cell *matCellDef="let event"> {{event.toDate | date}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef> Time </th>
+        <td mat-cell *matCellDef="let event"> {{event.time}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let event">
+          <button mat-flat-button color="primary" (click)="openEditForm(event)">Edit</button>
+          &nbsp;
+          <button mat-flat-button color="warn" (click)="showDeleteConfirm(event)" [disabled]="event.id === getCurrentEventId()">Delete</button>
+          &nbsp;
+          <button mat-flat-button color="primary" (click)="showEquipmentModal(event.id)">Equipment</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>
+<mat-paginator [pageSizeOptions]="[10, 20, 40]" showFirstLastButtons></mat-paginator>

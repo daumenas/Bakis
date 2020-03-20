@@ -3,6 +3,7 @@ import { Inject, Injectable } from "@angular/core";
 import { NewUser } from "../models/new-user";
 import { Observable } from "rxjs";
 import { BaseUser } from "../models/base-user";
+import { TableRowUser } from "../models/table-row-user"
 @Injectable({ providedIn: 'root' })
 
 export class UserService {
@@ -18,6 +19,10 @@ export class UserService {
 
   registerUser(user: NewUser): Observable<NewUser> {
     return this.http.post<NewUser>(this.userApi, user);
+  }
+
+  getAllUsers(): Observable<TableRowUser[]> {
+    return this.http.get<TableRowUser[]>(this.userApi);
   }
 
   
