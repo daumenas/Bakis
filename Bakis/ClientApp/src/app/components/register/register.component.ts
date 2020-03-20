@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder, ControlValueAccessor } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { UserService } from '../../../app/services/user-service';
+import { UserService } from '../../../app/services/user.service';
 import { NewUser } from '../../models/new-user';
 
 

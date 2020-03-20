@@ -19,6 +19,4 @@ export class UserService {
   registerUser(user: NewUser): Observable<NewUser> {
     return this.http.post<NewUser>(this.userApi, user);
   }
-
-  
 }
