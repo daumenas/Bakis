@@ -20,21 +20,19 @@
         [ngClass]="{ show: isExpanded }"
       >
         <ul class="navbar-nav flex-grow">
-          <li class="nav-item"
-              [routerLinkActive]="['link-active']"
-              [routerLinkActiveOptions]="{ exact: true }">
+          <li class="nav-item">
             <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
+          <li class="nav-item">
             <a class="nav-link text-dark" [routerLink]="['/counter']">Counter</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
+          <li class="nav-item">
             <a class="nav-link text-dark" [routerLink]="['/fetch-data']">Fetch data</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
+          <li class="nav-item" >
             <a class="nav-link text-dark" [routerLink]="['/login']">Log in</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
+          <li class="nav-item">
             <a class="nav-link text-dark" [routerLink]="['/register']">Register</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
