@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Bakis.Configurations;
 using Bakis.Infrastructure.Database;
 using Bakis.Infrastructure.Database.Models;
+using System;
 
 namespace Bakis
 {
@@ -83,6 +84,7 @@ namespace Bakis
                 {
                     //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200/");
                     spa.UseAngularCliServer(npmScript: "start");
+                    spa.Options.StartupTimeout = TimeSpan.FromSeconds(200);
                 }
             });
         }
