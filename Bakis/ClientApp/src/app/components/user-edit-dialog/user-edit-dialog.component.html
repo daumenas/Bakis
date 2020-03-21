@@ -20,16 +20,11 @@
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" [errorStateMatcher]="matcher"
-                   placeholder="name@mail.com">
-            <mat-error *ngIf="editUserForm.controls.email.invalid">
-              Please enter a valid email address
-            </mat-error>
+            <input matInput formControlName="email" placeholder="name@mail.com">
           </mat-form-field>
           <mat-form-field class="full-width">
             <mat-label>Choose a role</mat-label>
-            <mat-select [(value)]="selected" formControlName="role">
+            <mat-select formControlName="role">
               <mat-option [value]="roles" *ngFor="let roles of Roles">
                 {{roles}}
               </mat-option>

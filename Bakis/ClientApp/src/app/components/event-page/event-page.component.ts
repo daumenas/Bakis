@@ -4,7 +4,7 @@ import { BaseEvent } from '../../models/base-event';
 import { EventService } from '../../services/event-service';
 import { MatTableDataSource } from '@angular/material/table';
 import { TableRowEvent } from "../../models/table-row-event";
-import { AddEventComponent } from '../add-event/add-event.component';
+import { BaseEventComponent } from '../base-event/base-event.component';
 
 
 @Component({
@@ -64,7 +64,7 @@ export class EventPageComponent implements OnInit {
   }
 
   openAddForm(): void {
-    const dialogRef = this.dialog.open(AddEventComponent, {
+    const dialogRef = this.dialog.open(BaseEventComponent, {
       width: '550px',
       data: {
         ocassions: this.events
@@ -85,7 +85,7 @@ export class EventPageComponent implements OnInit {
   ///////////////////////
   openEditForm(user: TableRowEvent): void {
     this.eventToUpdate = Object.assign(user);
-    const dialogRef = this.dialog.open(AddEventComponent, {
+    const dialogRef = this.dialog.open(BaseEventComponent, {
       width: '550px',
       data: {
         isEdit: true,

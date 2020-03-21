@@ -17,7 +17,7 @@ import { ConsumerPageComponent } from './components/consumer-page/consumer-page.
 import { EventPageComponent } from './components/event-page/event-page.component';
 import { SightPageComponent } from './components/sight-page/sight-page.component';
 import { AddSightComponent } from './components/add-sight/add-sight.component';
-import { AddEventComponent } from './components/add-event/add-event.component';
+import { BaseEventComponent } from './components/base-event/base-event.component';
 import { UserEditDialogComponent } from './components/user-edit-dialog/user-edit-dialog.component';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -35,6 +35,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCardModule } from '@angular/material/card'
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -51,7 +52,7 @@ export function tokenGetter() {
     EventPageComponent,
     SightPageComponent,
     AddSightComponent,
-    AddEventComponent,
+    BaseEventComponent,
     UserEditDialogComponent
   ],
   imports: [
@@ -72,6 +73,7 @@ export function tokenGetter() {
     MatListModule,
     MatSidenavModule,
     MatPaginatorModule,
+    MatCardModule,
 
     HttpClientModule,
     FormsModule,
@@ -82,7 +84,7 @@ export function tokenGetter() {
       { path: 'consumerpage', component: ConsumerPageComponent },
       { path: 'eventpage', component: EventPageComponent },
       { path: 'sightpage', component: SightPageComponent },
-      { path: 'addevent', component: AddEventComponent },
+      { path: 'baseevent', component: BaseEventComponent },
       { path: 'editevent', component: UserEditDialogComponent }
     ]),
     BrowserAnimationsModule,

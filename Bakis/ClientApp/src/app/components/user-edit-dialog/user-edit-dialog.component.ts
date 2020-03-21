@@ -1,29 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder, ControlValueAccessor } from '@angular/forms';
-import { UserService } from '../../../app/services/user-service';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { TableRowUser } from '../../models/table-row-user';
+import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { UserService } from '../../../app/services/user.service';
 import { BaseUser } from '../../models/base-user';
 
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
 
 @Component({
   selector: 'app-user-edit-dialog',
   templateUrl: './user-edit-dialog.component.html',
-  styleUrls: ['./user-edit-dialog.component.css']
+  styleUrls: ['../dialog-style/dialog-style.component.css']
 })
 
 export class UserEditDialogComponent implements OnInit {
   editUserForm: FormGroup;
   minDate: Date;
-  matcher = new MyErrorStateMatcher();
   Roles: any = ['User', 'Event Organizer'];
 
   constructor(

@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BaseUser } from '../../models/base-user';
 import { NewUser } from '../../models/new-user';
-import { UserService } from '../../services/user-service';
+import { UserService } from '../../services/user.service';
 import { RegisterComponent } from '../register/register.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { TableRowUser } from "../../models/table-row-user";

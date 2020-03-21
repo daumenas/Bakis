@@ -6,7 +6,7 @@ import { NewUser } from '../../models/new-user';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['../log-in-register-style/log-in-register.component.css']
 })
 
 export class RegisterComponent implements OnInit, ControlValueAccessor {

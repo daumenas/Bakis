@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder, ControlValueAccessor } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { EventService } from '../../../app/services/event-service';
 import { BaseEvent } from '../../models/base-event';
 
 
 @Component({
-  selector: 'app-add-event',
-  templateUrl: './add-event.component.html',
-  styleUrls: ['./add-event.component.css']
+  selector: 'base-add-event',
+  templateUrl: './base-event.component.html',
+  styleUrls: ['../dialog-style/dialog-style.component.css']
 })
 
-export class AddEventComponent implements OnInit, ControlValueAccessor {
-  addEventForm: FormGroup;
+export class BaseEventComponent implements OnInit, ControlValueAccessor {
+  baseEventForm: FormGroup;
   minDate: Date;
+  buttonText: string;
 
 
 
@@ -29,8 +29,9 @@ export class AddEventComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
+    this.buttonText = "Add Event"
     if (this.data.isEdit == undefined) {
-      this.addEventForm = this.formBuilder.group({
+      this.baseEventForm = this.formBuilder.group({
         name: ['', [
           Validators.required
         ]],
@@ -61,7 +62,8 @@ export class AddEventComponent implements OnInit, ControlValueAccessor {
       });
     }
     else {
-      this.addEventForm = this.formBuilder.group({
+      this.buttonText = "Edit Event"
+        this.baseEventForm = this.formBuilder.group({
         name: [this.data.name, [
           Validators.required
         ]],
@@ -94,7 +96,7 @@ export class AddEventComponent implements OnInit, ControlValueAccessor {
   }
 
   getFormEventData(): BaseEvent {
-    const formUserData = Object.assign(this.addEventForm.value);
+    const formUserData = Object.assign(this.baseEventForm.value);
     return formUserData;
   }
 
@@ -113,7 +115,7 @@ export class AddEventComponent implements OnInit, ControlValueAccessor {
     if (this.data.isEdit == undefined) {
       const event = this.getFormEventData();
       this.addNewUser(event);
-      if (this.addEventForm.valid) {
+      if (this.baseEventForm.valid) {
         console.log("Form Submitted!");
       }
       this.eventService.registerEvent(event);
@@ -121,7 +123,7 @@ export class AddEventComponent implements OnInit, ControlValueAccessor {
     else {
       const event = this.getFormEventData();
       this.editEvent(event);
-      if (this.addEventForm.valid) {
+      if (this.baseEventForm.valid) {
         console.log("Form Submitted!");
       }
       this.eventService.editEvent(event, this.data.eventToUpdate.id);
@@ -130,11 +132,11 @@ export class AddEventComponent implements OnInit, ControlValueAccessor {
 
   writeValue(value: any) {
     if (value) {
-      this.addEventForm.patchValue(value);
+      this.baseEventForm.patchValue(value);
     }
   }
   registerOnChange(fn: any) {
-    this.addEventForm.valueChanges.subscribe(fn);
+    this.baseEventForm.valueChanges.subscribe(fn);
   }
   registerOnTouched(fn: any): void {
     throw new Error("Method not implemented.");
