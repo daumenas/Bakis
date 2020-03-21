@@ -1,16 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder, ControlValueAccessor } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { Validators, FormGroup, FormBuilder, ControlValueAccessor } from '@angular/forms';
 import { UserService } from '../../../app/services/user.service';
 import { NewUser } from '../../models/new-user';
-
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
 
 @Component({
   selector: 'app-register',
@@ -21,8 +12,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class RegisterComponent implements OnInit, ControlValueAccessor {
   registerUserForm: FormGroup; 
   minDate: Date;
-
-  matcher = new MyErrorStateMatcher();
 
   Roles: any = ['User', 'Event Organizer'];
 
