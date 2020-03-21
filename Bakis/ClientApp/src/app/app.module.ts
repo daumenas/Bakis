@@ -19,6 +19,7 @@ import { EventPageComponent } from './components/event-page/event-page.component
 import { SightPageComponent } from './components/sight-page/sight-page.component';
 import { AddSightComponent } from './components/add-sight/add-sight.component';
 import { AddEventComponent } from './components/add-event/add-event.component';
+import { UserEditDialogComponent } from './components/user-edit-dialog/user-edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { AddEventComponent } from './components/add-event/add-event.component';
     EventPageComponent,
     SightPageComponent,
     AddSightComponent,
-    AddEventComponent
+    AddEventComponent,
+    UserEditDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -48,7 +50,8 @@ import { AddEventComponent } from './components/add-event/add-event.component';
       { path: 'consumerpage', component: ConsumerPageComponent },
       { path: 'eventpage', component: EventPageComponent },
       { path: 'sightpage', component: SightPageComponent },
-      { path: 'addevent', component: AddEventComponent }
+      { path: 'addevent', component: AddEventComponent },
+      { path: 'editevent', component: UserEditDialogComponent }
     ]),
     BrowserAnimationsModule,
     AngularMaterialModule,

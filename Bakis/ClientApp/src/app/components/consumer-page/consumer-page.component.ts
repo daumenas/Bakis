@@ -6,11 +6,7 @@ import { UserService } from '../../services/user-service';
 import { RegisterComponent } from '../register/register.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { TableRowUser } from "../../models/table-row-user";
-
-
-export interface DialogData {
-  animal: 'panda' | 'unicorn' | 'lion';
-}
+import { UserEditDialogComponent } from '../user-edit-dialog/user-edit-dialog.component';
 
 @Component({
   selector: 'app-consumer-page',
@@ -19,6 +15,8 @@ export interface DialogData {
 })
 export class ConsumerPageComponent implements OnInit {
   users: TableRowUser[];
+
+  userToUpdate: TableRowUser;
 
   employeeIdForEquipment: number;
 
@@ -32,7 +30,7 @@ export class ConsumerPageComponent implements OnInit {
   sortValue: string | null = null;
   listOfData: TableRowUser[] = [];
 
-  displayedColumns: string[] = ['id', 'role', 'name', 'surname', 'date', 'email'];
+  displayedColumns: string[] = ['id', 'role', 'name', 'surname', 'date', 'email', 'actions'];
 
   consumerDataSource = new MatTableDataSource(this.listOfData);
   
@@ -43,7 +41,6 @@ export class ConsumerPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.users);
     this.refreshTable();
   }
 
@@ -80,12 +77,52 @@ export class ConsumerPageComponent implements OnInit {
     dialogRef.afterClosed().subscribe(newUser => {
       if (newUser) {
         this.registerUser(newUser);
+        this.refreshTable();
       }
     });
   }
 
-applyFilter(event: Event) {
+  applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.consumerDataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  openEditForm(user: TableRowUser): void {
+    this.userToUpdate = Object.assign(user);
+    const dialogRef = this.dialog.open(UserEditDialogComponent, {
+      width: '550px',
+      data: {
+        userToUpdate: this.userToUpdate,
+        clients: this.clients,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(userToUpdate => {
+      if (userToUpdate) {
+        this.editUser(userToUpdate, user.id);
+      }
+      this.refreshTable();
+    });
+  }
+
+  editUser(user: TableRowUser, id: number) {
+    this.userService.editUser(user, id).subscribe(() => {
+      this.refreshTable();
+    }, error => {
+      this.showUnexpectedError();
+    });
+  }
+
+  showDeleteConfirm(userToDelete: TableRowUser): void {
+    if (confirm('If you confirm,' + userToDelete.name + ' ' + userToDelete.surname + ' will be permanently deleted.')) {
+      this.deleteUserById(userToDelete.id)
+      this.refreshTable();
+    }
+  }
+
+  deleteUserById(id: number) {
+    this.userService.deleteUser(id).subscribe(() => {
+      this.refreshTable();
+    });
   }
 }

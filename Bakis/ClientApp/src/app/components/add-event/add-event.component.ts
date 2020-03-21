@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material';
+import { Inject } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder, ControlValueAccessor } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { EventService } from '../../../app/services/event-service';
@@ -17,41 +19,78 @@ export class AddEventComponent implements OnInit, ControlValueAccessor {
 
 
 
-  constructor(private eventService: EventService, private formBuilder: FormBuilder) {
+
+  constructor(private eventService: EventService,
+    private formBuilder: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) {
     const currentYear = new Date().getFullYear();
     this.minDate = new Date(currentYear);
   }
 
   ngOnInit() {
-    this.addEventForm = this.formBuilder.group({
-      name: ['', [
-        Validators.required
-      ]],
-      description: ['', [
-        Validators.required
-      ]],
-      points: ['', [
-        Validators.required
-      ]],
-      address: ['', [
-        Validators.required
-      ]],
-      latitude: ['', [
-        Validators.required
-      ]],
-      longitude: ['', [
-        Validators.required
-      ]],
-      fromDate: ['', [
-        Validators.required
-      ]],
-      toDate: ['', [
-        Validators.required
-      ]],
-      time: ['', [
-        Validators.required
-      ]]
-    });
+    if (this.data.isEdit == undefined) {
+      this.addEventForm = this.formBuilder.group({
+        name: ['', [
+          Validators.required
+        ]],
+        description: ['', [
+          Validators.required
+        ]],
+        points: ['', [
+          Validators.required
+        ]],
+        address: ['', [
+          Validators.required
+        ]],
+        latitude: ['', [
+          Validators.required
+        ]],
+        longitude: ['', [
+          Validators.required
+        ]],
+        fromDate: ['', [
+          Validators.required
+        ]],
+        toDate: ['', [
+          Validators.required
+        ]],
+        time: ['', [
+          Validators.required
+        ]]
+      });
+    }
+    else {
+      this.addEventForm = this.formBuilder.group({
+        name: [this.data.name, [
+          Validators.required
+        ]],
+        description: [this.data.description, [
+          Validators.required
+        ]],
+        points: [this.data.points, [
+          Validators.required
+        ]],
+        address: [this.data.address, [
+          Validators.required
+        ]],
+        latitude: [this.data.latitude, [
+          Validators.required
+        ]],
+        longitude: [this.data.longitude, [
+          Validators.required
+        ]],
+        fromDate: [this.data.fromDate, [
+          Validators.required
+        ]],
+        toDate: [this.data.toDate, [
+          Validators.required
+        ]],
+        time: [this.data.time, [
+          Validators.required
+        ]]
+      });
+    }
   }
 
   getFormEventData(): BaseEvent {
@@ -65,13 +104,28 @@ export class AddEventComponent implements OnInit, ControlValueAccessor {
     });
   }
 
+  editEvent(editEvent: BaseEvent) {
+    this.eventService.editEvent(editEvent, this.data.eventToUpdate.id).subscribe(() => {
+    });
+  }
+
   onSubmit() {
-    const event = this.getFormEventData();
-    this.addNewUser(event);
-    if (this.addEventForm.valid) {
-      console.log("Form Submitted!");
+    if (this.data.isEdit == undefined) {
+      const event = this.getFormEventData();
+      this.addNewUser(event);
+      if (this.addEventForm.valid) {
+        console.log("Form Submitted!");
+      }
+      this.eventService.registerEvent(event);
     }
-    this.eventService.registerEvent(event);
+    else {
+      const event = this.getFormEventData();
+      this.editEvent(event);
+      if (this.addEventForm.valid) {
+        console.log("Form Submitted!");
+      }
+      this.eventService.editEvent(event, this.data.eventToUpdate.id);
+    }
   }
 
   writeValue(value: any) {

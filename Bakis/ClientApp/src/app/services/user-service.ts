@@ -25,5 +25,12 @@ export class UserService {
     return this.http.get<TableRowUser[]>(this.userApi);
   }
 
+  editUser(user: BaseUser, id: number) {
+    return this.http.put(`${this.userApi}/${id}`, user);
+  }
+
+  deleteUser(id: number) {
+    return this.http.delete(`${this.userApi}/${id}`);
+  }
   
 }

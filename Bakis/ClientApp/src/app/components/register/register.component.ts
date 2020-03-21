@@ -26,7 +26,10 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
 
   Roles: any = ['User', 'Event Organizer'];
 
-  constructor(private userService: UserService, private formBuilder: FormBuilder) {
+  constructor(
+    private userService: UserService,
+    private formBuilder: FormBuilder
+    ) {
     const currentYear = new Date().getFullYear();
     this.minDate = new Date(currentYear - 120, 0, 1);
   }

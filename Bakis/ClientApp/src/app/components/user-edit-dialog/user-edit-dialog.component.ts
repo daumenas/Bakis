@@ -1,0 +1,74 @@
+import { Component, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material';
+import { Inject } from '@angular/core';
+import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder, ControlValueAccessor } from '@angular/forms';
+import { UserService } from '../../../app/services/user-service';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { TableRowUser } from '../../models/table-row-user';
+import { BaseUser } from '../../models/base-user';
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+
+@Component({
+  selector: 'app-user-edit-dialog',
+  templateUrl: './user-edit-dialog.component.html',
+  styleUrls: ['./user-edit-dialog.component.css']
+})
+
+export class UserEditDialogComponent implements OnInit {
+  editUserForm: FormGroup;
+  minDate: Date;
+  matcher = new MyErrorStateMatcher();
+  Roles: any = ['User', 'Event Organizer'];
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private userService: UserService,
+    private formBuilder: FormBuilder
+  ) { }
+
+  ngOnInit() {
+    this.editUserForm = this.formBuilder.group({
+      email: [this.data.userToUpdate.email, [
+        Validators.required,
+        Validators.email,
+      ]],
+      name: [this.data.userToUpdate.name, [
+        Validators.required
+      ]],
+      surname: [this.data.userToUpdate.surname, [
+        Validators.required
+      ]],
+      birthday: [this.data.userToUpdate.birthdayDate, [
+        Validators.required
+      ]],
+      role: [this.data.userToUpdate.role, [
+      ]],
+    });
+  }
+
+  getFormUserData(): BaseUser {
+    const formUserData = Object.assign(this.editUserForm.value);
+    return formUserData;
+  }
+
+  editUser(editUser: BaseUser) {
+    this.userService.editUser(editUser, this.data.userToUpdate.id).subscribe(() => {
+    });
+  }
+
+  onSubmit() {
+    const user = this.getFormUserData();
+    this.editUser(user);
+    if (this.editUserForm.valid) {
+      console.log("Form Submitted!");
+    }
+    this.userService.editUser(user, this.data.userToUpdate.id);
+  }
+
+}

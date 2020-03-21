@@ -24,5 +24,13 @@ export class EventService {
     return this.http.get<TableRowEvent[]>(this.eventApi);
   }
 
+  editEvent(event: BaseEvent, id: number) {
+    return this.http.put(`${this.eventApi}/${id}`, event);
+  }
+
+  deleteEvent(id: number) {
+    return this.http.delete(`${this.eventApi}/${id}`);
+  }
+
   
 }

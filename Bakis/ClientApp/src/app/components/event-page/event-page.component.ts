@@ -14,6 +14,7 @@ import { AddEventComponent } from '../add-event/add-event.component';
 })
 export class EventPageComponent implements OnInit {
   events: TableRowEvent[];
+  eventToUpdate: TableRowEvent;
 
   employeeIdForEquipment: number;
 
@@ -27,7 +28,7 @@ export class EventPageComponent implements OnInit {
   sortValue: string | null = null;
   listOfData: TableRowEvent[] = [];
 
-  displayedColumns: string[] = ['id', 'name', 'description', 'points', 'address', 'latitude', 'longtitude', 'fromDate', 'toDate'];
+  displayedColumns: string[] = ['id', 'name', 'description', 'points', 'address', 'latitude', 'longtitude', 'fromDate', 'toDate', 'actions'];
 
   eventDataSource = new MatTableDataSource(this.listOfData);
 
@@ -80,5 +81,45 @@ export class EventPageComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.eventDataSource.filter = filterValue.trim().toLowerCase();
+  }
+  ///////////////////////
+  openEditForm(user: TableRowEvent): void {
+    this.eventToUpdate = Object.assign(user);
+    const dialogRef = this.dialog.open(AddEventComponent, {
+      width: '550px',
+      data: {
+        isEdit: true,
+        eventToUpdate: this.eventToUpdate,
+        occassions: this.ocassions,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(userToUpdate => {
+      if (userToUpdate) {
+        this.editUser(userToUpdate, user.id);
+      }
+      this.refreshTable();
+    });
+  }
+
+  editUser(event: TableRowEvent, id: number) {
+    this.eventService.editEvent(event, id).subscribe(() => {
+      this.refreshTable();
+    }, error => {
+      this.showUnexpectedError();
+    });
+  }
+
+  showDeleteConfirm(eventToDelete: TableRowEvent): void {
+    if (confirm('If you confirm,' + eventToDelete.name + ' will be permanently deleted.')) {
+      this.deleteUserById(eventToDelete.id)
+      this.refreshTable();
+    }
+  }
+
+  deleteUserById(id: number) {
+    this.eventService.deleteEvent(id).subscribe(() => {
+      this.refreshTable();
+    });
   }
 }
