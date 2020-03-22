@@ -16,19 +16,12 @@ export class EventPageComponent implements OnInit {
   events: TableRowEvent[];
   eventToUpdate: TableRowEvent;
 
-  employeeIdForEquipment: number;
-
   ocassions: BaseEvent[] = [];
 
-  isVisibleEquipmentModal = false;
-
-  searchValue = '';
-  listOfSearchAddress: string[] = [];
-  sortName: string | null = null;
-  sortValue: string | null = null;
   listOfData: TableRowEvent[] = [];
 
-  displayedColumns: string[] = ['id', 'name', 'description', 'points', 'address', 'latitude', 'longtitude', 'fromDate', 'toDate', 'actions'];
+  displayedColumns: string[] = ['id', 'name', 'description', 'points',
+    'address', 'latitude', 'longtitude', 'fromDate', 'toDate', 'actions'];
 
   eventDataSource = new MatTableDataSource(this.listOfData);
 
@@ -82,9 +75,9 @@ export class EventPageComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.eventDataSource.filter = filterValue.trim().toLowerCase();
   }
-  ///////////////////////
-  openEditForm(user: TableRowEvent): void {
-    this.eventToUpdate = Object.assign(user);
+
+  openEditForm(event: TableRowEvent): void {
+    this.eventToUpdate = Object.assign(event);
     const dialogRef = this.dialog.open(BaseEventComponent, {
       width: '550px',
       data: {
@@ -94,15 +87,15 @@ export class EventPageComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(userToUpdate => {
-      if (userToUpdate) {
-        this.editUser(userToUpdate, user.id);
+    dialogRef.afterClosed().subscribe(eventToUpdate => {
+      if (eventToUpdate) {
+        this.editEvent(eventToUpdate, event.id);
       }
       this.refreshTable();
     });
   }
 
-  editUser(event: TableRowEvent, id: number) {
+  editEvent(event: TableRowEvent, id: number) {
     this.eventService.editEvent(event, id).subscribe(() => {
       this.refreshTable();
     }, error => {
@@ -112,14 +105,13 @@ export class EventPageComponent implements OnInit {
 
   showDeleteConfirm(eventToDelete: TableRowEvent): void {
     if (confirm('If you confirm,' + eventToDelete.name + ' will be permanently deleted.')) {
-      this.deleteUserById(eventToDelete.id)
+      this.deleteEventById(eventToDelete.id)
       this.refreshTable();
     }
   }
 
-  deleteUserById(id: number) {
+  deleteEventById(id: number) {
     this.eventService.deleteEvent(id).subscribe(() => {
-      this.refreshTable();
     });
   }
 }

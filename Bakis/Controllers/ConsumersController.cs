@@ -26,7 +26,7 @@ namespace Bakis.Controllers
         // GET: api/Consumers
         [HttpGet]
         [Produces(typeof(GetConsumerDto[]))]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Get()
         {
             var consumers = await _consumersService.GetAll();
@@ -47,7 +47,7 @@ namespace Bakis.Controllers
         // GET: api/Consumers/5
         [HttpGet("{id}")]
         [Produces(typeof(GetConsumerDto))]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Get(int id)
         {
             var consumer = await _consumersService.GetById(id);
@@ -79,7 +79,7 @@ namespace Bakis.Controllers
 
         // DELETE: api/Consumer/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             await _consumersService.Delete(id);

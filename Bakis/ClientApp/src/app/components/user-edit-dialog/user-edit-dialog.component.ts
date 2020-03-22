@@ -15,7 +15,7 @@ import { BaseUser } from '../../models/base-user';
 export class UserEditDialogComponent implements OnInit {
   editUserForm: FormGroup;
   minDate: Date;
-  Roles: any = ['User', 'Event Organizer'];
+  roles: string[] = ['User', 'Event Organizer'];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,

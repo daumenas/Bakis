@@ -8,5 +8,4 @@ export abstract class BaseEvent {
   address: string
   latitude: string;
   longitude: string;
-  gameObject: Object;
 }

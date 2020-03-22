@@ -100,7 +100,7 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
     return formUserData;
   }
 
-  addNewUser(newEvent: BaseEvent) {
+  addNewEvent(newEvent: BaseEvent) {
     this.eventService.registerEvent(newEvent).subscribe(() => {
 
     });
@@ -114,7 +114,7 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
   onSubmit() {
     if (this.data.isEdit == undefined) {
       const event = this.getFormEventData();
-      this.addNewUser(event);
+      this.addNewEvent(event);
       if (this.baseEventForm.valid) {
         console.log("Form Submitted!");
       }

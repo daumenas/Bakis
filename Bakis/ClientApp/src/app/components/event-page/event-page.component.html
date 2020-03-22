@@ -67,7 +67,7 @@
         <td mat-cell *matCellDef="let event">
           <button mat-flat-button color="primary" (click)="openEditForm(event)">Edit</button>
           &nbsp;
-          <button mat-flat-button color="warn" (click)="showDeleteConfirm(event)" [disabled]="event.id === getCurrentEventId()">Delete</button>
+          <button mat-flat-button color="warn" (click)="showDeleteConfirm(event)">Delete</button>
         </td>
       </ng-container>
 

@@ -18,16 +18,9 @@ export class ConsumerPageComponent implements OnInit {
 
   userToUpdate: TableRowUser;
 
-  employeeIdForEquipment: number;
-
-  clients: BaseUser[] = [];
+  baseUsers: BaseUser[] = [];
 
   isVisibleEquipmentModal = false;
-
-  searchValue = '';
-  listOfSearchAddress: string[] = [];
-  sortName: string | null = null;
-  sortValue: string | null = null;
   listOfData: TableRowUser[] = [];
 
   displayedColumns: string[] = ['id', 'role', 'name', 'surname', 'date', 'email', 'actions'];
@@ -70,7 +63,7 @@ export class ConsumerPageComponent implements OnInit {
     const dialogRef = this.dialog.open(RegisterComponent, {
       width: '550px',
       data: {
-        clients: this.users
+        baseUsers: this.baseUsers
       }
     });
 
@@ -93,7 +86,7 @@ export class ConsumerPageComponent implements OnInit {
       width: '550px',
       data: {
         userToUpdate: this.userToUpdate,
-        clients: this.clients,
+        baseUsers: this.baseUsers,
       }
     });
 
