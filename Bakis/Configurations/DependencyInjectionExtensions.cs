@@ -28,7 +28,9 @@ namespace Bakis.Configurations
         {
             return service
                 .AddScoped<IUserService, UserService>()
-                .AddScoped<IConsumersService, ConsumersService>();
+                .AddScoped<IConsumersService, ConsumersService>()
+                .AddScoped<IAuthService, AuthService>();
+
         }
     }
 }

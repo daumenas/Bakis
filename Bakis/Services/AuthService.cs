@@ -17,12 +17,12 @@ using System.Text.Encodings.Web;
 
 namespace Bakis.Services
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AuthService : IAuthService
     {
         private readonly AppSettings _appSettings;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public AuthenticationService(
+        public AuthService(
             IOptions<AppSettings> appSettings,
             UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager)

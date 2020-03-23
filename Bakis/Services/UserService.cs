@@ -33,7 +33,7 @@ namespace Bakis.Services
             var result = await _userManager.CreateAsync(newUser, newConsumerDto.Password);
             if (result.Succeeded)
             {
-                IdentityRole role = await _roleManager.FindByIdAsync(newConsumerDto.Role);
+                IdentityRole role = await _roleManager.FindByNameAsync(newConsumerDto.Role);
                 if (role == null)
                 {
                     await _roleManager.CreateAsync(new IdentityRole(newConsumerDto.Role));

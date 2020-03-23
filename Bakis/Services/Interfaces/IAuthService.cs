@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bakis.Services.Interfaces
 {
-    public interface IAuthenticationService
+    public interface IAuthService
     {
         Task<User> Authenticate(string email, string password);
         Task<List<IdentityRole>> GetAllRoles();

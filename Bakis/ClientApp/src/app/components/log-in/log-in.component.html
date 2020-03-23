@@ -23,7 +23,7 @@
           </div>
         </mat-form-field>
       </mat-card-content>
-      <button [disabled]="loading" mat-stroked-button color="accent" class="btn-block">
+      <button [disabled]="loading" (click)="onSubmit()" mat-stroked-button color="accent" class="btn-block">
         <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
         Log in
       </button>
