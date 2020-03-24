@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder, ControlValueAccessor } from '@angular/forms';
-import { EventService } from '../../../app/services/event-service';
+import { CityEventService } from '../../../app/services/city-event.service';
 import { BaseEvent } from '../../models/base-event';
 
 
@@ -20,7 +20,7 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
 
 
 
-  constructor(private eventService: EventService,
+  constructor(private eventService: CityEventService,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {

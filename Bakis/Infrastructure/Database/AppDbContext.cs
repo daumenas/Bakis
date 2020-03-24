@@ -11,6 +11,7 @@ namespace Bakis.Infrastructure.Database
 {
     public class AppDbContext : IdentityDbContext<User>
     {
+        public DbSet<CityEvent> CityEvent { get; set; }
         public DbSet<Consumer> Consumers { get; set; }
 
         private readonly IConfiguration _configuration;
