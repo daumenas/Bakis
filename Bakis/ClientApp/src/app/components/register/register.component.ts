@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder, ControlValueAccessor } from '@angular/forms';
 import { UserService } from '../../../app/services/user.service';
 import { NewUser } from '../../models/new-user';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from "@angular/router"
 
 @Component({
   selector: 'app-register',
@@ -12,10 +14,11 @@ import { NewUser } from '../../models/new-user';
 export class RegisterComponent implements OnInit, ControlValueAccessor {
   registerUserForm: FormGroup; 
   minDate: Date;
-
   Roles: any = ['User', 'Event Organizer'];
 
   constructor(
+    private router: Router,
+    public snackbar: MatSnackBar,
     private userService: UserService,
     private formBuilder: FormBuilder
     ) {
@@ -57,13 +60,30 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
     });
   }
 
+  //////////////////////////////////////////////////////////////////////////
+  checkEmail(email: string) {
+    this.userService.emailExists(email).subscribe(data => console.log(data));
+    return true;
+  }
+  //////////////////////////////////////////////////////////////////////////
+
   onSubmit() {
+    this.registerUserForm.get('email').setErrors({ 'exists': null });
+    this.registerUserForm.get('email').updateValueAndValidity();
     const user = this.getFormUserData();
-    this.addNewUser(user);
-    if (this.registerUserForm.valid) {
-      console.log("Form Submitted!");
+    console.log(this.checkEmail(this.registerUserForm.get('email').value));
+    if (this.checkEmail(this.registerUserForm.get('email').value)) {
+      this.addNewUser(user);
+      if (this.registerUserForm.valid) {
+        this.snackbar.open("Registration Succesful", null, {
+          duration: 1500
+        });
+        this.router.navigate(['/'])
+      }
+      this.userService.registerUser(user);
+    } else {
+      this.registerUserForm.get('email').setErrors({ 'exists': true });
     }
-    this.userService.registerUser(user);
   }
 
   writeValue(value: any) {
@@ -79,6 +99,11 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
   }
   setDisabledState?(isDisabled: boolean): void {
     throw new Error("Method not implemented.");
+  }
+
+  getErrorMessage() {
+    return this.registerUserForm.controls['email'].hasError('email') ? 'You must enter a valid email' :
+      this.registerUserForm.controls['email'].hasError('exists') ? 'Email is aldready taken' : '';
   }
 
 }

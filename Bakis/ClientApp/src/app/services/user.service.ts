@@ -32,4 +32,8 @@ export class UserService {
   deleteUser(id: number) {
     return this.http.delete(`${this.userApi}/${id}`);
   }
+
+  emailExists(email: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.userApi}/${email}/exists`);
+  }
 }

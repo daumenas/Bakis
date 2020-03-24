@@ -23,9 +23,9 @@
 
         <mat-form-field class="full-width">
           <input matInput formControlName="email"
-                 placeholder="name@mail.com">
+                 placeholder="Email">
           <mat-error *ngIf="registerUserForm.controls.email.invalid">
-            Please enter a valid email address
+            {{getErrorMessage()}}
           </mat-error>
         </mat-form-field>
 
