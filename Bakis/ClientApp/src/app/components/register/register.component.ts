@@ -30,7 +30,8 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
         Validators.email,
       ]],
       password: ['', [
-        Validators.required
+        Validators.required,
+        Validators.minLength(6)
       ]],
       name: ['', [
         Validators.required
