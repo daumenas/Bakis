@@ -12,40 +12,40 @@ namespace Bakis.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthenticationService _authenticationService;
-            public AuthController(IAuthenticationService authenticationService)
-            {
-                _authenticationService = authenticationService;
-            }
+        private readonly IAuthService _authenticationService;
+        public AuthController(IAuthService authenticationService)
+        {
+            _authenticationService = authenticationService;
+        }
 
-            [Route("login")]
-            [HttpPost]
-            public async Task<IActionResult> Login(AuthenticateDto request)
+        [Route("login")]
+        [HttpPost]
+        public async Task<IActionResult> Login(AuthenticateDto request)
+        {
+            if (request.Email != null && request.Password != null)
             {
-                if (request.Email != null && request.Password != null)
+                var result = await _authenticationService.Authenticate(request.Email, request.Password);
+
+                if (result != null)
                 {
-                    var result = await _authenticationService.Authenticate(request.Email, request.Password);
-
-                    if (result != null)
+                    return Ok(new
                     {
-                        return Ok(new
-                        {
-                            result.Consumer.Id,
-                            result.Consumer.Token
-                        });
-                    }
-
-                    return Unauthorized();
+                        result.Consumer.Id,
+                        result.Consumer.Token
+                    });
                 }
-                return BadRequest();
+
+                return Unauthorized();
             }
+            return BadRequest();
+        }
 
         [HttpGet]
-            [Route("roles")]
-            public async Task<IActionResult> GetRoles()
-            {
-                var roles = await _authenticationService.GetAllRoles();
-                return Ok(roles);
-            }
+        [Route("roles")]
+        public async Task<IActionResult> GetRoles()
+        {
+            var roles = await _authenticationService.GetAllRoles();
+            return Ok(roles);
         }
+    }
 }
