@@ -21,14 +21,16 @@ namespace Bakis.Configurations
         public static IServiceCollection AddInfrastructureDependencies(this IServiceCollection service)
         {
             return service
-                .AddScoped<IConsumerRepository, ConsumerRepository>();
+                .AddScoped<IConsumerRepository, ConsumerRepository>()
+                .AddScoped<ICityEventRepository, CityEventRepository>();
         }
 
         public static IServiceCollection AddApplicationDependencies(this IServiceCollection service)
         {
             return service
                 .AddScoped<IUserService, UserService>()
-                .AddScoped<IConsumersService, ConsumersService>();
+                .AddScoped<IConsumersService, ConsumersService>()
+                .AddScoped<ICityEventService, CityEventService>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Bakis.Dtos.CityEvents;
 using Bakis.Dtos.Consumers;
 using Bakis.Infrastructure.Database.Models;
 using System;
@@ -23,6 +24,15 @@ namespace Bakis.Configurations
 
             CreateMap<UpdateConsumerDto, Consumer>(MemberList.None);
             CreateMap<Consumer, UpdateConsumerDto>(MemberList.None);
+
+            CreateMap<NewCityEventDto, CityEvent>(MemberList.None);
+            CreateMap<CityEvent, NewCityEventDto>(MemberList.None);
+
+            CreateMap<GetCityEventDto, CityEvent>(MemberList.None);
+            CreateMap<CityEvent, GetCityEventDto>(MemberList.None);
+
+            CreateMap<UpdateCityEventDto, CityEvent>(MemberList.None);
+            CreateMap<CityEvent, UpdateCityEventDto>(MemberList.None);
         }
     }
 }
