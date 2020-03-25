@@ -6,6 +6,9 @@ export abstract class BaseEvent {
   description: string;
   points: number;
   address: string
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
+  fromDate: Date;
+  toDate: Date;
+  time: Date;
 }

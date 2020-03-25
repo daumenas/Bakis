@@ -3,5 +3,5 @@ table.mat-table {
 }
 
 td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:last-of-type {
-  max-width: 7em;
+  max-width: 10em;
 }
