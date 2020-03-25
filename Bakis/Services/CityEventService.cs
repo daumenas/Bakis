@@ -15,7 +15,7 @@ namespace Bakis.Services
         private readonly IRepositoryBase<CityEvent> _repository;
         private readonly IMapper _mapper;
 
-        public CityEventService(IRepositoryBase<CityEvent> repository, IMapper mapper)
+        public CityEventService(ICityEventRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
