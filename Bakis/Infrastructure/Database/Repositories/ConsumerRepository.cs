@@ -62,5 +62,10 @@ namespace Bakis.Infrastructure.Database.Repositories
 
             return consumer;
         }
+
+        public async Task<bool> EmailExists(string email)
+        {
+            return await Context.Consumers.Select(consumer => consumer.Email).ContainsAsync(email);
+        }
     }
 }

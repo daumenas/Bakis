@@ -9,5 +9,6 @@ namespace Bakis.Infrastructure.Database.Repositories
     public interface IConsumerRepository : IRepositoryBase<Consumer>
     {
         Task<Consumer> FindByEmail(string email);
+        Task<bool> EmailExists(string email);
     }
 }
