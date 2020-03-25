@@ -113,5 +113,10 @@ namespace Bakis.Services
             await _repository.Update(consumerToUpdate);
             await _userService.Update(id, updateConsumerData);
         }
+
+        public async Task<bool> EmailExists(string email)
+        {
+            return await _repository.EmailExists(email);
+        }
     }
 }

@@ -94,5 +94,13 @@ namespace Bakis.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        [Produces(typeof(bool))]
+        [Route("{email}/exists")]
+        public async Task<IActionResult> EmailExists(string email)
+        {
+            return Ok(await _consumersService.EmailExists(email));
+        }
     }
 }
