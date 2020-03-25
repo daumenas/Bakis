@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BaseUser } from '../../models/base-user';
 import { NewUser } from '../../models/new-user';
@@ -7,6 +7,7 @@ import { RegisterComponent } from '../register/register.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { TableRowUser } from "../../models/table-row-user";
 import { UserEditDialogComponent } from '../user-edit-dialog/user-edit-dialog.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-consumer-page',
@@ -26,6 +27,8 @@ export class ConsumerPageComponent implements OnInit {
   displayedColumns: string[] = ['id', 'role', 'name', 'surname', 'date', 'email', 'actions'];
 
   consumerDataSource = new MatTableDataSource(this.listOfData);
+
+  @ViewChild('consumerPaginator') paginator: MatPaginator;
   
 
   constructor(
@@ -35,6 +38,7 @@ export class ConsumerPageComponent implements OnInit {
 
   ngOnInit() {
     this.refreshTable();
+    
   }
 
   refreshTable() {
@@ -42,6 +46,7 @@ export class ConsumerPageComponent implements OnInit {
       this.users = users;
       this.listOfData = [...this.users];
       this.consumerDataSource = new MatTableDataSource(this.listOfData);
+      this.consumerDataSource.paginator = this.paginator;
     });
   }
 

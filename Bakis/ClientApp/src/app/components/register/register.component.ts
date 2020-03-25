@@ -12,8 +12,9 @@ import { Router } from "@angular/router"
 })
 
 export class RegisterComponent implements OnInit, ControlValueAccessor {
-  registerUserForm: FormGroup; 
+  registerUserForm: FormGroup;
   minDate: Date;
+  emailCheck: Boolean;
   Roles: any = ['User', 'Event Organizer'];
 
   constructor(
@@ -60,30 +61,32 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
     });
   }
 
-  //////////////////////////////////////////////////////////////////////////
-  checkEmail(email: string) {
-    this.userService.emailExists(email).subscribe(data => console.log(data));
-    return true;
+  async checkEmail(email: string) {
+    return this.userService.emailExists(email);
+
   }
-  //////////////////////////////////////////////////////////////////////////
 
   onSubmit() {
-    this.registerUserForm.get('email').setErrors({ 'exists': null });
-    this.registerUserForm.get('email').updateValueAndValidity();
     const user = this.getFormUserData();
-    console.log(this.checkEmail(this.registerUserForm.get('email').value));
-    if (this.checkEmail(this.registerUserForm.get('email').value)) {
-      this.addNewUser(user);
-      if (this.registerUserForm.valid) {
-        this.snackbar.open("Registration Succesful", null, {
-          duration: 1500
-        });
-        this.router.navigate(['/'])
-      }
-      this.userService.registerUser(user);
-    } else {
-      this.registerUserForm.get('email').setErrors({ 'exists': true });
-    }
+    const email = this.checkEmail(user.email);
+    email.then(data => {
+      data.subscribe(res => {
+        if (res) {
+          this.registerUserForm.get('email').setErrors({ 'exists': true });
+        } else {
+          this.registerUserForm.get('email').setErrors({ 'exists': null });
+          this.registerUserForm.get('email').updateValueAndValidity();
+          this.addNewUser(user);
+          if (this.registerUserForm.valid) {
+            this.snackbar.open("Registration Succesful", null, {
+              duration: 1500
+            });
+            this.router.navigate(['/'])
+          }
+          this.userService.registerUser(user);
+        }
+      })
+    }) 
   }
 
   writeValue(value: any) {
