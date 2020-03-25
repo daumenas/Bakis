@@ -31,6 +31,7 @@ namespace Bakis.Configurations
                 .AddScoped<IUserService, UserService>()
                 .AddScoped<IConsumersService, ConsumersService>()
                 .AddScoped<ICityEventService, CityEventService>();
+                .AddScoped<IAuthService, AuthService>();
         }
     }
 }
