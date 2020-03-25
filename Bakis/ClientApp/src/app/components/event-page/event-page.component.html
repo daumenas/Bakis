@@ -42,25 +42,26 @@
         <td mat-cell *matCellDef="let event"> {{event.latitude}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="longtitude">
-        <th mat-header-cell *matHeaderCellDef> Longtitude </th>
-        <td mat-cell *matCellDef="let event"> {{event.longtitude}} </td>
+      <ng-container matColumnDef="longitude">
+        <th mat-header-cell *matHeaderCellDef> Longitude </th>
+        <td mat-cell *matCellDef="let event"> {{event.langtitude}} </td>
       </ng-container>
 
       <ng-container matColumnDef="fromDate">
         <th mat-header-cell *matHeaderCellDef> From Date </th>
-        <td mat-cell *matCellDef="let event"> {{event.fromDate | date}} </td>
+        <td mat-cell *matCellDef="let event"> {{event.dateFrom | date}} </td>
       </ng-container>
 
       <ng-container matColumnDef="toDate">
         <th mat-header-cell *matHeaderCellDef> To Date </th>
-        <td mat-cell *matCellDef="let event"> {{event.toDate | date}} </td>
+        <td mat-cell *matCellDef="let event"> {{event.dateTo | date}} </td>
       </ng-container>
 
       <ng-container matColumnDef="time">
         <th mat-header-cell *matHeaderCellDef> Time </th>
-        <td mat-cell *matCellDef="let event"> {{event.time}} </td>
+        <td mat-cell *matCellDef="let event"> {{event.time | date:'HH:mm'}} </td>
       </ng-container>
+
 
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
@@ -76,4 +77,4 @@
     </table>
   </div>
 </div>
-<mat-paginator [pageSizeOptions]="[10, 20, 40]" showFirstLastButtons></mat-paginator>
+<mat-paginator #eventPaginator [pageSize]="10" [pageSizeOptions]="[10, 20, 40]">></mat-paginator>
