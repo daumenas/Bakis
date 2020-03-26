@@ -8,8 +8,5 @@ export abstract class BaseSight {
   address: string
   latitude: string;
   longitude: string;
-  fromDate: Date;
-  toDate: Date;
-  time: Time;
 }
 
