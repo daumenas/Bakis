@@ -27,5 +27,13 @@ export class LocationService {
     return this.http.get<TableRowSight[]>(this.sightApi);
   }
 
+  editSight(event: BaseSight, id: number) {
+    return this.http.put(`${this.sightApi}/${id}`, event);
+  }
+
+  deleteSight(id: number) {
+    return this.http.delete(`${this.sightApi}/${id}`);
+  }
+
 
 }

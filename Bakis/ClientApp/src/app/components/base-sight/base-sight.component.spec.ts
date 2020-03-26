@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddSightComponent } from './add-sight.component';
+import { BaseSightComponent } from './base-sight.component';
 
-describe('AddSightComponent', () => {
-  let component: AddSightComponent;
-  let fixture: ComponentFixture<AddSightComponent>;
+describe('BaseSightComponent', () => {
+  let component: BaseSightComponent;
+  let fixture: ComponentFixture<BaseSightComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddSightComponent ]
+      declarations: [ BaseSightComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddSightComponent);
+    fixture = TestBed.createComponent(BaseSightComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

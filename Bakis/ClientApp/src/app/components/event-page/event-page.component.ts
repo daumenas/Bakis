@@ -1,10 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BaseEvent } from '../../models/base-event';
 import { CityEventService } from '../../services/city-event.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { TableRowEvent } from "../../models/table-row-event";
 import { BaseEventComponent } from '../base-event/base-event.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 
 @Component({
@@ -21,9 +22,11 @@ export class EventPageComponent implements OnInit {
   listOfData: TableRowEvent[] = [];
 
   displayedColumns: string[] = ['id', 'name', 'description', 'points',
-    'address', 'latitude', 'longtitude', 'fromDate', 'toDate', 'actions'];
+    'address', 'latitude', 'longitude', 'fromDate', 'toDate', 'time', 'actions'];
 
   eventDataSource = new MatTableDataSource(this.listOfData);
+
+  @ViewChild('eventPaginator') paginator: MatPaginator;
 
   constructor(
     public dialog: MatDialog,
@@ -39,6 +42,7 @@ export class EventPageComponent implements OnInit {
       this.events = events;
       this.listOfData = [...this.events];
       this.eventDataSource = new MatTableDataSource(this.listOfData);
+      this.eventDataSource.paginator = this.paginator;
     });
   }
 

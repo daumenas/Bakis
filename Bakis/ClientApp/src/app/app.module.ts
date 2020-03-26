@@ -16,9 +16,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ConsumerPageComponent } from './components/consumer-page/consumer-page.component';
 import { EventPageComponent } from './components/event-page/event-page.component';
 import { SightPageComponent } from './components/sight-page/sight-page.component';
-import { AddSightComponent } from './components/add-sight/add-sight.component';
 import { BaseEventComponent } from './components/base-event/base-event.component';
 import { UserEditDialogComponent } from './components/user-edit-dialog/user-edit-dialog.component';
+import { BaseSightComponent } from './components/base-sight/base-sight.component'
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -35,7 +35,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatCardModule } from '@angular/material/card'
+import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -51,9 +52,9 @@ export function tokenGetter() {
     ConsumerPageComponent,
     EventPageComponent,
     SightPageComponent,
-    AddSightComponent,
     BaseEventComponent,
-    UserEditDialogComponent
+    UserEditDialogComponent,
+    BaseSightComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -74,6 +75,7 @@ export function tokenGetter() {
     MatSidenavModule,
     MatPaginatorModule,
     MatCardModule,
+    MatSnackBarModule,
 
     HttpClientModule,
     FormsModule,
