@@ -35,7 +35,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatCardModule } from '@angular/material/card'
+import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -53,7 +54,7 @@ export function tokenGetter() {
     SightPageComponent,
     AddSightComponent,
     BaseEventComponent,
-    UserEditDialogComponent
+    UserEditDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -74,6 +75,7 @@ export function tokenGetter() {
     MatSidenavModule,
     MatPaginatorModule,
     MatCardModule,
+    MatSnackBarModule,
 
     HttpClientModule,
     FormsModule,
