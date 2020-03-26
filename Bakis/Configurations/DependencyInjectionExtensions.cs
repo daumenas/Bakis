@@ -22,7 +22,8 @@ namespace Bakis.Configurations
         {
             return service
                 .AddScoped<IConsumerRepository, ConsumerRepository>()
-                .AddScoped<ICityEventRepository, CityEventRepository>();
+                .AddScoped<ICityEventRepository, CityEventRepository>()
+                .AddScoped<ISightRepository, SightRepository>();
         }
 
         public static IServiceCollection AddApplicationDependencies(this IServiceCollection service)
@@ -32,7 +33,8 @@ namespace Bakis.Configurations
                 .AddScoped<IConsumersService, ConsumersService>()
                 .AddScoped<IAuthService, AuthService>()
                 .AddScoped<ICityEventService, CityEventService>()
-                .AddScoped<IAuthService, AuthService>();
+                .AddScoped<IAuthService, AuthService>()
+                .AddScoped<ISightService, SightService>();
         }
     }
 }
