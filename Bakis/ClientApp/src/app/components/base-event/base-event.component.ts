@@ -5,7 +5,7 @@ import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBui
 import { CityEventService } from '../../../app/services/city-event.service';
 import { BaseEvent } from '../../models/base-event';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'base-add-event',
@@ -55,10 +55,10 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
         longitude: ['', [
           Validators.required
         ]],
-        fromDate: ['', [
+        dateFrom: ['', [
           Validators.required
         ]],
-        toDate: ['', [
+        dateTo: ['', [
           Validators.required
         ]],
         time: ['', [
@@ -88,13 +88,13 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
           longitude: [this.data.eventToUpdate.longitude, [
           Validators.required
         ]],
-          fromDate: [this.data.eventToUpdate.fromDate, [
+          dateFrom: [formatDate(this.data.eventToUpdate.dateFrom, "yyyy-MM-dd", "en", "+0400"), [
           Validators.required
         ]],
-          toDate: [this.data.eventToUpdate.toDate, [
+          dateTo: [formatDate(this.data.eventToUpdate.dateTo, "yyyy-MM-dd", "en", "+0400"), [
           Validators.required
         ]],
-          time: [this.data.eventToUpdate.time, [
+          time: [formatDate(this.data.eventToUpdate.time, "HH:mm", "en", "+0400"), [
           Validators.required
         ]]
       });
@@ -118,7 +118,8 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
   }
 
   onSubmit() {
-    this.baseEventForm.get('time').setValue(new Date("2000-01-01 " + this.baseEventForm.get('time').value + ":00"));
+    console.log(this.baseEventForm.get('time').value);
+    this.baseEventForm.get('time').setValue(new Date("2000-01-01T" + this.baseEventForm.get('time').value + ":00"));
     if (this.data.isEdit == undefined) {
       const event = this.getFormEventData();
       this.addNewEvent(event);

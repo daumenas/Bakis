@@ -47,19 +47,19 @@
         <td mat-cell *matCellDef="let event"> {{event.langtitude}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="fromDate">
+      <ng-container matColumnDef="dateFrom">
         <th mat-header-cell *matHeaderCellDef> From Date </th>
-        <td mat-cell *matCellDef="let event"> {{event.dateFrom | date}} </td>
+        <td mat-cell *matCellDef="let event"> {{event.dateFrom | date:shortDate :'+0400'}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="toDate">
+      <ng-container matColumnDef="dateTo">
         <th mat-header-cell *matHeaderCellDef> To Date </th>
-        <td mat-cell *matCellDef="let event"> {{event.dateTo | date}} </td>
+        <td mat-cell *matCellDef="let event"> {{event.dateTo | date:shortDate :'+0400'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="time">
         <th mat-header-cell *matHeaderCellDef> Time </th>
-        <td mat-cell *matCellDef="let event"> {{event.time | date:'HH:mm'}} </td>
+        <td mat-cell *matCellDef="let event"> {{event.time | date:'HH:mm':'+0400'}} </td>
       </ng-container>
 
 

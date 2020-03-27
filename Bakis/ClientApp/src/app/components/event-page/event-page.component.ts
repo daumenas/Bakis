@@ -22,7 +22,7 @@ export class EventPageComponent implements OnInit {
   listOfData: TableRowEvent[] = [];
 
   displayedColumns: string[] = ['id', 'name', 'description', 'points',
-    'address', 'latitude', 'longitude', 'fromDate', 'toDate', 'time', 'actions'];
+    'address', 'latitude', 'longitude', 'dateFrom', 'dateTo', 'time', 'actions'];
 
   eventDataSource = new MatTableDataSource(this.listOfData);
 

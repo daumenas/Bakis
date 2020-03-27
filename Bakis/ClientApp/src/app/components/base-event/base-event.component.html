@@ -27,13 +27,13 @@
           </mat-form-field>
           <mat-form-field class="full-width">
             <mat-label>From Date</mat-label>
-            <input matInput [min]="minDate" formControlName="fromDate" [matDatepicker]="pickerFrom">
+            <input matInput [min]="minDate" formControlName="dateFrom" [matDatepicker]="pickerFrom">
             <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
             <mat-datepicker #pickerFrom></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="full-width">
             <mat-label>To Date</mat-label>
-            <input matInput [min]="minDate" formControlName="toDate" [matDatepicker]="pickerTo">
+            <input matInput [min]="minDate" formControlName="dateTo" [matDatepicker]="pickerTo">
             <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
             <mat-datepicker #pickerTo></mat-datepicker>
           </mat-form-field>
