@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { formatDate } from '@angular/common';
 
 @Component({
-  selector: 'base-add-event',
+  selector: 'app-base-event',
   templateUrl: './base-event.component.html',
   styleUrls: ['../dialog-style/dialog-style.component.css']
 })
