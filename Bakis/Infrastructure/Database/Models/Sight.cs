@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bakis.Infrastructure.Database.Models
 {
-    public class CityEvent : BaseEntity
+    public class Sight : BaseEntity
     {
         [Required]
         public string Name { get; set; }
@@ -20,10 +20,5 @@ namespace Bakis.Infrastructure.Database.Models
         public double Latitude { get; set; }
         [Required]
         public double Longitude { get; set; }
-        [Required]
-        public DateTime DateFrom { get; set; }
-        [Required]
-        public DateTime DateTo { get; set; }
-        public DateTime Time { get; set; }
     }
 }
