@@ -44,6 +44,7 @@ import { APP_ROUTES_CONSUMER } from './app-routing.module';
 import { APP_ROUTES_EVENT_MANAGER } from './app-routing.module';
 import { AuthGuardService } from './services/auth-guard.service';
 import { RoleGuardService } from './services/role-guard.service';
+import { MapComponent } from './components/map/map.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -61,7 +62,8 @@ export function tokenGetter() {
     SightPageComponent,
     BaseEventComponent,
     UserEditDialogComponent,
-    BaseSightComponent
+    BaseSightComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -12,12 +12,12 @@ export class RoleGuardService implements CanActivate {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    const user = this._authService.decode();
-    if (user.role === "Admin") {
-      return true;
+    if (this._authService.isAuthenticated()) {
+      const user = this._authService.decode();
+      if (user.role === "Admin") {
+        return true;
+      }
     }
-
-    // navigate to not found page
     this._router.navigate(['/']);
     return false;
   }
