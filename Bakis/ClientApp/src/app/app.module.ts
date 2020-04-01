@@ -38,6 +38,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { APP_ROUTES } from './app-routing.module';
+import { APP_ROUTES_ADMIN } from './app-routing.module';
+import { APP_ROUTES_CONSUMER } from './app-routing.module';
+import { APP_ROUTES_EVENT_MANAGER } from './app-routing.module';
+import { AuthGuardService } from './services/auth-guard.service';
+import { RoleGuardService } from './services/role-guard.service';
+
 export function tokenGetter() {
   return localStorage.getItem('token');
 }
@@ -79,16 +86,10 @@ export function tokenGetter() {
 
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'login', component: LogInComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: 'consumerpage', component: ConsumerPageComponent },
-      { path: 'eventpage', component: EventPageComponent },
-      { path: 'sightpage', component: SightPageComponent },
-      { path: 'baseevent', component: BaseEventComponent },
-      { path: 'editevent', component: UserEditDialogComponent }
-    ]),
+    RouterModule.forRoot(APP_ROUTES),
+    RouterModule.forRoot(APP_ROUTES_ADMIN),
+    RouterModule.forRoot(APP_ROUTES_CONSUMER),
+    RouterModule.forRoot(APP_ROUTES_EVENT_MANAGER),
     BrowserAnimationsModule,
     JwtModule.forRoot({
       config: {
@@ -99,7 +100,9 @@ export function tokenGetter() {
     }),
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [AuthGuardService,
+    RoleGuardService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

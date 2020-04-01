@@ -4,6 +4,7 @@ import { UserService } from '../../../app/services/user.service';
 import { NewUser } from '../../models/new-user';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from "@angular/router"
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-register',
@@ -15,16 +16,21 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
   registerUserForm: FormGroup;
   minDate: Date;
   emailCheck: Boolean;
-  Roles: any = ['User', 'Event Organizer'];
+  Roles: any = ['User', 'Event Organizer', 'Admin'];
 
   constructor(
     private router: Router,
     public snackbar: MatSnackBar,
     private userService: UserService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private authenticationService: AuthenticationService
     ) {
     const currentYear = new Date().getFullYear();
     this.minDate = new Date(currentYear - 120, 0, 1);
+
+    if (this.authenticationService.isAuthenticated()) {
+      this.router.navigate(['/']);
+    }
   }
 
   ngOnInit() {

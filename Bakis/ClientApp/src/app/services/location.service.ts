@@ -15,7 +15,7 @@ export class LocationService {
     })
   }
 
-  private readonly sightApi = `${this.baseUrl}api/Events`;
+  private readonly sightApi = `${this.baseUrl}api/Sights`;
 
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 

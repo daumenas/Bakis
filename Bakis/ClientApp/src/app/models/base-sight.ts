@@ -6,7 +6,7 @@ export abstract class BaseSight {
   description: string;
   points: number;
   address: string
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
 }
 

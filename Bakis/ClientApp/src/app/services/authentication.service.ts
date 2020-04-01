@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
+import decode from 'jwt-decode';
 import { Role } from '../models/role';
 
 @Injectable({ providedIn: 'root' })
@@ -45,5 +46,9 @@ export class AuthenticationService {
 
   getRoles(): Observable<Role[]> {
     return this.http.get<Role[]>(`${this.baseUrl}api/Auth/roles`);
+  }
+
+  decode() {
+    return decode(localStorage.getItem('token'));
   }
 }
