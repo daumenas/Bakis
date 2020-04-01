@@ -2,7 +2,7 @@
   <div class="event-wrapper" fxLayout="row" fxLayoutAlign="center center">
     <mat-card class="box">
       <mat-card-header>
-        <mat-card-title>New Event</mat-card-title>
+        <mat-card-title>{{titleText}}</mat-card-title>
       </mat-card-header>
 
       <form [formGroup]="baseEventForm" class="event-form">
@@ -27,13 +27,13 @@
           </mat-form-field>
           <mat-form-field class="full-width">
             <mat-label>From Date</mat-label>
-            <input matInput [min]="minDate" formControlName="fromDate" [matDatepicker]="pickerFrom">
+            <input matInput [min]="minDate" formControlName="dateFrom" [matDatepicker]="pickerFrom">
             <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
             <mat-datepicker #pickerFrom></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="full-width">
             <mat-label>To Date</mat-label>
-            <input matInput [min]="minDate" formControlName="toDate" [matDatepicker]="pickerTo">
+            <input matInput [min]="minDate" formControlName="dateTo" [matDatepicker]="pickerTo">
             <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
             <mat-datepicker #pickerTo></mat-datepicker>
           </mat-form-field>
@@ -42,7 +42,7 @@
           </mat-form-field>
         </mat-card-content>
 
-        <button type="submit" mat-stroked-button color="accent" (click)="onSubmit()" [disabled]="!baseEventForm.valid" class="btn-block">{{buttonText}}</button>
+        <button type="submit" [mat-dialog-close] mat-stroked-button color="accent" (click)="onSubmit()" [disabled]="!baseEventForm.valid" class="btn-block">{{buttonText}}</button>
 
       </form>
     </mat-card>
