@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BaseEvent } from '../../models/base-event';
 import { LocationService } from '../../services/location.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { TableRowSight } from "../../models/table-row-sight";
 import { BaseSightComponent } from '../base-sight/base-sight.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { BaseSight } from '../../models/base-sight';
 
 
 @Component({
@@ -17,7 +17,7 @@ export class SightPageComponent implements OnInit {
   sights: TableRowSight[];
   sightToUpdate: TableRowSight;
 
-  baseSights: BaseEvent[] = [];
+  baseSights: BaseSight[] = [];
 
   listOfData: TableRowSight[] = [];
 
@@ -57,7 +57,7 @@ export class SightPageComponent implements OnInit {
     this.sightDataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  registerSight(newSight: BaseEvent) {
+  registerSight(newSight: BaseSight) {
     this.sightService.registerSight(newSight).subscribe(() => {
       this.refreshTable();
     }, error => {
