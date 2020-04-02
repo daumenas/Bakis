@@ -36,9 +36,9 @@ export class MapComponent implements AfterViewInit  {
   }
 
   private initMap(): void {
-    this.map = L.map('map', {
-      center: [54.896870, 23.886105],
-      zoom: 15
+    let map = L.map('map', {
+      center: [39.8282, -98.5795],
+      zoom: 3
     });
 
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -49,6 +49,20 @@ export class MapComponent implements AfterViewInit  {
 
     this.setEventMarkers();
     this.setSightMarkers();
+
+    map.invalidateSize();
+
+    map.locate({ setView: true, maxZoom: 16, watch: true });
+
+    L.control.scale().addTo(map);
+
+    function onLocationFound(e) {
+      var radius = e.accuracy / 4;
+      L.circle(e.latlng, radius).addTo(map);
+    }
+
+    map.on('locationfound', onLocationFound);
+
   }
 
   setEventMarkers() {
