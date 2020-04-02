@@ -4,7 +4,8 @@ import { Inject } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder, ControlValueAccessor } from '@angular/forms';
 import { CityEventService } from '../../../app/services/city-event.service';
 import { BaseEvent } from '../../models/base-event';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-base-event',
@@ -16,11 +17,14 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
   baseEventForm: FormGroup;
   minDate: Date;
   buttonText: string;
+  titleText: string;
 
 
 
 
-  constructor(private eventService: CityEventService,
+  constructor(
+    public snackbar: MatSnackBar,
+    private eventService: CityEventService,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
@@ -29,7 +33,8 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
-    this.buttonText = "Add Event"
+    this.buttonText = "Add Event";
+    this.titleText = "New Event";
     if (this.data.isEdit == undefined) {
       this.baseEventForm = this.formBuilder.group({
         name: ['', [
@@ -50,10 +55,10 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
         longitude: ['', [
           Validators.required
         ]],
-        fromDate: ['', [
+        dateFrom: ['', [
           Validators.required
         ]],
-        toDate: ['', [
+        dateTo: ['', [
           Validators.required
         ]],
         time: ['', [
@@ -62,33 +67,34 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
       });
     }
     else {
-      this.buttonText = "Edit Event"
+      this.buttonText = "Edit Event";
+      this.titleText = "Edit Event";
         this.baseEventForm = this.formBuilder.group({
-        name: [this.data.name, [
+          name: [this.data.eventToUpdate.name, [
           Validators.required
         ]],
-        description: [this.data.description, [
+        description: [this.data.eventToUpdate.description, [
           Validators.required
         ]],
-        points: [this.data.points, [
+          points: [this.data.eventToUpdate.points, [
           Validators.required
         ]],
-        address: [this.data.address, [
+          address: [this.data.eventToUpdate.address, [
           Validators.required
         ]],
-        latitude: [this.data.latitude, [
+          latitude: [this.data.eventToUpdate.latitude, [
           Validators.required
         ]],
-        longitude: [this.data.longitude, [
+          longitude: [this.data.eventToUpdate.longitude, [
           Validators.required
         ]],
-        fromDate: [this.data.fromDate, [
+          dateFrom: [formatDate(this.data.eventToUpdate.dateFrom, "yyyy-MM-dd", "en", "+0400"), [
           Validators.required
         ]],
-        toDate: [this.data.toDate, [
+          dateTo: [formatDate(this.data.eventToUpdate.dateTo, "yyyy-MM-dd", "en", "+0400"), [
           Validators.required
         ]],
-        time: [this.data.time, [
+          time: [formatDate(this.data.eventToUpdate.time, "HH:mm", "en", "+0400"), [
           Validators.required
         ]]
       });
@@ -112,10 +118,15 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
   }
 
   onSubmit() {
+    console.log(this.baseEventForm.get('time').value);
+    this.baseEventForm.get('time').setValue(new Date("2000-01-01T" + this.baseEventForm.get('time').value + ":00"));
     if (this.data.isEdit == undefined) {
       const event = this.getFormEventData();
       this.addNewEvent(event);
       if (this.baseEventForm.valid) {
+        this.snackbar.open("Event added", null, {
+          duration: 1500
+        });
         console.log("Form Submitted!");
       }
       this.eventService.registerEvent(event);
@@ -124,6 +135,9 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
       const event = this.getFormEventData();
       this.editEvent(event);
       if (this.baseEventForm.valid) {
+        this.snackbar.open("Event edited", null, {
+          duration: 1500
+        });
         console.log("Form Submitted!");
       }
       this.eventService.editEvent(event, this.data.eventToUpdate.id);

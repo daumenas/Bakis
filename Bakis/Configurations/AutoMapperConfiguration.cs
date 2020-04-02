@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bakis.Dtos.CityEvents;
 using Bakis.Dtos.Consumers;
+using Bakis.Dtos.Sights;
 using Bakis.Infrastructure.Database.Models;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,15 @@ namespace Bakis.Configurations
 
             CreateMap<UpdateCityEventDto, CityEvent>(MemberList.None);
             CreateMap<CityEvent, UpdateCityEventDto>(MemberList.None);
+
+            CreateMap<NewSightDto, Sight>(MemberList.None);
+            CreateMap<Sight, NewSightDto>(MemberList.None);
+
+            CreateMap<GetSightDto, Sight>(MemberList.None);
+            CreateMap<Sight, GetSightDto>(MemberList.None);
+
+            CreateMap<UpdateSightDto, Sight>(MemberList.None);
+            CreateMap<Sight, UpdateSightDto>(MemberList.None);
         }
     }
 }

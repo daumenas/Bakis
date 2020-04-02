@@ -8,7 +8,7 @@ export abstract class BaseEvent {
   address: string
   latitude: number;
   longitude: number;
-  fromDate: Date;
-  toDate: Date;
-  time: Time;
+  dateFrom: Date;
+  dateTo: Date;
+  time: Date;
 }
