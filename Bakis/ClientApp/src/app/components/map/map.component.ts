@@ -8,7 +8,6 @@ import * as L from 'leaflet';
     "../../../../node_modules/leaflet/dist/leaflet.css"]
 })
 export class MapComponent implements AfterViewInit  {
-  private map;
 
   constructor() { }
 
@@ -17,7 +16,7 @@ export class MapComponent implements AfterViewInit  {
   }
 
   private initMap(): void {
-    this.map = L.map('map', {
+    let map = L.map('map', {
       center: [39.8282, -98.5795],
       zoom: 3
     });
@@ -26,7 +25,21 @@ export class MapComponent implements AfterViewInit  {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
-    tiles.addTo(this.map);
+    tiles.addTo(map);
+
+    map.invalidateSize();
+
+    map.locate({ setView: true, maxZoom: 16, watch: true });
+
+    L.control.scale().addTo(map);
+
+    function onLocationFound(e) {
+      var radius = e.accuracy / 4;
+      L.circle(e.latlng, radius).addTo(map);
+    }
+
+    map.on('locationfound', onLocationFound);
+
   }
 
 
