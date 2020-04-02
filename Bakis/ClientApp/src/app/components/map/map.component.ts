@@ -13,7 +13,6 @@ import { LocationService } from '../../services/location.service';
     "../../../../node_modules/leaflet/dist/leaflet.css"]
 })
 export class MapComponent implements AfterViewInit  {
-  private map;
   listOfEventData: TableRowEvent[] = [];
   events: TableRowEvent[];
   listOfSightData: TableRowSight[] = [];
@@ -24,31 +23,29 @@ export class MapComponent implements AfterViewInit  {
     private sightService: LocationService) { }
 
   ngAfterViewInit(): void {
+    let map = L.map('map', {
+      center: [54.896870, 23.886105],
+      zoom: 15
+    });
+    this.initMap(map);
     this.eventService.getAllEvents().subscribe(events => {
       this.events = events;
       this.listOfEventData = [...this.events];
+      this.setEventMarkers(map);
     });
     this.sightService.getAllSights().subscribe(sights => {
       this.sights = sights;
       this.listOfSightData = [...this.sights];
-      this.initMap();
+      this.setSightMarkers(map);
     });
   }
 
-  private initMap(): void {
-    let map = L.map('map', {
-      center: [39.8282, -98.5795],
-      zoom: 3
-    });
-
+  private initMap(map): void {
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
-    tiles.addTo(this.map);
-
-    this.setEventMarkers();
-    this.setSightMarkers();
+    tiles.addTo(map);
 
     map.invalidateSize();
 
@@ -60,25 +57,23 @@ export class MapComponent implements AfterViewInit  {
       var radius = e.accuracy / 4;
       L.circle(e.latlng, radius).addTo(map);
     }
-
     map.on('locationfound', onLocationFound);
-
   }
 
-  setEventMarkers() {
-    for (var i = 0; i < this.listOfEventData.length; i++) {
-      L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude]).addTo(
-        this.map).bindPopup('<p>' + this.listOfEventData[i].name + '<br />' + this.listOfEventData[i].description + '</p>'
-        );
-    }
+  setEventMarkers(map) {
+  for (var i = 0; i < this.listOfEventData.length; i++) {
+    L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude]).addTo(
+      map).bindPopup('<p>' + this.listOfEventData[i].name + '<br />' + this.listOfEventData[i].description + '</p>'
+      );
   }
+}
 
-  setSightMarkers() {
-    for (var i = 0; i < this.listOfSightData.length; i++) {
-      L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude]).addTo(
-        this.map).bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>'
-        );
-    }
+  setSightMarkers(map) {
+  for (var i = 0; i < this.listOfSightData.length; i++) {
+    L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude]).addTo(
+      map).bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>'
+      );
   }
+}
 
 }
