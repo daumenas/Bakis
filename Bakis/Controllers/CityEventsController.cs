@@ -11,7 +11,7 @@ namespace Bakis.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class CityEventsController : ControllerBase
     {
         private readonly ICityEventService _cityEventService;

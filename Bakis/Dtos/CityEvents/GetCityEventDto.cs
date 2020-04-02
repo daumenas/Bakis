@@ -13,7 +13,7 @@ namespace Bakis.Dtos.CityEvents
         public double Points { get; set; }
         public string Address { get; set; }
         public double Latitude { get; set; }
-        public double Langtitude { get; set; }
+        public double Longitude { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
         public DateTime Time { get; set; }
