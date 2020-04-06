@@ -17,7 +17,7 @@ namespace Bakis.Infrastructure.Database.Repositories
 
         public async Task<ICollection<CityEvent>> GetAll()
         {
-            var cityEvents = await Context.CityEvent.ToArrayAsync();
+            var cityEvents = await Context.CityEvent.Where(x => x.DateTo >= DateTime.Today).ToArrayAsync();
 
             return cityEvents;
         }
