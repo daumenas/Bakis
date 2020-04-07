@@ -52,12 +52,22 @@ export class MapComponent implements AfterViewInit  {
     map.locate({ setView: true, maxZoom: 16, watch: true });
 
     L.control.scale().addTo(map);
-
-    function onLocationFound(e) {
-      var radius = e.accuracy / 4;
-      L.circle(e.latlng, radius).addTo(map);
-    }
-    map.on('locationfound', onLocationFound);
+    var userLocation;
+    map.locate({
+      setView: true,
+      maxZoom: 120
+    }).on("locationfound", e => {
+      if (!userLocation) {
+        userLocation = new L.marker(e.latlng).addTo(map);
+      } else {
+        userLocation.setLatLng(e.latlng);
+      }
+    }).on("locationerror", error => {
+      if (userLocation) {
+        map.removeLayer(userLocation);
+        userLocation = undefined;
+      }
+    });
   }
 
   setEventMarkers(map) {
