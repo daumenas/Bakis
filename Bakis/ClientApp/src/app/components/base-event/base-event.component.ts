@@ -28,8 +28,8 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    const currentYear = new Date().getFullYear();
-    this.minDate = new Date(currentYear);
+    const currentDate = new Date();
+    this.minDate = currentDate;
   }
 
   ngOnInit() {
@@ -118,7 +118,6 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
   }
 
   onSubmit() {
-    console.log(this.baseEventForm.get('time').value);
     this.baseEventForm.get('time').setValue(new Date("2000-01-01T" + this.baseEventForm.get('time').value + ":00"));
     if (this.data.isEdit == undefined) {
       const event = this.getFormEventData();
