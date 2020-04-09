@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder, ControlValueAccessor } from '@angular/forms';
 import { CityEventService } from '../../../app/services/city-event.service';
 import { BaseEvent } from '../../models/base-event';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { formatDate } from '@angular/common';
+import { HomeComponent } from '../../home/home.component';
+import { LatLngService } from '../../services/lat-lng.service';
+
 
 @Component({
   selector: 'app-base-event',
@@ -14,17 +17,26 @@ import { formatDate } from '@angular/common';
 })
 
 export class BaseEventComponent implements OnInit, ControlValueAccessor {
+
   baseEventForm: FormGroup;
   minDate: Date;
   buttonText: string;
   titleText: string;
+  dialogRef: any;
 
   constructor(
+    private latlngService: LatLngService,
+    public dialog: MatDialog,
     public snackbar: MatSnackBar,
     private eventService: CityEventService,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
+    this.latlngService.latLngReceive$.subscribe((data) => {
+      this.dialogRef.close();
+      this.baseEventForm.get('latitude').setValue(data.lat);
+      this.baseEventForm.get('longitude').setValue(data.lng);
+    });
     this.minDate = new Date();
   }
 
@@ -110,6 +122,12 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
 
   editEvent(editEvent: BaseEvent) {
     this.eventService.editEvent(editEvent, this.data.eventToUpdate.id).subscribe(() => {
+    });
+  }
+
+  openMapModal(): void {
+    this.dialogRef = this.dialog.open(HomeComponent, {
+      width: '550px'
     });
   }
 
