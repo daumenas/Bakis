@@ -25,7 +25,8 @@ export class MapComponent implements AfterViewInit  {
   ngAfterViewInit(): void {
     var iconSettings = L.Icon.extend({
       options: {
-        iconAnchor: [20, 20]
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -25]
       }
     });
     var eventIcon = new iconSettings({ iconUrl: '../../../assets/event.png' }),
