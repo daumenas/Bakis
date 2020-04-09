@@ -19,17 +19,13 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
   buttonText: string;
   titleText: string;
 
-
-
-
   constructor(
     public snackbar: MatSnackBar,
     private eventService: CityEventService,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    const currentDate = new Date();
-    this.minDate = currentDate;
+    this.minDate = new Date();
   }
 
   ngOnInit() {
