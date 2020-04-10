@@ -1,10 +1,12 @@
-import { Component, AfterViewInit  } from '@angular/core';
+import { Component, AfterViewInit, Inject  } from '@angular/core';
 import * as L from 'leaflet';
 import { TableRowSight } from '../../models/table-row-sight';
 import { TableRowEvent } from '../../models/table-row-event';
 import { CityEventService } from '../../services/city-event.service';
 import "leaflet/dist/images/marker-shadow.png";
 import { LocationService } from '../../services/location.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { LatLngService } from '../../services/lat-lng.service';
 
 @Component({
   selector: 'app-map',
@@ -20,7 +22,8 @@ export class MapComponent implements AfterViewInit  {
 
   constructor(
     private eventService: CityEventService,
-    private sightService: LocationService) { }
+    private sightService: LocationService,
+    private latlngService: LatLngService) { }
 
   ngAfterViewInit(): void {
     var iconSettings = L.Icon.extend({
@@ -36,6 +39,10 @@ export class MapComponent implements AfterViewInit  {
       zoom: 15
     });
     this.initMap(map);
+
+    map.on('click', e => {
+      this.latlngService.latLngSender(e.latlng);
+    });
     this.eventService.getAllEvents().subscribe(events => {
       this.events = events;
       this.listOfEventData = [...this.events];
