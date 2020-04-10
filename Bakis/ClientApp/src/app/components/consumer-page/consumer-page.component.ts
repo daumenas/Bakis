@@ -66,10 +66,7 @@ export class ConsumerPageComponent implements OnInit {
 
   openAddForm(): void {
     const dialogRef = this.dialog.open(RegisterComponent, {
-      width: '550px',
-      data: {
-        baseUsers: this.baseUsers
-      }
+      width: '550px'
     });
 
     dialogRef.afterClosed().subscribe(newUser => {
