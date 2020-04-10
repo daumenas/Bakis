@@ -72,10 +72,7 @@ export class ConsumerPageComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(newUser => {
-      if (newUser) {
-        this.registerUser(newUser);
-      }
+    dialogRef.afterClosed().subscribe(() => {
       this.refreshTable();
     });
   }
@@ -95,10 +92,7 @@ export class ConsumerPageComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(userToUpdate => {
-      if (userToUpdate) {
-        this.editUser(userToUpdate, user.id);
-      }
+    dialogRef.afterClosed().subscribe(() => {
       this.refreshTable();
     });
   }

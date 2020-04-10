@@ -68,10 +68,7 @@ export class EventPageComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(newEvent => {
-      if (newEvent) {
-        this.registerEvent(newEvent);
-      }
+    dialogRef.afterClosed().subscribe(() => {
       this.refreshTable();
     });
   }
@@ -92,10 +89,7 @@ export class EventPageComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(eventToUpdate => {
-      if (eventToUpdate) {
-        this.editEvent(eventToUpdate, event.id);
-      }
+    dialogRef.afterClosed().subscribe(() => {
       this.refreshTable();
     });
   }

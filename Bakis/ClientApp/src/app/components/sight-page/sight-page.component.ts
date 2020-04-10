@@ -73,10 +73,7 @@ export class SightPageComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(newSight => {
-      if (newSight) {
-        this.registerSight(newSight);
-      }
+    dialogRef.afterClosed().subscribe(() => {
       this.refreshTable();
     });
   }
@@ -92,10 +89,7 @@ export class SightPageComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(sightToUpdate => {
-      if (sightToUpdate) {
-        this.editSight(sightToUpdate, sightToUpdate.id);
-      }
+    dialogRef.afterClosed().subscribe(() => {
       this.refreshTable();
     });
   }
