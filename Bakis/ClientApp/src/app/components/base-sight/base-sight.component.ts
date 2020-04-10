@@ -54,7 +54,7 @@ export class BaseSightComponent implements OnInit, ControlValueAccessor {
       this.titleText = "Edit Sight";
       this.buttonText = "Edit Sight"
       this.baseSightForm = this.formBuilder.group({
-        name: [this.data.name, [
+        name: [this.data.sightToUpdate.name, [
           Validators.required
         ]],
         description: [this.data.sightToUpdate.description, [

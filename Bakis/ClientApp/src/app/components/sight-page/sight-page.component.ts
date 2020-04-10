@@ -77,6 +77,7 @@ export class SightPageComponent implements OnInit {
       if (newSight) {
         this.registerSight(newSight);
       }
+      this.refreshTable();
     });
   }
 
@@ -110,12 +111,12 @@ export class SightPageComponent implements OnInit {
   showDeleteConfirm(sightToDelete: TableRowSight): void {
     if (confirm('If you confirm,' + sightToDelete.name + ' will be permanently deleted.')) {
       this.deleteSightById(sightToDelete.id)
-      this.refreshTable();
     }
   }
 
   deleteSightById(id: number) {
     this.sightService.deleteSight(id).subscribe(() => {
+      this.refreshTable();
     });
   }
 }

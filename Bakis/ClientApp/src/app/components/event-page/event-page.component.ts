@@ -72,6 +72,7 @@ export class EventPageComponent implements OnInit {
       if (newEvent) {
         this.registerEvent(newEvent);
       }
+      this.refreshTable();
     });
   }
 
@@ -110,12 +111,12 @@ export class EventPageComponent implements OnInit {
   showDeleteConfirm(eventToDelete: TableRowEvent): void {
     if (confirm('If you confirm,' + eventToDelete.name + ' will be permanently deleted.')) {
       this.deleteEventById(eventToDelete.id)
-      this.refreshTable();
     }
   }
 
   deleteEventById(id: number) {
     this.eventService.deleteEvent(id).subscribe(() => {
+      this.refreshTable();
     });
   }
 }
