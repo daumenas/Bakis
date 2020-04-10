@@ -33,7 +33,7 @@
           </mat-form-field>
           <mat-form-field class="full-width">
             <mat-label>To Date</mat-label>
-            <input matInput [min]="baseEventForm.controls.dateFrom.value" formControlName="dateTo" [matDatepicker]="pickerTo" [disabled]="!baseEventForm.controls.dateFrom.dirty">
+            <input matInput [min]="baseEventForm.controls.dateFrom.value" formControlName="dateTo" [matDatepicker]="pickerTo">
             <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
             <mat-datepicker #pickerTo></mat-datepicker>
             <mat-error *ngIf="baseEventForm.controls.dateTo.invalid">
