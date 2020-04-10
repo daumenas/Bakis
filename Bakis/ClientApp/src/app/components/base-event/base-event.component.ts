@@ -116,7 +116,6 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
 
   addNewEvent(newEvent: BaseEvent) {
     this.eventService.registerEvent(newEvent).subscribe(() => {
-
     });
   }
 
@@ -133,6 +132,8 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
 
   onSubmit() {
     this.baseEventForm.get('time').setValue(new Date("2000-01-01T" + this.baseEventForm.get('time').value + ":00"));
+    this.baseEventForm.get('dateFrom').setValue(formatDate(this.baseEventForm.get('dateFrom').value, "yyyy-MM-dd", "en"));
+    this.baseEventForm.get('dateTo').setValue(formatDate(this.baseEventForm.get('dateTo').value, "yyyy-MM-dd", "en"));
     if (this.data.isEdit == undefined) {
       const event = this.getFormEventData();
       this.addNewEvent(event);

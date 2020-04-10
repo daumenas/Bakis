@@ -73,10 +73,8 @@ export class SightPageComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(newSight => {
-      if (newSight) {
-        this.registerSight(newSight);
-      }
+    dialogRef.afterClosed().subscribe(() => {
+      this.refreshTable();
     });
   }
 
@@ -91,10 +89,7 @@ export class SightPageComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(sightToUpdate => {
-      if (sightToUpdate) {
-        this.editSight(sightToUpdate, sightToUpdate.id);
-      }
+    dialogRef.afterClosed().subscribe(() => {
       this.refreshTable();
     });
   }
@@ -110,12 +105,12 @@ export class SightPageComponent implements OnInit {
   showDeleteConfirm(sightToDelete: TableRowSight): void {
     if (confirm('If you confirm,' + sightToDelete.name + ' will be permanently deleted.')) {
       this.deleteSightById(sightToDelete.id)
-      this.refreshTable();
     }
   }
 
   deleteSightById(id: number) {
     this.sightService.deleteSight(id).subscribe(() => {
+      this.refreshTable();
     });
   }
 }
