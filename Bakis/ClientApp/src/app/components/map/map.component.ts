@@ -23,6 +23,14 @@ export class MapComponent implements AfterViewInit  {
     private sightService: LocationService) { }
 
   ngAfterViewInit(): void {
+    var iconSettings = L.Icon.extend({
+      options: {
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -25]
+      }
+    });
+    var eventIcon = new iconSettings({ iconUrl: '../../../assets/event.png' }),
+      sightIcon = new iconSettings({ iconUrl: '../../../assets/telescope.png' });
     let map = L.map('map', {
       center: [54.896870, 23.886105],
       zoom: 15
@@ -31,12 +39,12 @@ export class MapComponent implements AfterViewInit  {
     this.eventService.getAllEvents().subscribe(events => {
       this.events = events;
       this.listOfEventData = [...this.events];
-      this.setEventMarkers(map);
+      this.setEventMarkers(map, eventIcon);
     });
     this.sightService.getAllSights().subscribe(sights => {
       this.sights = sights;
       this.listOfSightData = [...this.sights];
-      this.setSightMarkers(map);
+      this.setSightMarkers(map, sightIcon);
     });
   }
 
@@ -70,17 +78,17 @@ export class MapComponent implements AfterViewInit  {
     });
   }
 
-  setEventMarkers(map) {
+  setEventMarkers(map, eventIcon) {
   for (var i = 0; i < this.listOfEventData.length; i++) {
-    L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude]).addTo(
+    L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude], { icon: eventIcon}).addTo(
       map).bindPopup('<p>' + this.listOfEventData[i].name + '<br />' + this.listOfEventData[i].description + '</p>'
       );
   }
 }
 
-  setSightMarkers(map) {
+  setSightMarkers(map, sightIcon) {
   for (var i = 0; i < this.listOfSightData.length; i++) {
-    L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude]).addTo(
+    L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude], { icon: sightIcon }).addTo(
       map).bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>'
       );
   }
