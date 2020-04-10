@@ -104,7 +104,6 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
 
   addNewEvent(newEvent: BaseEvent) {
     this.eventService.registerEvent(newEvent).subscribe(() => {
-
     });
   }
 

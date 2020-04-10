@@ -72,11 +72,8 @@ export class ConsumerPageComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(newUser => {
-      if (newUser) {
-        this.registerUser(newUser);
-        this.refreshTable();
-      }
+    dialogRef.afterClosed().subscribe(() => {
+      this.refreshTable();
     });
   }
 
@@ -95,10 +92,7 @@ export class ConsumerPageComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(userToUpdate => {
-      if (userToUpdate) {
-        this.editUser(userToUpdate, user.id);
-      }
+    dialogRef.afterClosed().subscribe(() => {
       this.refreshTable();
     });
   }
@@ -114,7 +108,6 @@ export class ConsumerPageComponent implements OnInit {
   showDeleteConfirm(userToDelete: TableRowUser): void {
     if (confirm('If you confirm,' + userToDelete.name + ' ' + userToDelete.surname + ' will be permanently deleted.')) {
       this.deleteUserById(userToDelete.id)
-      this.refreshTable();
     }
   }
 

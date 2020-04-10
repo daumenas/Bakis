@@ -68,10 +68,8 @@ export class EventPageComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(newEvent => {
-      if (newEvent) {
-        this.registerEvent(newEvent);
-      }
+    dialogRef.afterClosed().subscribe(() => {
+      this.refreshTable();
     });
   }
 
@@ -91,10 +89,7 @@ export class EventPageComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(eventToUpdate => {
-      if (eventToUpdate) {
-        this.editEvent(eventToUpdate, event.id);
-      }
+    dialogRef.afterClosed().subscribe(() => {
       this.refreshTable();
     });
   }
@@ -110,12 +105,12 @@ export class EventPageComponent implements OnInit {
   showDeleteConfirm(eventToDelete: TableRowEvent): void {
     if (confirm('If you confirm,' + eventToDelete.name + ' will be permanently deleted.')) {
       this.deleteEventById(eventToDelete.id)
-      this.refreshTable();
     }
   }
 
   deleteEventById(id: number) {
     this.eventService.deleteEvent(id).subscribe(() => {
+      this.refreshTable();
     });
   }
 }
