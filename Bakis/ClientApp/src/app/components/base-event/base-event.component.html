@@ -47,7 +47,12 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput type="time" formControlName="time" placeholder="Time">
+            <input matInput formControlName="time" placeholder="Time" [format]="24" [ngxTimepicker]="fullTime" readonly>
+            <ngx-material-timepicker #fullTime></ngx-material-timepicker>
+            <ngx-material-timepicker #buttonFullTime></ngx-material-timepicker>
+            <button mat-button matSuffix mat-icon-button disabled>
+              <mat-icon>access_time</mat-icon>
+            </button>
           </mat-form-field>
         </mat-card-content>
 
