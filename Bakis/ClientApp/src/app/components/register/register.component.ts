@@ -46,7 +46,6 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
-    console.log(this.adminCheckBool);
     this.registerUserForm = this.formBuilder.group({
       email: ['', [
         Validators.required,
