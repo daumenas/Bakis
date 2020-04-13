@@ -44,7 +44,9 @@ export class MapComponent implements AfterViewInit  {
       this.latlngService.latLngSender(e.latlng);
     });
     this.eventService.getAllEvents().subscribe(events => {
-      this.events = events;
+      this.events = events.filter(event => {
+        return event.approval === true
+      });
       this.listOfEventData = [...this.events];
       this.setEventMarkers(map, eventIcon);
     });
