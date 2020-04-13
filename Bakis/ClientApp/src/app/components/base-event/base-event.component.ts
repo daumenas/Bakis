@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { formatDate } from '@angular/common';
 import { HomeComponent } from '../../home/home.component';
 import { LatLngService } from '../../services/lat-lng.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
     public dialog: MatDialog,
     public snackbar: MatSnackBar,
     private eventService: CityEventService,
+    private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
@@ -38,6 +40,7 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
       this.baseEventForm.get('longitude').setValue(data.lng);
     });
     this.minDate = new Date();
+    this.minDate.setDate(this.minDate.getDate() - 365);
   }
 
   ngOnInit() {
@@ -75,7 +78,7 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
       });
     }
     else {
-      this.buttonText = "Edit Event";
+      this.buttonText = this.data.saveEditText;
       this.titleText = "Edit Event";
         this.baseEventForm = this.formBuilder.group({
           name: [this.data.eventToUpdate.name, [
@@ -136,25 +139,30 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
     this.baseEventForm.get('dateTo').setValue(formatDate(this.baseEventForm.get('dateTo').value, "yyyy-MM-dd", "en"));
     if (this.data.isEdit == undefined) {
       const event = this.getFormEventData();
+      if (this.authenticationService.isAuthenticated()) {
+        if (this.authenticationService.isAdmin()) {
+          event['approval'] = true;
+        } else {
+          event['approval'] = false;
+        }
+      }
       this.addNewEvent(event);
       if (this.baseEventForm.valid) {
         this.snackbar.open("Event added", null, {
           duration: 1500
         });
-        console.log("Form Submitted!");
       }
       this.eventService.registerEvent(event);
     }
     else {
-      const event = this.getFormEventData();
-      this.editEvent(event);
+      const event = this.getFormEventData();     
       if (this.baseEventForm.valid) {
         this.snackbar.open("Event edited", null, {
           duration: 1500
         });
-        console.log("Form Submitted!");
       }
-      this.eventService.editEvent(event, this.data.eventToUpdate.id);
+      event.approval = true;
+      this.editEvent(event);
     }
   }
 

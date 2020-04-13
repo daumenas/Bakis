@@ -25,5 +25,6 @@ namespace Bakis.Infrastructure.Database.Models
         [Required]
         public DateTime DateTo { get; set; }
         public DateTime Time { get; set; }
+        public bool Approval { get; set; }
     }
 }

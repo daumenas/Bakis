@@ -1,6 +1,7 @@
 <div>
   <br>
   <button mat-flat-button class="top-of-page-actions" color="primary" (click)=openAddForm()>Add new event</button>
+  <button mat-flat-button class="top-of-page-actions" color="accent" (click)=changeTable()>{{switchText}}</button>
   <br>
   <mat-form-field class="top-of-page-actions">
     <input matInput (keyup)="applyFilter($event)" placeholder="Search...">
@@ -66,7 +67,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let event">
-          <button mat-flat-button color="primary" (click)="openEditForm(event)">Edit</button>
+          <button mat-flat-button color="primary" (click)="openEditForm(event)">{{editText}}</button>
           &nbsp;
           <button mat-flat-button color="warn" (click)="showDeleteConfirm(event)">Delete</button>
         </td>

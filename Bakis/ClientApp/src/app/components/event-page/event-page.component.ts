@@ -16,10 +16,12 @@ import { MatPaginator } from '@angular/material/paginator';
 export class EventPageComponent implements OnInit {
   events: TableRowEvent[];
   eventToUpdate: TableRowEvent;
-
   ocassions: BaseEvent[] = [];
-
   listOfData: TableRowEvent[] = [];
+  isApproval: boolean = false;
+  switchText: String = "Switch to approval table";
+  editText: String = "Edit";
+  saveEditText: String = "Approve event";
 
   displayedColumns: string[] = ['id', 'name', 'description', 'points',
     'address', 'latitude', 'longitude', 'dateFrom', 'dateTo', 'time', 'actions'];
@@ -39,7 +41,9 @@ export class EventPageComponent implements OnInit {
 
   refreshTable() {
     this.eventService.getAllEvents().subscribe(events => {
-      this.events = events;
+      this.events = events.filter(event => {
+        return event.approval === !this.isApproval
+      });
       this.listOfData = [...this.events];
       this.eventDataSource = new MatTableDataSource(this.listOfData);
       this.eventDataSource.paginator = this.paginator;
@@ -86,6 +90,7 @@ export class EventPageComponent implements OnInit {
         isEdit: true,
         eventToUpdate: this.eventToUpdate,
         occassions: this.ocassions,
+        saveEditText: this.saveEditText
       }
     });
 
@@ -113,4 +118,19 @@ export class EventPageComponent implements OnInit {
       this.refreshTable();
     });
   }
+
+  changeTable() {
+    this.isApproval = !this.isApproval;
+    if (this.isApproval) {
+      this.switchText = "Switch to approved table";
+      this.editText = "Approve"
+      this.saveEditText = "Approve event"
+    } else {
+      this.switchText = "Switch to approval table";
+      this.editText = "Edit"
+      this.saveEditText = "Edit event"
+    }
+    this.refreshTable();
+  }
+
 }
