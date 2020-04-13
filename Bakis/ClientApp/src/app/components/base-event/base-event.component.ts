@@ -151,18 +151,15 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
         this.snackbar.open("Event added", null, {
           duration: 1500
         });
-        console.log("Form Submitted!");
       }
       this.eventService.registerEvent(event);
     }
     else {
-      const event = this.getFormEventData();
-      
+      const event = this.getFormEventData();     
       if (this.baseEventForm.valid) {
         this.snackbar.open("Event edited", null, {
           duration: 1500
         });
-        console.log("Form Submitted!");
       }
       event.approval = true;
       this.editEvent(event);
