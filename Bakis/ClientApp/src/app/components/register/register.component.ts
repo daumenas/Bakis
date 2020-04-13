@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Validators, FormGroup, FormBuilder, ControlValueAccessor } from '@angular/forms';
 import { UserService } from '../../../app/services/user.service';
 import { NewUser } from '../../models/new-user';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from "@angular/router"
 import { AuthenticationService } from '../../services/authentication.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-register',
@@ -15,7 +17,10 @@ import { AuthenticationService } from '../../services/authentication.service';
 export class RegisterComponent implements OnInit, ControlValueAccessor {
   registerUserForm: FormGroup;
   minDate: Date;
+  maxDate: Date;
   emailCheck: Boolean;
+  adminCheckBool: Boolean;
+
   Roles: any = ['User', 'Event Organizer', 'Admin'];
 
   constructor(
@@ -23,13 +28,20 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
     public snackbar: MatSnackBar,
     private userService: UserService,
     private formBuilder: FormBuilder,
-    private authenticationService: AuthenticationService
-    ) {
+    private authenticationService: AuthenticationService,
+  ) {
+    this.maxDate = new Date();
     const currentYear = new Date().getFullYear();
     this.minDate = new Date(currentYear - 120, 0, 1);
 
     if (this.authenticationService.isAuthenticated()) {
-      this.router.navigate(['/']);
+      if (this.authenticationService.isAdmin()) {
+        this.adminCheckBool = true;
+      } else {
+        this.router.navigate(['/']);
+      }
+    } else {
+      this.adminCheckBool = false;
     }
   }
 
@@ -63,7 +75,6 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
 
   addNewUser(newUser: NewUser) {
     this.userService.registerUser(newUser).subscribe(() => {
-
     });
   }
 
@@ -87,7 +98,8 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
             this.snackbar.open("Registration Succesful", null, {
               duration: 1500
             });
-            this.router.navigate(['/'])
+            if (!this.adminCheckBool)
+              this.router.navigate(['/'])
           }
           this.userService.registerUser(user);
         }

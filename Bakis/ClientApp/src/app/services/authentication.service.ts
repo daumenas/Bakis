@@ -51,4 +51,10 @@ export class AuthenticationService {
   decode() {
     return decode(localStorage.getItem('token'));
   }
+
+  isAdmin() {
+    if (decode(localStorage.getItem('token')).role == "Admin")
+      return true;
+    return false;
+  }
 }
