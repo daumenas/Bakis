@@ -136,6 +136,8 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
     this.baseEventForm.get('dateTo').setValue(formatDate(this.baseEventForm.get('dateTo').value, "yyyy-MM-dd", "en"));
     if (this.data.isEdit == undefined) {
       const event = this.getFormEventData();
+      event['approval'] = true;
+      console.log(event);
       this.addNewEvent(event);
       if (this.baseEventForm.valid) {
         this.snackbar.open("Event added", null, {

@@ -11,4 +11,5 @@ export abstract class BaseEvent {
   dateFrom: Date;
   dateTo: Date;
   time: Date;
+  approval: boolean;
 }

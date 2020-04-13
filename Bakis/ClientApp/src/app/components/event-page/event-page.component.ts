@@ -41,6 +41,7 @@ export class EventPageComponent implements OnInit {
     this.eventService.getAllEvents().subscribe(events => {
       this.events = events;
       this.listOfData = [...this.events];
+      console.log(this.listOfData);
       this.eventDataSource = new MatTableDataSource(this.listOfData);
       this.eventDataSource.paginator = this.paginator;
     });
