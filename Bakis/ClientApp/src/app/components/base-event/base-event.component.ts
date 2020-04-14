@@ -24,6 +24,7 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
   buttonText: string;
   titleText: string;
   dialogRef: any;
+  snackbarText: string = "Event Added";
 
   constructor(
     private latlngService: LatLngService,
@@ -44,8 +45,14 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
-    this.buttonText = "Add Event";
-    this.titleText = "New Event";
+    if (this.data.submitEvent == undefined) {
+      this.buttonText = "Add Event";
+      this.titleText = "New Event";
+    } else {
+      this.buttonText = this.data.submitEvent;
+      this.titleText = this.data.submitEvent;
+      this.snackbarText = "Event Submitted"
+    }
     if (this.data.isEdit == undefined) {
       this.baseEventForm = this.formBuilder.group({
         name: ['', [
@@ -146,9 +153,10 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
           event['approval'] = false;
         }
       }
+
       this.addNewEvent(event);
       if (this.baseEventForm.valid) {
-        this.snackbar.open("Event added", null, {
+        this.snackbar.open(this.snackbarText, null, {
           duration: 1500
         });
       }

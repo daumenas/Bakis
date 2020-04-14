@@ -19,9 +19,9 @@ export class EventPageComponent implements OnInit {
   ocassions: BaseEvent[] = [];
   listOfData: TableRowEvent[] = [];
   isApproval: boolean = false;
-  switchText: String = "Switch to approval table";
-  editText: String = "Edit";
-  saveEditText: String = "Approve event";
+  switchText: string = "Switch to approval table";
+  editText: string = "Edit";
+  saveEditText: string = "Edit event";
 
   displayedColumns: string[] = ['id', 'name', 'description', 'points',
     'address', 'latitude', 'longitude', 'dateFrom', 'dateTo', 'time', 'actions'];
@@ -96,14 +96,6 @@ export class EventPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(() => {
       this.refreshTable();
-    });
-  }
-
-  editEvent(event: TableRowEvent, id: number) {
-    this.eventService.editEvent(event, id).subscribe(() => {
-      this.refreshTable();
-    }, error => {
-      this.showUnexpectedError();
     });
   }
 
