@@ -26,6 +26,10 @@ export class MapComponent implements AfterViewInit  {
     private latlngService: LatLngService) { }
 
   ngAfterViewInit(): void {
+    var maxBounds = [
+      [53.739685, 27.380221],
+      [56.636485, 20.439204]
+    ];
     var iconSettings = L.Icon.extend({
       options: {
         iconAnchor: [20, 20],
@@ -36,7 +40,9 @@ export class MapComponent implements AfterViewInit  {
       sightIcon = new iconSettings({ iconUrl: '../../../assets/telescope.png' });
     let map = L.map('map', {
       center: [54.896870, 23.886105],
-      zoom: 15
+      zoom: 15,
+      maxBounds: maxBounds,
+      minZoom: 8
     });
     this.initMap(map);
 
