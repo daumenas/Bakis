@@ -24,7 +24,7 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
   buttonText: string;
   titleText: string;
   dialogRef: any;
-  snackbarText: String = "Event Added";
+  snackbarText: string = "Event Added";
 
   constructor(
     private latlngService: LatLngService,
