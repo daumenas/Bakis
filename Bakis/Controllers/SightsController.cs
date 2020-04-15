@@ -1,4 +1,5 @@
-﻿using Bakis.Dtos.Sights;
+﻿using Bakis.Dtos.Maps;
+using Bakis.Dtos.Sights;
 using Bakis.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -71,6 +72,16 @@ namespace Bakis.Controllers
             await _sightService.Delete(id);
 
             return NoContent();
+        }
+
+        // api/Sights/latitude/longitude
+        [HttpGet("{latitude}/{longitude}")]
+        [Produces(typeof(GetSightDto))]
+        public async Task<IActionResult> Post([FromRoute]double latitude, [FromRoute]double longitude)
+        {
+            var sights = await _sightService.GetAllByDistance(longitude,latitude);
+
+            return Ok(sights);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Bakis.Dtos.Maps;
 using Bakis.Dtos.Sights;
 using Bakis.Infrastructure.Database.Models;
 using Bakis.Infrastructure.Database.Repositories;
@@ -14,11 +15,13 @@ namespace Bakis.Services
     {
         private readonly IRepositoryBase<Sight> _repository;
         private readonly IMapper _mapper;
+        private readonly MapsService _mapsService;
 
-        public SightService(ISightRepository repository, IMapper mapper)
+        public SightService(ISightRepository repository, IMapper mapper, MapsService mapsService)
         {
             _repository = repository;
             _mapper = mapper;
+            _mapsService = mapsService;
         }
 
         public async Task<GetSightDto> GetById(int id)
@@ -72,6 +75,21 @@ namespace Bakis.Services
 
             _mapper.Map(updateData, itemToUpdate);
             await _repository.Update(itemToUpdate);
+        }
+
+        public async Task<ICollection<GetSightDto>> GetAllByDistance(double longitude, double latitude)
+        {
+            var sights = await _repository.GetAll();
+            var sightsDto = _mapper.Map<GetSightDto[]>(sights);
+            foreach (var sight in sightsDto)
+            {
+                var distance = await _mapsService.GetDistance(latitude, longitude, sight.Latitude, sight.Longitude);
+                if (distance < 100)
+                {
+                    sight.InDistance = true;
+                }
+            }
+            return sightsDto;
         }
     }
 }

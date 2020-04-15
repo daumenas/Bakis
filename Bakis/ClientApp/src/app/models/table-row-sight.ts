@@ -4,4 +4,5 @@ import { BaseSight } from './base-sight';
 
 export class TableRowSight extends BaseSight {
   id: number;
+  isCloserThan100: number;
 }

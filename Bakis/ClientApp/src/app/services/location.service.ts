@@ -35,5 +35,8 @@ export class LocationService {
     return this.http.delete(`${this.sightApi}/${id}`);
   }
 
+  getAllSightsInDistance(latitude: number, longitude: number): Observable<TableRowSight[]> {
+    return this.http.get<TableRowSight[]>(`${this.sightApi}/${latitude}/${longitude}`);
+  }
 
 }
