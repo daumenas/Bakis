@@ -30,6 +30,9 @@ namespace Bakis.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Approval")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("DateFrom")
                         .HasColumnType("datetime2");
 
@@ -88,6 +91,73 @@ namespace Bakis.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Consumers");
+                });
+
+            modelBuilder.Entity("Bakis.Infrastructure.Database.Models.Question", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CorrectAnswer")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("QuizTemplateId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuizTemplateId");
+
+                    b.ToTable("Questions");
+                });
+
+            modelBuilder.Entity("Bakis.Infrastructure.Database.Models.QuestionChoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("QuestionChoices");
+                });
+
+            modelBuilder.Entity("Bakis.Infrastructure.Database.Models.QuizTemplate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("QuizTemplates");
                 });
 
             modelBuilder.Entity("Bakis.Infrastructure.Database.Models.Sight", b =>
@@ -322,6 +392,20 @@ namespace Bakis.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Bakis.Infrastructure.Database.Models.Question", b =>
+                {
+                    b.HasOne("Bakis.Infrastructure.Database.Models.QuizTemplate", null)
+                        .WithMany("Questions")
+                        .HasForeignKey("QuizTemplateId");
+                });
+
+            modelBuilder.Entity("Bakis.Infrastructure.Database.Models.QuestionChoice", b =>
+                {
+                    b.HasOne("Bakis.Infrastructure.Database.Models.Question", "Question")
+                        .WithMany("QuestionChoices")
+                        .HasForeignKey("QuestionId");
                 });
 
             modelBuilder.Entity("Bakis.Infrastructure.Database.Models.User", b =>

@@ -21,3 +21,7 @@ html {
     margin-top: 2px;
     margin-left: 10px;
 }
+
+.aLink:hover {
+  cursor: pointer;
+}

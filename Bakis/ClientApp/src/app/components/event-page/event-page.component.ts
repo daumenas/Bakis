@@ -16,10 +16,12 @@ import { MatPaginator } from '@angular/material/paginator';
 export class EventPageComponent implements OnInit {
   events: TableRowEvent[];
   eventToUpdate: TableRowEvent;
-
   ocassions: BaseEvent[] = [];
-
   listOfData: TableRowEvent[] = [];
+  isApproval: boolean = false;
+  switchText: string = "Switch to approval table";
+  editText: string = "Edit";
+  saveEditText: string = "Edit event";
 
   displayedColumns: string[] = ['id', 'name', 'description', 'points',
     'address', 'latitude', 'longitude', 'dateFrom', 'dateTo', 'time', 'actions'];
@@ -39,7 +41,9 @@ export class EventPageComponent implements OnInit {
 
   refreshTable() {
     this.eventService.getAllEvents().subscribe(events => {
-      this.events = events;
+      this.events = events.filter(event => {
+        return event.approval === !this.isApproval
+      });
       this.listOfData = [...this.events];
       this.eventDataSource = new MatTableDataSource(this.listOfData);
       this.eventDataSource.paginator = this.paginator;
@@ -68,10 +72,8 @@ export class EventPageComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(newEvent => {
-      if (newEvent) {
-        this.registerEvent(newEvent);
-      }
+    dialogRef.afterClosed().subscribe(() => {
+      this.refreshTable();
     });
   }
 
@@ -88,34 +90,39 @@ export class EventPageComponent implements OnInit {
         isEdit: true,
         eventToUpdate: this.eventToUpdate,
         occassions: this.ocassions,
+        saveEditText: this.saveEditText
       }
     });
 
-    dialogRef.afterClosed().subscribe(eventToUpdate => {
-      if (eventToUpdate) {
-        this.editEvent(eventToUpdate, event.id);
-      }
+    dialogRef.afterClosed().subscribe(() => {
       this.refreshTable();
-    });
-  }
-
-  editEvent(event: TableRowEvent, id: number) {
-    this.eventService.editEvent(event, id).subscribe(() => {
-      this.refreshTable();
-    }, error => {
-      this.showUnexpectedError();
     });
   }
 
   showDeleteConfirm(eventToDelete: TableRowEvent): void {
     if (confirm('If you confirm,' + eventToDelete.name + ' will be permanently deleted.')) {
       this.deleteEventById(eventToDelete.id)
-      this.refreshTable();
     }
   }
 
   deleteEventById(id: number) {
     this.eventService.deleteEvent(id).subscribe(() => {
+      this.refreshTable();
     });
   }
+
+  changeTable() {
+    this.isApproval = !this.isApproval;
+    if (this.isApproval) {
+      this.switchText = "Switch to approved table";
+      this.editText = "Approve"
+      this.saveEditText = "Approve event"
+    } else {
+      this.switchText = "Switch to approval table";
+      this.editText = "Edit"
+      this.saveEditText = "Edit event"
+    }
+    this.refreshTable();
+  }
+
 }

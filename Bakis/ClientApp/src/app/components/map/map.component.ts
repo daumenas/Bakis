@@ -1,10 +1,12 @@
-import { Component, AfterViewInit  } from '@angular/core';
+import { Component, AfterViewInit, Inject  } from '@angular/core';
 import * as L from 'leaflet';
 import { TableRowSight } from '../../models/table-row-sight';
 import { TableRowEvent } from '../../models/table-row-event';
 import { CityEventService } from '../../services/city-event.service';
 import "leaflet/dist/images/marker-shadow.png";
 import { LocationService } from '../../services/location.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { LatLngService } from '../../services/lat-lng.service';
 
 @Component({
   selector: 'app-map',
@@ -23,24 +25,45 @@ export class MapComponent implements AfterViewInit  {
 
   constructor(
     private eventService: CityEventService,
-    private sightService: LocationService,) { }
+    private sightService: LocationService,
+    private latlngService: LatLngService) { }
 
   ngAfterViewInit(): void {
+    var maxBounds = [
+      [53.739685, 27.380221],
+      [56.636485, 20.439204]
+    ];
+    var iconSettings = L.Icon.extend({
+      options: {
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -25]
+      }
+    });
+    var eventIcon = new iconSettings({ iconUrl: '../../../assets/event.png' }),
+      sightIcon = new iconSettings({ iconUrl: '../../../assets/telescope.png' });
     let map = L.map('map', {
       center: [54.896870, 23.886105],
-      zoom: 15
+      zoom: 15,
+      maxBounds: maxBounds,
+      minZoom: 8
     });
 
     this.initMap(map);
+
+    map.on('click', e => {
+      this.latlngService.latLngSender(e.latlng);
+    });
     this.eventService.getAllEvents().subscribe(events => {
-      this.events = events;
+      this.events = events.filter(event => {
+        return event.approval === true
+      });
       this.listOfEventData = [...this.events];
-      this.setEventMarkers(map);
+      this.setEventMarkers(map, eventIcon);
     });
     this.sightService.getAllSights().subscribe(sights => {
       this.sights = sights;
       this.listOfSightData = [...this.sights];
-      this.setSightMarkers(map);
+      this.setSightMarkers(map, sightIcon);
     });
   }
 
@@ -80,19 +103,18 @@ export class MapComponent implements AfterViewInit  {
     })
   }
 
-  setEventMarkers(map) {
-    for (var i = 0; i < this.listOfEventData.length; i++) {
-      this.eventMarkers[i] = L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude]).addTo(
-        map).bindPopup('<p>' + this.listOfEventData[i].name + '<br />' + this.listOfEventData[i].description + '</p>'
+  setEventMarkers(map, eventIcon) {
+  for (var i = 0; i < this.listOfEventData.length; i++) {
+    L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude], { icon: eventIcon}).addTo(
+      map).bindPopup('<p>' + this.listOfEventData[i].name + '<br />' + this.listOfEventData[i].description + '</p>'
       );
   }
 }
 
-  setSightMarkers(map) {
-    for (var i = 0; i < this.listOfSightData.length; i++) {
-      this.sightsMarkers[i] = L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude]).addTo(
-        map).bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>'
-        + '<button disabled>Play game</button>'
+  setSightMarkers(map, sightIcon) {
+  for (var i = 0; i < this.listOfSightData.length; i++) {
+    L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude], { icon: sightIcon }).addTo(
+      map).bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>'
       );
   }
   }

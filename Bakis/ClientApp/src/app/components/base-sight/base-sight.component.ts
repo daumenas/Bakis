@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder, ControlValueAccessor } from '@angular/forms';
 import { LocationService } from '../../services/location.service';
 import { BaseSight } from '../../models/base-sight';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { LatLngService } from '../../services/lat-lng.service';
+import { HomeComponent } from '../../home/home.component';
 
 
 @Component({
@@ -17,13 +19,22 @@ export class BaseSightComponent implements OnInit, ControlValueAccessor {
   baseSightForm: FormGroup;
   buttonText: string;
   titleText: string;
+  dialogRef: any;
 
   constructor(
+    private latlngService: LatLngService,
+    public dialog: MatDialog,
     public snackbar: MatSnackBar,
     private sightService: LocationService,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
-  ) { }
+  ) {
+    this.latlngService.latLngReceive$.subscribe((data) => {
+      this.dialogRef.close();
+      this.baseSightForm.get('latitude').setValue(data.lat);
+      this.baseSightForm.get('longitude').setValue(data.lng);
+    });
+  }
 
   ngOnInit() {
     this.buttonText = "Add Sight"
@@ -40,7 +51,6 @@ export class BaseSightComponent implements OnInit, ControlValueAccessor {
           Validators.required
         ]],
         address: ['', [
-          Validators.required
         ]],
         latitude: ['', [
           Validators.required
@@ -54,7 +64,7 @@ export class BaseSightComponent implements OnInit, ControlValueAccessor {
       this.titleText = "Edit Sight";
       this.buttonText = "Edit Sight"
       this.baseSightForm = this.formBuilder.group({
-        name: [this.data.name, [
+        name: [this.data.sightToUpdate.name, [
           Validators.required
         ]],
         description: [this.data.sightToUpdate.description, [
@@ -64,7 +74,6 @@ export class BaseSightComponent implements OnInit, ControlValueAccessor {
           Validators.required
         ]],
         address: [this.data.sightToUpdate.address, [
-          Validators.required
         ]],
         latitude: [this.data.sightToUpdate.latitude, [
           Validators.required
@@ -89,6 +98,12 @@ export class BaseSightComponent implements OnInit, ControlValueAccessor {
 
   editSight(editSight: BaseSight) {
     this.sightService.editSight(editSight, this.data.sightToUpdate.id).subscribe(() => {
+    });
+  }
+
+  openMapModal(): void {
+    this.dialogRef = this.dialog.open(HomeComponent, {
+      width: '550px'
     });
   }
 

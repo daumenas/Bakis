@@ -21,3 +21,27 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cdk-overlay-container {
+  z-index: 500 !important;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-prefix .mat-icon-button .mat-icon, .mat-form-field-appearance-legacy .mat-form-field-suffix .mat-icon-button .mat-icon {
+  color: black !important;
+}
+
+.timepicker__header {
+  background-color: #3f51b5 !important;
+}
+
+.clock-face__number > span.active {
+  background-color: #3f51b5 !important;
+}
+
+.clock-face__clock-hand {
+  background-color: #3f51b5 !important;
+}
+
+.timepicker-button[_ngcontent-ng-cli-universal-c127] > span[_ngcontent-ng-cli-universal-c127] {
+  color: #3f51b5 !important;
+}
