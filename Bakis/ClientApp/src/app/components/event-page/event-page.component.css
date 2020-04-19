@@ -9,3 +9,17 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 .top-of-page-actions{
     margin-left: 10px;
 }
+
+.switchButton {
+    background: #00AC9F;
+    color: white;
+}
+
+.actionButtons{
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+  padding-left: 10px;
+}

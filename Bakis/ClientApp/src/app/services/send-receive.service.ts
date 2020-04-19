@@ -7,15 +7,22 @@ import { TableRowEvent } from "../models/table-row-event"
 @Injectable({
   providedIn: 'root'
 })
-export class LatLngService {
+export class SendReceiveService {
   latLngReceive$: Observable<any>;
-  private subject = new Subject<any>();
+  sightReceive$: Observable<any>;
+  private subjectLatLng = new Subject<any>();
+  private subjectSight = new Subject<any>();
 
   constructor() {
-    this.latLngReceive$ = this.subject.asObservable();
+    this.latLngReceive$ = this.subjectLatLng.asObservable();
+    this.sightReceive$ = this.subjectSight.asObservable();
   }
 
   latLngSender(data) {
-    this.subject.next(data);
+    this.subjectLatLng.next(data);
+  }
+
+  sightSender(data) {
+    this.subjectSight.next(data);
   }
 }

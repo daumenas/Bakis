@@ -50,9 +50,9 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let sight">
-          <button mat-flat-button color="primary" (click)="openEditForm(sight)">Edit</button>
+          <button mat-flat-button color="primary" class="actionButtons" (click)="openEditForm(sight)">Edit</button>
           &nbsp;
-          <button mat-flat-button color="warn" (click)="showDeleteConfirm(sight)">Delete</button>
+          <button mat-flat-button color="warn" class="actionButtons" (click)="showDeleteConfirm(sight)">Delete</button>
         </td>
       </ng-container>
 

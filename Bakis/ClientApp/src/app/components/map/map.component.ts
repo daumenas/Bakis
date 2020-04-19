@@ -6,7 +6,7 @@ import { CityEventService } from '../../services/city-event.service';
 import "leaflet/dist/images/marker-shadow.png";
 import { LocationService } from '../../services/location.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LatLngService } from '../../services/lat-lng.service';
+import { SendReceiveService } from '../../services/send-receive.service';
 
 @Component({
   selector: 'app-map',
@@ -26,7 +26,7 @@ export class MapComponent implements AfterViewInit  {
   constructor(
     private eventService: CityEventService,
     private sightService: LocationService,
-    private latlngService: LatLngService) { }
+    private sendReceiveService: SendReceiveService) { }
 
   ngAfterViewInit(): void {
     var maxBounds = [
@@ -51,7 +51,7 @@ export class MapComponent implements AfterViewInit  {
     this.initMap(map);
 
     map.on('click', e => {
-      this.latlngService.latLngSender(e.latlng);
+      this.sendReceiveService.latLngSender(e.latlng);
     });
     this.eventService.getAllEvents().subscribe(events => {
       this.events = events.filter(event => {
@@ -64,6 +64,7 @@ export class MapComponent implements AfterViewInit  {
       this.sights = sights;
       this.listOfSightData = [...this.sights];
       this.setSightMarkers(map, sightIcon);
+      this.sendReceiveService.sightSender(this.sightsMarkers);
     });
   }
 
@@ -88,7 +89,7 @@ export class MapComponent implements AfterViewInit  {
         userLocation = new L.marker(e.latlng, { title: 'position' }).addTo(map);
         this.location = e.latlng;
         userLocation.on('move', e => {
-          this.getGameDistance(map);
+          this.getGameDistance();
         })
       } else {
         this.location = e.latlng;
@@ -105,35 +106,45 @@ export class MapComponent implements AfterViewInit  {
 
   setEventMarkers(map, eventIcon) {
   for (var i = 0; i < this.listOfEventData.length; i++) {
-    L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude], { icon: eventIcon}).addTo(
+    this.eventMarkers[i] = L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude], { icon: eventIcon}).addTo(
       map).bindPopup('<p>' + this.listOfEventData[i].name + '<br />' + this.listOfEventData[i].description + '</p>'
       );
   }
 }
 
   setSightMarkers(map, sightIcon) {
-  for (var i = 0; i < this.listOfSightData.length; i++) {
-    L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude], { icon: sightIcon }).addTo(
+    let tempMarkers = [];
+    for (var i = 0; i < this.listOfSightData.length; i++) {
+      tempMarkers[i] = L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude], { icon: sightIcon }).addTo(
       map).bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>'
       );
-  }
+    }
+    this.sightsMarkers = tempMarkers;
   }
 
-  async getGameDistance(map) {
+  getGameDistance() {
     if (this.sightsMarkers.length == 0) {
-      setTimeout(() => { this.getGameDistance(map) }, 3000);
+      this.sendReceiveService.sightReceive$.subscribe((data) => {
+        this.setPopUp(data);
+      });
     }
-    for (var i = 0; i < this.sightsMarkers.length; i++) {
-      var meters = this.location.distanceTo(this.sightsMarkers[i]._latlng);
+    else {
+      this.setPopUp(this.sightsMarkers);
+    }
+  }
+
+  setPopUp(markers) {
+    for (var i = 0; i < markers.length; i++) {
+      var meters = this.location.distanceTo(markers[i]._latlng);
       if (meters <= 30) {
-        this.sightsMarkers[i]._popup.setContent('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>'
+        markers[i]._popup.setContent('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>'
           + '<button>Play game</button>');
-        this.sightsMarkers[i].update();
+        markers[i].update();
       }
       else {
-        this.sightsMarkers[i]._popup.setContent('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>'
+        markers[i]._popup.setContent('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>'
           + '<button disabled>Play game</button>');
-        this.sightsMarkers[i].update();
+        markers[i].update();
       }
     }
   }
