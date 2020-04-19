@@ -19,6 +19,9 @@ export class MapComponent implements AfterViewInit  {
   events: TableRowEvent[];
   listOfSightData: TableRowSight[] = [];
   sights: TableRowSight[];
+  private location;
+  private sightsMarkers = [];
+  private eventMarkers = [];
 
   constructor(
     private eventService: CityEventService,
@@ -44,6 +47,7 @@ export class MapComponent implements AfterViewInit  {
       maxBounds: maxBounds,
       minZoom: 8
     });
+
     this.initMap(map);
 
     map.on('click', e => {
@@ -81,16 +85,22 @@ export class MapComponent implements AfterViewInit  {
       maxZoom: 120
     }).on("locationfound", e => {
       if (!userLocation) {
-        userLocation = new L.marker(e.latlng).addTo(map);
+        userLocation = new L.marker(e.latlng, { title: 'position' }).addTo(map);
+        this.location = e.latlng;
+        userLocation.on('move', e => {
+          this.getGameDistance(map);
+        })
       } else {
+        this.location = e.latlng;
         userLocation.setLatLng(e.latlng);
+        
       }
     }).on("locationerror", error => {
       if (userLocation) {
         map.removeLayer(userLocation);
         userLocation = undefined;
       }
-    });
+    })
   }
 
   setEventMarkers(map, eventIcon) {
@@ -107,6 +117,25 @@ export class MapComponent implements AfterViewInit  {
       map).bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>'
       );
   }
-}
+  }
+
+  async getGameDistance(map) {
+    if (this.sightsMarkers.length == 0) {
+      setTimeout(() => { this.getGameDistance(map) }, 3000);
+    }
+    for (var i = 0; i < this.sightsMarkers.length; i++) {
+      var meters = this.location.distanceTo(this.sightsMarkers[i]._latlng);
+      if (meters <= 30) {
+        this.sightsMarkers[i]._popup.setContent('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>'
+          + '<button>Play game</button>');
+        this.sightsMarkers[i].update();
+      }
+      else {
+        this.sightsMarkers[i]._popup.setContent('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>'
+          + '<button disabled>Play game</button>');
+        this.sightsMarkers[i].update();
+      }
+    }
+  }
 
 }
