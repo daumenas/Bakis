@@ -90,8 +90,8 @@ export class MapComponent implements AfterViewInit  {
         userLocation = new L.marker(e.latlng, { title: 'position' }).addTo(map);
         this.location = e.latlng;
         userLocation.on('move', e => {
-          this.getGameDistance(true);
-          this.getGameDistance(false);
+          this.getDistance(true);
+          this.getDistance(false);
         })
       } else {
         this.location = e.latlng;
@@ -126,7 +126,7 @@ export class MapComponent implements AfterViewInit  {
     this.sightsMarkers = tempMarkers;
   }
 
-  getGameDistance(isSight) {
+  getDistance(isSight) {
     if (isSight) {
       if (this.sightsMarkers.length == 0) {
         this.sendReceiveService.sightReceive$.subscribe((data) => {
