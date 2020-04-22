@@ -7,7 +7,7 @@ import { BaseEvent } from '../../models/base-event';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { formatDate } from '@angular/common';
 import { HomeComponent } from '../../home/home.component';
-import { LatLngService } from '../../services/lat-lng.service';
+import { SendReceiveService } from '../../services/send-receive.service';
 import { AuthenticationService } from '../../services/authentication.service';
 
 
@@ -27,7 +27,7 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
   snackbarText: string = "Event Added";
 
   constructor(
-    private latlngService: LatLngService,
+    private latlngService: SendReceiveService,
     public dialog: MatDialog,
     public snackbar: MatSnackBar,
     private eventService: CityEventService,

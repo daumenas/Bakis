@@ -5,7 +5,7 @@ import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBui
 import { LocationService } from '../../services/location.service';
 import { BaseSight } from '../../models/base-sight';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { LatLngService } from '../../services/lat-lng.service';
+import { SendReceiveService } from '../../services/send-receive.service';
 import { HomeComponent } from '../../home/home.component';
 
 
@@ -22,7 +22,7 @@ export class BaseSightComponent implements OnInit, ControlValueAccessor {
   dialogRef: any;
 
   constructor(
-    private latlngService: LatLngService,
+    private latlngService: SendReceiveService,
     public dialog: MatDialog,
     public snackbar: MatSnackBar,
     private sightService: LocationService,

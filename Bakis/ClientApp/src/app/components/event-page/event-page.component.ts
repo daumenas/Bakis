@@ -19,7 +19,7 @@ export class EventPageComponent implements OnInit {
   ocassions: BaseEvent[] = [];
   listOfData: TableRowEvent[] = [];
   isApproval: boolean = false;
-  switchText: string = "Switch to approval table";
+  switchText: string = "Switch to submissions";
   editText: string = "Edit";
   saveEditText: string = "Edit event";
 
@@ -114,11 +114,11 @@ export class EventPageComponent implements OnInit {
   changeTable() {
     this.isApproval = !this.isApproval;
     if (this.isApproval) {
-      this.switchText = "Switch to approved table";
+      this.switchText = "Switch to events";
       this.editText = "Approve"
       this.saveEditText = "Approve event"
     } else {
-      this.switchText = "Switch to approval table";
+      this.switchText = "Switch to submissions";
       this.editText = "Edit"
       this.saveEditText = "Edit event"
     }
