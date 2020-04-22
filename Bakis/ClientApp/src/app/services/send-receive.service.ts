@@ -10,12 +10,15 @@ import { TableRowEvent } from "../models/table-row-event"
 export class SendReceiveService {
   latLngReceive$: Observable<any>;
   sightReceive$: Observable<any>;
+  eventReceive$: Observable<any>;
   private subjectLatLng = new Subject<any>();
   private subjectSight = new Subject<any>();
+  private subjectEvent = new Subject<any>();
 
   constructor() {
     this.latLngReceive$ = this.subjectLatLng.asObservable();
     this.sightReceive$ = this.subjectSight.asObservable();
+    this.eventReceive$ = this.subjectEvent.asObservable();
   }
 
   latLngSender(data) {
@@ -24,5 +27,9 @@ export class SendReceiveService {
 
   sightSender(data) {
     this.subjectSight.next(data);
+  }
+
+  eventSender(data) {
+    this.subjectEvent.next(data);
   }
 }
