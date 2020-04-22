@@ -59,6 +59,7 @@ export class MapComponent implements AfterViewInit  {
       });
       this.listOfEventData = [...this.events];
       this.setEventMarkers(map, eventIcon);
+      this.sendReceiveService.eventSender(this.sightsMarkers);
     });
     this.sightService.getAllSights().subscribe(sights => {
       this.sights = sights;
@@ -89,7 +90,8 @@ export class MapComponent implements AfterViewInit  {
         userLocation = new L.marker(e.latlng, { title: 'position' }).addTo(map);
         this.location = e.latlng;
         userLocation.on('move', e => {
-          this.getGameDistance();
+          this.getGameDistance(true);
+          this.getGameDistance(false);
         })
       } else {
         this.location = e.latlng;
@@ -105,11 +107,13 @@ export class MapComponent implements AfterViewInit  {
   }
 
   setEventMarkers(map, eventIcon) {
+  let tempEvents = [];
   for (var i = 0; i < this.listOfEventData.length; i++) {
-    this.eventMarkers[i] = L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude], { icon: eventIcon}).addTo(
+    tempEvents[i] = L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude], { icon: eventIcon}).addTo(
       map).bindPopup('<p>' + this.listOfEventData[i].name + '<br />' + this.listOfEventData[i].description + '</p>'
       );
-  }
+    }
+    this.eventMarkers = tempEvents;
 }
 
   setSightMarkers(map, sightIcon) {
@@ -122,28 +126,44 @@ export class MapComponent implements AfterViewInit  {
     this.sightsMarkers = tempMarkers;
   }
 
-  getGameDistance() {
-    if (this.sightsMarkers.length == 0) {
-      this.sendReceiveService.sightReceive$.subscribe((data) => {
-        this.setPopUp(data);
-      });
+  getGameDistance(isSight) {
+    if (isSight) {
+      if (this.sightsMarkers.length == 0) {
+        this.sendReceiveService.sightReceive$.subscribe((data) => {
+          this.setPopUp(data, isSight);
+        });
+      }
+      else {
+        this.setPopUp(this.sightsMarkers, isSight);
+      }
     }
     else {
-      this.setPopUp(this.sightsMarkers);
+      if (this.eventMarkers.length == 0) {
+        this.sendReceiveService.eventReceive$.subscribe((data) => {
+          this.setPopUp(data, isSight);
+        });
+      }
+      else {
+        this.setPopUp(this.eventMarkers, isSight);
+      }
     }
   }
 
-  setPopUp(markers) {
+  setPopUp(markers, isSight) {
+    let listOfData = (isSight) ? this.listOfSightData : this.listOfEventData;
     for (var i = 0; i < markers.length; i++) {
       var meters = this.location.distanceTo(markers[i]._latlng);
       if (meters <= 30) {
-        markers[i]._popup.setContent('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>'
-          + '<button>Play game</button>');
+        markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' + listOfData[i].description + '</p>'
+          + '<button>Check in</button>' +
+          ((isSight) ? '<button>Play game</button>' : '')
+          );
         markers[i].update();
       }
       else {
-        markers[i]._popup.setContent('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>'
-          + '<button disabled>Play game</button>');
+        markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' + listOfData[i].description + '</p>'
+          + '<button disabled>Check in</button>' +
+          ((isSight) ? '<button disabled>Play game</button>' : ''));
         markers[i].update();
       }
     }
