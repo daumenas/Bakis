@@ -6,5 +6,6 @@ export abstract class BaseUser {
   date: Date;
   email: string;
   role: string;
+  points: number;
 }
 

@@ -7,6 +7,8 @@ import { TableRowUser } from "../models/table-row-user"
 @Injectable({ providedIn: 'root' })
 
 export class UserService {
+  private thisUserId: number;
+
   private readonly headers = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -23,6 +25,11 @@ export class UserService {
 
   getAllUsers(): Observable<TableRowUser[]> {
     return this.http.get<TableRowUser[]>(this.userApi);
+  }
+
+  getUser(): Observable<BaseUser> {
+    this.thisUserId = JSON.parse(localStorage.getItem('userId'));
+    return this.http.get<BaseUser>(`${this.userApi}/${this.thisUserId}`);
   }
 
   editUser(user: BaseUser, id: number) {

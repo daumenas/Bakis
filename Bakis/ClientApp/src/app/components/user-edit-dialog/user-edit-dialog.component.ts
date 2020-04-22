@@ -38,6 +38,9 @@ export class UserEditDialogComponent implements OnInit {
       birthday: [this.data.userToUpdate.birthdayDate, [
         Validators.required
       ]],
+      points: [this.data.userToUpdate.points, [
+        Validators.required
+      ]],
       role: [this.data.userToUpdate.role, [
       ]],
     });

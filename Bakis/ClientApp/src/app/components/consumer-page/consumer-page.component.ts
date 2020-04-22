@@ -24,7 +24,7 @@ export class ConsumerPageComponent implements OnInit {
   isVisibleEquipmentModal = false;
   listOfData: TableRowUser[] = [];
 
-  displayedColumns: string[] = ['id', 'role', 'name', 'surname', 'date', 'email', 'actions'];
+  displayedColumns: string[] = ['id', 'role', 'name', 'surname', 'points', 'email', 'actions'];
 
   consumerDataSource = new MatTableDataSource(this.listOfData);
 
