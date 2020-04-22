@@ -59,7 +59,7 @@ export class MapComponent implements AfterViewInit  {
       });
       this.listOfEventData = [...this.events];
       this.setEventMarkers(map, eventIcon);
-      this.sendReceiveService.eventSender(this.sightsMarkers);
+      this.sendReceiveService.eventSender(this.eventMarkers);
     });
     this.sightService.getAllSights().subscribe(sights => {
       this.sights = sights;
