@@ -12,5 +12,6 @@ namespace Bakis.Dtos.Consumers
         public DateTime BirthdayDate { get; set; }
         public string Email { get; set; }
         public string Role { get; set; }
+        public int Points { get; set; }
     }
 }

@@ -24,5 +24,6 @@ namespace Bakis.Infrastructure.Database.Models
         public string Email { get; set; }
         [NotMapped]
         public string Token { get; set; }
+        public int Points { get; set; }
     }
 }
