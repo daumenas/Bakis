@@ -85,7 +85,6 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
 
   onSubmit() {
     const user = this.getFormUserData();
-    user['points'] = 0;
     const email = this.checkEmail(user.email);
     email.then(data => {
       data.subscribe(res => {
