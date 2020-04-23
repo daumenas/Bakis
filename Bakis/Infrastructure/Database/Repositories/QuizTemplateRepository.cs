@@ -16,7 +16,7 @@ namespace Bakis.Infrastructure.Database.Repositories
         }
         public async Task<ICollection<QuizTemplate>> GetAll()
         {
-            var quizTemplates = await _context.QuizTemplates.ToArrayAsync();
+            var quizTemplates = await _context.QuizTemplates.Include(c => c.Questions).ToArrayAsync();
 
             return quizTemplates;
         }
@@ -30,8 +30,15 @@ namespace Bakis.Infrastructure.Database.Repositories
 
         public async Task<int> Create(QuizTemplate newQuizTemplate)
         {
-            _context.QuizTemplates.Add(newQuizTemplate);
+            var createQuiz = new QuizTemplate()
+            {
+                Title = newQuizTemplate.Title
+            };
+            _context.QuizTemplates.Add(createQuiz);
             await _context.SaveChangesAsync();
+            createQuiz.Questions = newQuizTemplate.Questions;
+            _context.QuizTemplates.Attach(createQuiz);
+            var changes = await _context.SaveChangesAsync();
 
             return newQuizTemplate.Id;
         }

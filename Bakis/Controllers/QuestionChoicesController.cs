@@ -54,12 +54,12 @@ namespace Bakis.Controllers
 
         // POST: api/QuestionChoices
         [HttpPost]
-        [Produces(typeof(NewQuestionChoicesDto))]
+        [Produces(typeof(int))]
         public async Task<IActionResult> Post(NewQuestionChoicesDto newQuestionChoicesDto)
         {
-            var createdQuestionChoice = await _questionChoicesService.Create(newQuestionChoicesDto);
+            var createdQuestionChoiceId = await _questionChoicesService.Create(newQuestionChoicesDto);
 
-            return Ok(createdQuestionChoice);
+            return Ok(createdQuestionChoiceId);
         }
 
         // DELETE: api/QuestionChoices/5
