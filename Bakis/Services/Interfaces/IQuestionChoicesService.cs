@@ -10,7 +10,7 @@ namespace Bakis.Services.Interfaces
     {
         Task<GetQuestionChoicesDto> GetById(int id);
         Task<ICollection<GetQuestionChoicesDto>> GetAll();
-        Task<NewQuestionChoicesDto> Create(NewQuestionChoicesDto newQuestionChoices);
+        Task<int> Create(NewQuestionChoicesDto newQuestionChoices);
         Task Update(int id, UpdateQuestionChoicesDto updateData);
         Task<bool> Delete(int id);
     }

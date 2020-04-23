@@ -37,16 +37,15 @@ namespace Bakis.Services
             return questionChoicesDto;
         }
 
-        public async Task<NewQuestionChoicesDto> Create(NewQuestionChoicesDto newQuestionChoicesDto)
+        public async Task<int> Create(NewQuestionChoicesDto newQuestionChoicesDto)
         {
             if (newQuestionChoicesDto == null)
                 throw new ArgumentNullException(nameof(newQuestionChoicesDto));
 
             var newQuestionChoice = _mapper.Map<QuestionChoice>(newQuestionChoicesDto);
-            await _repository.Create(newQuestionChoice);
-            var QuestionChoicesDto = _mapper.Map<NewQuestionChoicesDto>(newQuestionChoice);
+            var newChoiceId = await _repository.Create(newQuestionChoice);
 
-            return QuestionChoicesDto;
+            return newChoiceId;
         }
 
         public async Task<bool> Delete(int id)

@@ -30,6 +30,9 @@
             <a class="nav-link text-dark" [routerLink]="['/register']">Register</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfAdmin()">
+            <a class="nav-link text-dark" [routerLink]="['/quizpage']">Quiz Page</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfAdmin()">
             <a class="nav-link text-dark" [routerLink]="['/consumerpage']">Consumer Page</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfAdmin()">

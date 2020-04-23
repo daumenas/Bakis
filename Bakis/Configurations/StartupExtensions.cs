@@ -51,6 +51,15 @@ namespace Bakis.Configurations
             }
         }
 
+        public static void SetUpJsonOptions(this IServiceCollection services)
+        {
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.Formatting = Formatting.Indented;
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+        }
+
         public static void SetUpAutoMapper(this IServiceCollection services)
         {
             var config = new AutoMapper.MapperConfiguration(cfg =>

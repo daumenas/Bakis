@@ -1,0 +1,27 @@
+<div class="box-wrapper">
+  <div class="event-wrapper" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card class="box">
+      <mat-card-header>
+        <mat-card-title>{{titleText}}</mat-card-title>
+      </mat-card-header>
+
+      <form [formGroup]="baseQuizTemplateForm" class="quiz-template-form">
+        <mat-card-content>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="title" placeholder="Title">
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-select formControlName="questions" multiple>
+              <mat-option *ngFor="let question of questionArray" [value]="question">{{question.title}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button (click)="addQuestion()">Add Question</button>
+        </mat-card-content>
+
+        <button type="submit" [mat-dialog-close] mat-stroked-button color="accent" (click)="onSubmit()"
+                [disabled]="!baseQuizTemplateForm.valid" class="btn-block">{{buttonText}}</button>
+
+      </form>
+    </mat-card>
+  </div>
+</div>

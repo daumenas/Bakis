@@ -16,7 +16,7 @@ namespace Bakis.Infrastructure.Database.Repositories
         }
         public async Task<ICollection<Question>> GetAll()
         {
-            var questions = await _context.Questions.ToArrayAsync();
+            var questions = await _context.Questions.Include(c => c.QuestionChoices).ToArrayAsync();
 
             return questions;
         }
@@ -30,8 +30,18 @@ namespace Bakis.Infrastructure.Database.Repositories
 
         public async Task<int> Create(Question newQuestion)
         {
-            _context.Questions.Add(newQuestion);
+            var createQuestion = new Question()
+            {
+                CorrectAnswer = newQuestion.CorrectAnswer,
+                Name = newQuestion.Name,
+                Title = newQuestion.Title,
+                Type = newQuestion.Type
+            };
+            _context.Questions.Add(createQuestion);
             await _context.SaveChangesAsync();
+            createQuestion.QuestionChoices = newQuestion.QuestionChoices;
+            _context.Questions.Attach(createQuestion);
+            var changes = await _context.SaveChangesAsync();
 
             return newQuestion.Id;
         }
