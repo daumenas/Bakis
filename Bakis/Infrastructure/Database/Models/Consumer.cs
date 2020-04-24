@@ -25,5 +25,7 @@ namespace Bakis.Infrastructure.Database.Models
         [NotMapped]
         public string Token { get; set; }
         public int Points { get; set; }
+        public ICollection<ConsumerSight> UserSight { get; set; }
+        public ICollection<ConsumerEvent> UserEvent { get; set; }
     }
 }

@@ -26,5 +26,6 @@ namespace Bakis.Infrastructure.Database.Models
         public DateTime DateTo { get; set; }
         public DateTime Time { get; set; }
         public bool Approval { get; set; }
+        public ICollection<ConsumerEvent> UserEvent { get; set; }
     }
 }
