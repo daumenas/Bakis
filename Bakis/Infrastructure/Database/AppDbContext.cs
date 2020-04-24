@@ -23,5 +23,42 @@ namespace Bakis.Infrastructure.Database
         {
             _configuration = configuration;
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<ConsumerSight>().HasKey(entity =>
+            new
+            {
+                entity.ConsumerId,
+                entity.SightId
+            });
+            builder.Entity<ConsumerEvent>().HasKey(entity =>
+            new
+            {
+                entity.ConsumerId,
+                entity.EventId
+            });
+
+            builder.Entity<ConsumerSight>()
+                .HasOne(entity => entity.Sight)
+                .WithMany(e => e.UserSight)
+                .HasForeignKey(entity => entity.SightId);
+            builder.Entity<ConsumerSight>()
+                .HasOne(entity => entity.Consumer)
+                .WithMany(e => e.UserSight)
+                .HasForeignKey(entity => entity.ConsumerId);
+
+            builder.Entity<ConsumerEvent>()
+                .HasOne(entity => entity.CityEvent)
+                .WithMany(e => e.UserEvent)
+                .HasForeignKey(entity => entity.EventId);
+            builder.Entity<ConsumerEvent>()
+                .HasOne(entity => entity.Consumer)
+                .WithMany(e => e.UserEvent)
+                .HasForeignKey(entity => entity.ConsumerId);
+
+            base.OnModelCreating(builder);
+
+        }
     }
 }
