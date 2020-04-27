@@ -67,6 +67,17 @@ namespace Bakis.Controllers
             return NoContent();
         }
 
+        // PUT: api/Consumers/5/11/112
+        [HttpGet("{id}/{lat}/{lng}")]
+        public async Task<IActionResult> Get(int id, double lat, double lng)
+        {
+            Console.WriteLine(id);
+            Console.WriteLine(lat);
+            Console.WriteLine(lng);
+
+            return NoContent();
+        }
+
         // POST: api/Consumers
         [HttpPost]
         [Produces(typeof(NewConsumerDto))]

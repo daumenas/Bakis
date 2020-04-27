@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Inject  } from '@angular/core';
+import { Component, AfterViewInit, Inject, ElementRef  } from '@angular/core';
 import * as L from 'leaflet';
 import { TableRowSight } from '../../models/table-row-sight';
 import { TableRowEvent } from '../../models/table-row-event';
@@ -7,6 +7,7 @@ import "leaflet/dist/images/marker-shadow.png";
 import { LocationService } from '../../services/location.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SendReceiveService } from '../../services/send-receive.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-map',
@@ -25,8 +26,10 @@ export class MapComponent implements AfterViewInit  {
 
   constructor(
     private eventService: CityEventService,
+    private consumerService: UserService,
     private sightService: LocationService,
-    private sendReceiveService: SendReceiveService) { }
+    private sendReceiveService: SendReceiveService,
+    private elementRef: ElementRef) { }
 
   ngAfterViewInit(): void {
     var maxBounds = [
@@ -110,8 +113,16 @@ export class MapComponent implements AfterViewInit  {
   let tempEvents = [];
   for (var i = 0; i < this.listOfEventData.length; i++) {
     tempEvents[i] = L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude], { icon: eventIcon}).addTo(
-      map).bindPopup('<p>' + this.listOfEventData[i].name + '<br />' + this.listOfEventData[i].description + '</p>'
-      );
+      map)
+      .bindPopup('<p>' + this.listOfEventData[i].name + '<br />' + this.listOfEventData[i].description + '</p>')
+      .on("popupopen", (a) => {
+        var popUp = a.target.getPopup()
+        popUp.getElement()
+          .querySelector(".checkIn")
+          .addEventListener("click", e => {
+            this.getPointsForSight(a.target.getPopup().getContect());
+          });
+      }) 
     }
     this.eventMarkers = tempEvents;
 }
@@ -119,9 +130,26 @@ export class MapComponent implements AfterViewInit  {
   setSightMarkers(map, sightIcon) {
     let tempMarkers = [];
     for (var i = 0; i < this.listOfSightData.length; i++) {
-      tempMarkers[i] = L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude], { icon: sightIcon }).addTo(
-      map).bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>'
-      );
+      tempMarkers[i] = L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude], { icon: sightIcon })
+        .addTo(map)
+        .bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>')
+        .on("popupopen", (a) => {
+          var popUp = a.target.getPopup()
+          popUp.getElement()
+            .querySelector(".checkIn")
+            .addEventListener("click", e => {
+              var sightId = e.target.getAttribute(popUp);
+              this.getPointsForSight(popUp);
+            });
+        })
+        .on("popupopen", (a) => {
+          var popUp = a.target.getPopup()
+          popUp.getElement()
+            .querySelector(".playGame")
+            .addEventListener("click", e => {
+              this.playGame();
+            });
+        }) 
     }
     this.sightsMarkers = tempMarkers;
   }
@@ -155,8 +183,8 @@ export class MapComponent implements AfterViewInit  {
       var meters = this.location.distanceTo(markers[i]._latlng);
       if (meters <= 30) {
         markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' + listOfData[i].description + '</p>'
-          + '<button>Check in</button>' +
-          ((isSight) ? '<button>Play game</button>' : '')
+          + '<button class="checkIn">Check in</button>' +
+          ((isSight) ? '<button class="playGame">Play game</button>' : '')
           );
         markers[i].update();
       }
@@ -167,6 +195,16 @@ export class MapComponent implements AfterViewInit  {
         markers[i].update();
       }
     }
+  }
+
+  getPointsForSight(sight: any) {
+    var latlng = sight.getLatLng();
+    console.log(sight.getLatLng());
+    return this.consumerService.sightCheckIn(latlng);
+  }
+
+  playGame() {
+    alert("PLAY GAME");
   }
 
 }
