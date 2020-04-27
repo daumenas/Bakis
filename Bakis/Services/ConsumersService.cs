@@ -118,5 +118,10 @@ namespace Bakis.Services
         {
             return await _repository.EmailExists(email);
         }
+
+        public async Task<bool> UpdateVisited(int id, int sightId)
+        {
+            return await _repository.UpdateVisited(id, sightId);
+        }
     }
 }
