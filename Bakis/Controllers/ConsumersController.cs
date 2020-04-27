@@ -67,13 +67,11 @@ namespace Bakis.Controllers
             return NoContent();
         }
 
-        // PUT: api/Consumers/5/11/112
-        [HttpGet("{id}/{lat}/{lng}")]
-        public async Task<IActionResult> Get(int id, double lat, double lng)
+        // PUT: api/Consumers/5/11
+        [HttpGet("{id}/{sightId}")]
+        public async Task<IActionResult> Get(int id, int sightId)
         {
-            Console.WriteLine(id);
-            Console.WriteLine(lat);
-            Console.WriteLine(lng);
+            await _consumersService.UpdateVisited(id, sightId);
 
             return NoContent();
         }

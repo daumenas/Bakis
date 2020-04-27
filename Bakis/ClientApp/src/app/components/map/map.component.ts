@@ -120,7 +120,7 @@ export class MapComponent implements AfterViewInit  {
         popUp.getElement()
           .querySelector(".checkIn")
           .addEventListener("click", e => {
-            this.getPointsForSight(a.target.getPopup().getContect());
+            this.getPointsForSight(popUp);
           });
       }) 
     }
@@ -130,7 +130,8 @@ export class MapComponent implements AfterViewInit  {
   setSightMarkers(map, sightIcon) {
     let tempMarkers = [];
     for (var i = 0; i < this.listOfSightData.length; i++) {
-      tempMarkers[i] = L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude], { icon: sightIcon })
+      tempMarkers[i] = L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude],
+        { title: this.listOfSightData[i].id, icon: sightIcon })
         .addTo(map)
         .bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>')
         .on("popupopen", (a) => {
@@ -138,7 +139,6 @@ export class MapComponent implements AfterViewInit  {
           popUp.getElement()
             .querySelector(".checkIn")
             .addEventListener("click", e => {
-              var sightId = e.target.getAttribute(popUp);
               this.getPointsForSight(popUp);
             });
         })
@@ -190,17 +190,17 @@ export class MapComponent implements AfterViewInit  {
       }
       else {
         markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' + listOfData[i].description + '</p>'
-          + '<button disabled>Check in</button>' +
-          ((isSight) ? '<button disabled>Play game</button>' : ''));
+          + '<button class="checkIn" disabled>Check in</button>' +
+          ((isSight) ? '<button class="playGame" disabled>Play game</button>' : ''));
         markers[i].update();
       }
     }
   }
 
   getPointsForSight(sight: any) {
-    var latlng = sight.getLatLng();
-    console.log(sight.getLatLng());
-    return this.consumerService.sightCheckIn(latlng);
+    var sightId = sight._source.options.title;
+    console.log(sightId);
+    this.consumerService.sightCheckIn(sightId).subscribe(data => console.log(data));
   }
 
   playGame() {

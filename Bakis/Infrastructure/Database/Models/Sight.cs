@@ -13,7 +13,7 @@ namespace Bakis.Infrastructure.Database.Models
         [Required]
         public string Description { get; set; }
         [Required]
-        public double Points { get; set; }
+        public int Points { get; set; }
         [Required]
         public string Address { get; set; }
         [Required]

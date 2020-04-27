@@ -44,12 +44,7 @@ export class UserService {
     return this.http.get<boolean>(`${this.userApi}/${email}/exists`);
   }
 
-  sightCheckIn(latlng: any) {
-    console.log("TEST");
-    var lat = latlng.lat;
-    var lng = latlng.lng;
-    var user = this.getUser();
-    // CIA LINKAS KURIUO TURETU SIUSTIS API cj problema su tuo kad viskas vyksta sinchroniskai o turi asynchroniskai but bet no idea xd
-    return this.http.put(`${this.userApi}/${this.thisUserId}/${lat}/${lng}`, user);
+  sightCheckIn(sightId: any) {
+    return this.http.get<boolean>(`${this.userApi}/${this.thisUserId}/${sightId}`);
   }
 }
