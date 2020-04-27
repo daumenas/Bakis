@@ -1,8 +1,9 @@
 ﻿using Bakis.Infrastructure.Database.Models;
+using Bakis.Dtos.QuestionChoices;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Bakis.Dtos.Questions
 {
@@ -12,6 +13,6 @@ namespace Bakis.Dtos.Questions
         public string Name { get; set; }
         public string Title { get; set; }
         public int CorrectAnswer { get; set; }
-        public ICollection<QuestionChoice> QuestionChoices { get; set; }
+        public ICollection<GetQuestionChoicesDto> QuestionChoices { get; set; }
     }
 }

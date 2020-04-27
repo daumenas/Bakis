@@ -29,6 +29,7 @@ namespace Bakis
             services.SetUpAutoMapper();
             services.SetUpDatabase(Configuration);
             services.SetupJtwAuthentication(Configuration);
+            services.SetUpJsonOptions();
             services.ConfigureCors();
             services.AddAllDependencies();
             // In production, the Angular files will be served from this directory

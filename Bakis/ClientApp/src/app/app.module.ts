@@ -19,6 +19,7 @@ import { SightPageComponent } from './components/sight-page/sight-page.component
 import { BaseEventComponent } from './components/base-event/base-event.component';
 import { UserEditDialogComponent } from './components/user-edit-dialog/user-edit-dialog.component';
 import { BaseSightComponent } from './components/base-sight/base-sight.component'
+import { BaseQuizTemplateComponent } from './components/base-quiz-template/base-quiz-template.component'
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -46,6 +47,9 @@ import { APP_ROUTES_EVENT_MANAGER } from './app-routing.module';
 import { AuthGuardService } from './services/auth-guard.service';
 import { RoleGuardService } from './services/role-guard.service';
 import { MapComponent } from './components/map/map.component';
+import { QuizPageComponent } from './components/quiz-page/quiz-page.component';
+import { BaseQuizTemplate } from './models/base-quiz-template';
+import { BaseQuestionComponent } from './components/base-question/base-question.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -60,6 +64,9 @@ export function tokenGetter() {
     RegisterComponent,
     ConsumerPageComponent,
     EventPageComponent,
+    QuizPageComponent,
+    BaseQuizTemplateComponent,
+    BaseQuestionComponent,
     SightPageComponent,
     BaseEventComponent,
     UserEditDialogComponent,

@@ -10,6 +10,7 @@ import { BaseEventComponent } from './components/base-event/base-event.component
 import { UserEditDialogComponent } from './components/user-edit-dialog/user-edit-dialog.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { RoleGuardService } from './services/role-guard.service';
+import { QuizPageComponent } from './components/quiz-page/quiz-page.component';
 
 export const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -23,6 +24,7 @@ export const APP_ROUTES_CONSUMER: Routes = [
 export const APP_ROUTES_ADMIN: Routes = [
   { path: 'consumerpage', component: ConsumerPageComponent, canActivate: [RoleGuardService] },
   { path: 'eventpage', component: EventPageComponent, canActivate: [RoleGuardService] },
+  { path: 'quizpage', component: QuizPageComponent, canActivate: [RoleGuardService] },
   { path: 'sightpage', component: SightPageComponent, canActivate: [RoleGuardService] },
   { path: 'baseevent', component: BaseEventComponent, canActivate: [RoleGuardService] },
   { path: 'editevent', component: UserEditDialogComponent, canActivate: [RoleGuardService] }
