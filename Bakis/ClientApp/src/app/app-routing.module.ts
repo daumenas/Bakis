@@ -11,6 +11,8 @@ import { UserEditDialogComponent } from './components/user-edit-dialog/user-edit
 import { AuthGuardService } from './services/auth-guard.service';
 import { RoleGuardService } from './services/role-guard.service';
 import { QuizPageComponent } from './components/quiz-page/quiz-page.component';
+import { SubmitEventComponent } from './components/submit-event/submit-event.component';
+import { EventManagerRoleGuardService } from './services/event-manager-role-guard.service';
 
 export const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -31,4 +33,5 @@ export const APP_ROUTES_ADMIN: Routes = [
 ];
 
 export const APP_ROUTES_EVENT_MANAGER: Routes = [
+  { path: 'submitevent', component: SubmitEventComponent, canActivate: [EventManagerRoleGuardService] }
 ];

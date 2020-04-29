@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service'
 import { Router } from '@angular/router';
-import { BaseEventComponent } from '../components/base-event/base-event.component';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-nav-menu',
@@ -13,8 +11,7 @@ export class NavMenuComponent {
   isExpanded = false;
 
   constructor(private auth: AuthenticationService,
-    private router: Router,
-    public dialog: MatDialog
+    private router: Router
   ) { }
 
 
@@ -50,18 +47,6 @@ export class NavMenuComponent {
       return false;
     }
     return false;
-  }
-
-  openSubmitModal(): void {
-    const dialogRef = this.dialog.open(BaseEventComponent, {
-      width: '550px',
-      data: {
-        submitEvent: "Submit Event"
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-    });
   }
 
   logout() {
