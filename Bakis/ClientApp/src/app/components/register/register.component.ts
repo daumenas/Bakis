@@ -64,7 +64,9 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
       birthday: ['', [
         Validators.required
       ]],
-      role: [],
+      role: ['', [
+        Validators.required
+      ]],
     });
   }
 

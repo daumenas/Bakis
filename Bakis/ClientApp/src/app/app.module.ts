@@ -50,6 +50,7 @@ import { MapComponent } from './components/map/map.component';
 import { QuizPageComponent } from './components/quiz-page/quiz-page.component';
 import { BaseQuizTemplate } from './models/base-quiz-template';
 import { BaseQuestionComponent } from './components/base-question/base-question.component';
+import { SubmitEventComponent } from './components/submit-event/submit-event.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -71,7 +72,8 @@ export function tokenGetter() {
     BaseEventComponent,
     UserEditDialogComponent,
     BaseSightComponent,
-    MapComponent
+    MapComponent,
+    SubmitEventComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
