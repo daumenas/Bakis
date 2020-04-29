@@ -82,16 +82,19 @@ export class MapComponent implements AfterViewInit  {
 
     map.invalidateSize();
 
-    map.locate({ setView: true, maxZoom: 16, watch: true });
-
     L.control.scale().addTo(map);
     var userLocation;
+    let firstLocation = true;
     map.locate({
-      setView: true,
-      maxZoom: 120
+      maxZoom: 19,
+      watch: true
     }).on("locationfound", e => {
       if (!userLocation) {
         userLocation = new L.marker(e.latlng, { title: 'position', icon: markerIcon }).addTo(map);
+        if (firstLocation) {
+          map.setView(e.latlng);
+        }
+        firstLocation = false;
         this.location = e.latlng;
         userLocation.on('move', e => {
           this.getDistance(true);
