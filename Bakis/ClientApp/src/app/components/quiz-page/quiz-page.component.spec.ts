@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SightPageComponent } from './sight-page.component';
+import { QuizPageComponent } from './quiz-page.component';
 
 describe('SightPageComponent', () => {
-  let component: SightPageComponent;
-  let fixture: ComponentFixture<SightPageComponent>;
+  let component: QuizPageComponent;
+  let fixture: ComponentFixture<QuizPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SightPageComponent ]
+      declarations: [QuizPageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SightPageComponent);
+    fixture = TestBed.createComponent(QuizPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
