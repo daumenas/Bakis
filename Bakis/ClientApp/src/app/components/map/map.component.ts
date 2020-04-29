@@ -99,7 +99,7 @@ export class MapComponent implements AfterViewInit  {
         firstLocation = false;
         this.location = e.latlng;
         userLocation.on('move', e => {
-          if (this.checkLogged()) {
+          if (this.isAuthenticated()) {
             this.getDistance(true);
             this.getDistance(false);
           }
@@ -117,7 +117,7 @@ export class MapComponent implements AfterViewInit  {
     })
   }
 
-  checkLogged() {
+  isAuthenticated() {
     return this.auth.isAuthenticated();
   }
 
@@ -212,7 +212,7 @@ export class MapComponent implements AfterViewInit  {
   }
 
   getPointsForSight(sight: any) {
-    if (this.checkLogged()) {
+    if (this.isAuthenticated()) {
       
       var sightId = sight._source.options.title;
       this.consumerService.sightCheckIn(sightId).subscribe(data => {
@@ -223,7 +223,7 @@ export class MapComponent implements AfterViewInit  {
   }
 
   playGame() {
-    if (this.checkLogged()) {
+    if (this.isAuthenticated()) {
       this.sendReceiveService.pointSender(true);
       alert("PLAY GAME");
     }
