@@ -67,5 +67,28 @@ namespace Bakis.Infrastructure.Database.Repositories
         {
             return await Context.Consumers.Select(consumer => consumer.Email).ContainsAsync(email);
         }
+
+        public async Task<bool> UpdateVisited(int id, int sightId)
+        {
+            var sight = await Context.Sights.SingleOrDefaultAsync(sight => sight.Id == sightId);
+            var consumer = await Context.Consumers.SingleOrDefaultAsync(cons => cons.Id == id);
+
+            var consumerSight = new List<ConsumerSight>()
+            {
+                new ConsumerSight
+                {
+                    Consumer = consumer,
+                    Sight = sight,
+                }
+            };
+
+            consumer.UserSight = consumerSight;
+            consumer.Points += sight.Points;
+
+            Context.Consumers.Attach(consumer);
+            var changes = await Context.SaveChangesAsync();
+
+            return changes > 0;
+        }
     }
 }

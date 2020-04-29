@@ -17,14 +17,18 @@ export class HomeComponent {
 
 
   ngOnInit() {
+    this.loadPoints();
+  }
+
+  loggedIn() {
+    return this.authService.isAuthenticated()
+  }
+
+  loadPoints() {
     if (this.authService.isAuthenticated()) {
       this.userService.getUser().subscribe(data => {
         this.points = data.points
       });
     }
-  }
-
-  loggedIn() {
-    return this.authService.isAuthenticated()
   }
 }

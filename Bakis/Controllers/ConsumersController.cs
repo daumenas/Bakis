@@ -67,6 +67,15 @@ namespace Bakis.Controllers
             return NoContent();
         }
 
+        // PUT: api/Consumers/5/11
+        [HttpGet("{id}/{sightId}")]
+        public async Task<IActionResult> Get(int id, int sightId)
+        {
+            await _consumersService.UpdateVisited(id, sightId);
+
+            return NoContent();
+        }
+
         // POST: api/Consumers
         [HttpPost]
         [Produces(typeof(NewConsumerDto))]

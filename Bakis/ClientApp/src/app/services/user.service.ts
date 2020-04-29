@@ -43,4 +43,8 @@ export class UserService {
   emailExists(email: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.userApi}/${email}/exists`);
   }
+
+  sightCheckIn(sightId: any) {
+    return this.http.get<boolean>(`${this.userApi}/${this.thisUserId}/${sightId}`);
+  }
 }
