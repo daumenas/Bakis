@@ -8,6 +8,7 @@ import { LocationService } from '../../services/location.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SendReceiveService } from '../../services/send-receive.service';
 import { UserService } from '../../services/user.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-map',
@@ -29,7 +30,8 @@ export class MapComponent implements AfterViewInit  {
     private consumerService: UserService,
     private sightService: LocationService,
     private sendReceiveService: SendReceiveService,
-    private elementRef: ElementRef) { }
+    private elementRef: ElementRef,
+    private auth: AuthenticationService) { }
 
   ngAfterViewInit(): void {
     var maxBounds = [
@@ -97,8 +99,10 @@ export class MapComponent implements AfterViewInit  {
         firstLocation = false;
         this.location = e.latlng;
         userLocation.on('move', e => {
-          this.getDistance(true);
-          this.getDistance(false);
+          if (this.checkLogged()) {
+            this.getDistance(true);
+            this.getDistance(false);
+          }
         })
       } else {
         this.location = e.latlng;
@@ -113,12 +117,17 @@ export class MapComponent implements AfterViewInit  {
     })
   }
 
+  checkLogged() {
+    return this.auth.isAuthenticated();
+  }
+
   setEventMarkers(map, eventIcon) {
   let tempEvents = [];
   for (var i = 0; i < this.listOfEventData.length; i++) {
     tempEvents[i] = L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude], { icon: eventIcon}).addTo(
       map)
-      .bindPopup('<p>' + this.listOfEventData[i].name + '<br />' + this.listOfEventData[i].description + '</p>')
+      .bindPopup('<p>' + this.listOfEventData[i].name + '<br />' + this.listOfEventData[i].description + '</p>' +
+        '<button class="checkIn" style="display: none">Check in</button>')
       .on("popupopen", (a) => {
         var popUp = a.target.getPopup()
         popUp.getElement()
@@ -137,7 +146,8 @@ export class MapComponent implements AfterViewInit  {
       tempMarkers[i] = L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude],
         { title: this.listOfSightData[i].id, icon: sightIcon })
         .addTo(map)
-        .bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>')
+        .bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>' +
+          '<button class="checkIn" style="display: none">Check in</button>' + '<button class="playGame" style="display: none">Play Game</button>')
         .on("popupopen", (a) => {
           var popUp = a.target.getPopup()
           popUp.getElement()
@@ -202,13 +212,16 @@ export class MapComponent implements AfterViewInit  {
   }
 
   getPointsForSight(sight: any) {
-    var sightId = sight._source.options.title;
-    console.log(sightId);
-    this.consumerService.sightCheckIn(sightId).subscribe(data => console.log(data));
+    if (this.checkLogged()) {
+      var sightId = sight._source.options.title;
+      this.consumerService.sightCheckIn(sightId).subscribe(data => console.log(data));
+    }
   }
 
   playGame() {
-    alert("PLAY GAME");
+    if (this.checkLogged()) {
+      alert("PLAY GAME");
+    }
   }
 
 }
