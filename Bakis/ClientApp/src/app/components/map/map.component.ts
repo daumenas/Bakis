@@ -38,11 +38,12 @@ export class MapComponent implements AfterViewInit  {
     ];
     var iconSettings = L.Icon.extend({
       options: {
-        iconAnchor: [20, 20],
+        iconAnchor: [20, 50],
         popupAnchor: [0, -25]
       }
     });
-    var eventIcon = new iconSettings({ iconUrl: '../../../assets/event.png' }),
+    var markerIcon = new iconSettings({ iconUrl: '../../../assets/marker-icon.png' }),
+      eventIcon = new iconSettings({ iconUrl: '../../../assets/event.png' }),
       sightIcon = new iconSettings({ iconUrl: '../../../assets/telescope.png' });
     let map = L.map('map', {
       center: [54.896870, 23.886105],
@@ -51,7 +52,7 @@ export class MapComponent implements AfterViewInit  {
       minZoom: 8
     });
 
-    this.initMap(map);
+    this.initMap(map, markerIcon);
 
     map.on('click', e => {
       this.sendReceiveService.latLngSender(e.latlng);
@@ -72,7 +73,7 @@ export class MapComponent implements AfterViewInit  {
     });
   }
 
-  private initMap(map): void {
+  private initMap(map, markerIcon): void {
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -90,7 +91,7 @@ export class MapComponent implements AfterViewInit  {
       maxZoom: 120
     }).on("locationfound", e => {
       if (!userLocation) {
-        userLocation = new L.marker(e.latlng, { title: 'position' }).addTo(map);
+        userLocation = new L.marker(e.latlng, { title: 'position', icon: markerIcon }).addTo(map);
         this.location = e.latlng;
         userLocation.on('move', e => {
           this.getDistance(true);
