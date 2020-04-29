@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { AuthenticationService } from '../services/authentication.service';
+import { SendReceiveService } from '../services/send-receive.service';
 
 @Component({
   selector: 'app-home',
@@ -13,11 +14,15 @@ export class HomeComponent {
 
 
   constructor(private userService: UserService,
-    private authService: AuthenticationService) { }
+    private authService: AuthenticationService,
+    private sendReceiveService: SendReceiveService) { }
 
 
   ngOnInit() {
     this.loadPoints();
+    this.sendReceiveService.pointsReceive$.subscribe((data) => {
+      this.loadPoints();
+    });
   }
 
   loggedIn() {

@@ -213,13 +213,18 @@ export class MapComponent implements AfterViewInit  {
 
   getPointsForSight(sight: any) {
     if (this.checkLogged()) {
+      
       var sightId = sight._source.options.title;
-      this.consumerService.sightCheckIn(sightId).subscribe(data => console.log(data));
+      this.consumerService.sightCheckIn(sightId).subscribe(data => {
+        console.log(data);
+        this.sendReceiveService.pointSender(true);
+      });
     }
   }
 
   playGame() {
     if (this.checkLogged()) {
+      this.sendReceiveService.pointSender(true);
       alert("PLAY GAME");
     }
   }
