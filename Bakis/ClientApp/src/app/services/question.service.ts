@@ -37,5 +37,9 @@ export class QuestionService {
     return this.http.delete(`${this.questionApi}/${id}`);
   }
 
+  getAllQuestionsByQuizId(id: number, quizName: string): Observable<BaseQuizQuestion[]> {
+    return this.http.get<BaseQuizQuestion[]>(`${this.questionApi}/${id}/${quizName}`);
+  }
+
 
 }

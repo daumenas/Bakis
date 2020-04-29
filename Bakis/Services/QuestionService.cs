@@ -32,7 +32,15 @@ namespace Bakis.Services
         public async Task<ICollection<GetQuestionDto>> GetAll()
         {
             var questions = await _repository.GetAll();
-            var questionsDto = _mapper.Map<GetQuestionDto[]>(questions);
+            List<Question> unselectedQuestion = new List<Question>();
+            foreach (var question in questions)
+            {
+                if (question.QuizTemplate == null)
+                {
+                    unselectedQuestion.Add(question);
+                }
+            }
+            var questionsDto = _mapper.Map<GetQuestionDto[]>(unselectedQuestion);
 
             return questionsDto;
         }
@@ -72,6 +80,22 @@ namespace Bakis.Services
 
             _mapper.Map(updateData, itemToUpdate);
             await _repository.Update(itemToUpdate);
+        }
+
+        public async Task<ICollection<GetQuestionDto>> GetAllByQuizId(int id)
+        {
+            var questions = await _repository.GetAll();
+            List<Question> unselectedQuestion = new List<Question>();
+            foreach (var question in questions)
+            {
+                if (question.QuizTemplateId == id || question.QuizTemplateId == null)
+                {
+                    unselectedQuestion.Add(question);
+                }
+            }
+            var questionsDto = _mapper.Map<GetQuestionDto[]>(unselectedQuestion);
+
+            return questionsDto;
         }
     }
 }

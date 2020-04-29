@@ -47,9 +47,6 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
-    this.questionService.getAllQuestions().subscribe(questions => {
-      this.questionArray = questions;
-    });
     if (this.data.submitEvent == undefined) {
       this.buttonText = "Add Quiz";
       this.titleText = "New Quiz";
@@ -59,6 +56,9 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
       this.snackbarText = "Quiz Submitted"
     }
     if (this.data.isEdit == undefined) {
+      this.questionService.getAllQuestions().subscribe(questions => {
+        this.questionArray = questions;
+      });
       this.baseQuizTemplateForm = this.formBuilder.group({
         title: ['', [
           Validators.required
@@ -67,7 +67,10 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
       });
     }
     else {
-      this.buttonText = this.data.saveEditText;
+      this.questionService.getAllQuestionsByQuizId(this.data.quizId, this.data.quizTemplateToUpdate.title).subscribe(questions => {
+        this.questionArray = questions;
+      });
+      this.buttonText = "Submit";
       this.titleText = "Edit Quiz";
         this.baseQuizTemplateForm = this.formBuilder.group({
           title: [this.data.quizTemplateToUpdate.title, [
@@ -89,7 +92,7 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
   }
 
   editQuizTemplate(editQuiz: NewQuizTemplate) {
-    this.quizTemplateService.editQuizTemplates(editQuiz, this.data.quizTemplateToEdit.id).subscribe(() => {
+    this.quizTemplateService.editQuizTemplates(editQuiz, this.data.quizTemplateToUpdate.id).subscribe(() => {
     });
   }
 
@@ -124,7 +127,9 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      //this.refreshTable();
+      this.questionService.getAllQuestions().subscribe(questions => {
+        this.questionArray = questions;
+      });
     });
   }
 

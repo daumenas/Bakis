@@ -71,5 +71,19 @@ namespace Bakis.Controllers
 
             return NoContent();
         }
+
+        // GET: api/Questions/5
+        [HttpGet("{id}/{name}")]
+        [Produces(typeof(GetQuestionDto[]))]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetQuestionByQuizId(int id, string name)
+        {
+            var question = await _questionsService.GetAllByQuizId(id);
+
+            if (question == null)
+                return NotFound();
+
+            return Ok(question);
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace Bakis.Infrastructure.Database.Repositories
         }
         public async Task<ICollection<Question>> GetAll()
         {
-            var questions = await _context.Questions.Include(c => c.QuestionChoices).ToArrayAsync();
+            var questions = await _context.Questions.Include(c => c.QuestionChoices).Include(c => c.QuizTemplate).ToArrayAsync();
 
             return questions;
         }

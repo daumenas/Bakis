@@ -8,6 +8,7 @@ import { QuizService } from '../../services/quiz.service';
 import { BaseQuizTemplate } from '../../models/base-quiz-template';
 import { NewQuizTemplate } from '../../models/new-quiz-template';
 import { BaseQuizTemplateComponent } from '../base-quiz-template/base-quiz-template.component';
+import { QuestionService } from '../../services/question.service';
 
 
 @Component({
@@ -18,6 +19,8 @@ import { BaseQuizTemplateComponent } from '../base-quiz-template/base-quiz-templ
 export class QuizPageComponent implements OnInit {
   quizTemplates: BaseQuizTemplate[];
   quizTemplateToUpdate: BaseQuizTemplate;
+
+  quizQuestion: BaseQuizQuestion[] = [];
 
   baseQuiz: BaseQuizQuestion[] = [];
 
@@ -31,6 +34,7 @@ export class QuizPageComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
+    private questionService: QuestionService,
     private quizService: QuizService,
   ) { }
 
@@ -90,7 +94,7 @@ export class QuizPageComponent implements OnInit {
       data: {
         isEdit: true,
         quizTemplateToUpdate: this.quizTemplateToUpdate,
-        baseQuiz: this.baseQuiz,
+        quizId: this.quizTemplateToUpdate.id
       }
     });
 
