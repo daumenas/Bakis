@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,5 +10,8 @@ namespace Bakis.Infrastructure.Database.Models
     {
         public string Title { get; set; }
         public ICollection<Question> Questions { get; set; }
+        [ForeignKey("Sight")]
+        public int SightId { get; set; }
+        public virtual Sight Sight { get; set; }
     }
 }

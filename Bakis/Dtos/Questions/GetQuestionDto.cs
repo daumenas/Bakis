@@ -14,7 +14,7 @@ namespace Bakis.Dtos.Questions
         public string Name { get; set; }
         public string Title { get; set; }
         public int CorrectAnswer { get; set; }
-        public QuizTemplate QuizTemplate { get; set; }
+        public int QuizTemplateId { get; set; }
         public ICollection<GetQuestionChoicesDto> QuestionChoices { get; set; }
     }
 }

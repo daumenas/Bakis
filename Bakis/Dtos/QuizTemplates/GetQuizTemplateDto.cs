@@ -12,5 +12,7 @@ namespace Bakis.Dtos.QuizTemplates
         public int Id { get; set; }
         public string Title { get; set; }
         public ICollection<GetQuestionDto> Questions { get; set; }
+        public int SightId { get; set; }
+        public string SightName { get; set; }
     }
 }

@@ -17,15 +17,17 @@ namespace Bakis.Infrastructure.Database.Repositories
 
         public async Task<ICollection<Sight>> GetAll()
         {
-            var sights = await Context.Sights.ToArrayAsync();
+           var sights = await Context.Sights.Include(c => c.QuizTemplate).ToArrayAsync();
 
             return sights;
         }
 
         public async Task<Sight> GetById(int id)
         {
-            var sight = await Context.Sights.FindAsync(id);
-
+            var sight = await Context.Sights.Include(c => c.QuizTemplate)
+                .Where(c => c.Id == id).FirstOrDefaultAsync();
+            sight.QuizTemplate.Questions = await Context.Questions.Include(c => c.QuestionChoices)
+                .Where(c => c.QuizTemplate.Id == sight.QuizTemplate.Id).ToArrayAsync();
             return sight;
         }
 

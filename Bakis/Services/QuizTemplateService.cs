@@ -12,20 +12,35 @@ namespace Bakis.Services
 {
     public class QuizTemplateService : IQuizTemplateService
     {
-        private readonly IRepositoryBase<QuizTemplate> _repository;
+        private readonly IQuizTemplateRepository _repository;
+        private readonly IQuestionRepository _questionRepository;
+        private readonly ISightRepository _sightRepository;
         private readonly IMapper _mapper;
 
-        public QuizTemplateService(IQuizTemplateRepository repository, IMapper mapper)
+        public QuizTemplateService(IQuizTemplateRepository repository, IMapper mapper, ISightRepository sightRepository,
+            IQuestionRepository questionRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _sightRepository = sightRepository;
+            _questionRepository = questionRepository;
         }
 
         public async Task<GetQuizTemplateDto> GetById(int id)
         {
             var quizTemplate = await _repository.GetById(id);
+            quizTemplate.Questions = await _questionRepository.GetAllByQuizId(id);
             var quizTemplateDto = _mapper.Map<GetQuizTemplateDto>(quizTemplate);
 
+            quizTemplateDto.SightName = quizTemplate.Sight.Name;
+            return quizTemplateDto;
+        }
+
+        public async Task<GetQuizTemplateDto> GetBySightId(int id)
+        {
+            var quizTemplate = await _repository.GetBySightId(id);
+            quizTemplate.Questions = await _questionRepository.GetAllByQuizId(id);
+            var quizTemplateDto = _mapper.Map<GetQuizTemplateDto>(quizTemplate);
             return quizTemplateDto;
         }
 
@@ -33,7 +48,16 @@ namespace Bakis.Services
         {
             var quizTemplates = await _repository.GetAll();
             var quizTemplatesDto = _mapper.Map<GetQuizTemplateDto[]>(quizTemplates);
-
+            foreach (var quizDto in quizTemplatesDto)
+            {
+                foreach (var quiz in quizTemplates)
+                {
+                    if(quizDto.SightId == quiz.Sight.Id)
+                    {
+                        quizDto.SightName = quiz.Sight.Name;
+                    }
+                }  
+            }
             return quizTemplatesDto;
         }
 
@@ -55,6 +79,8 @@ namespace Bakis.Services
 
             if (item == null)
                 return false;
+
+            item.Questions = await _questionRepository.GetAllByQuizId(item.Id);
 
             var deleted = await _repository.Delete(item);
             return deleted;

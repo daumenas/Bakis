@@ -12,6 +12,8 @@ import { NewQuizTemplate } from '../../models/new-quiz-template';
 import { BaseQuizQuestion } from '../../models/base-quiz-question';
 import { MatTableDataSource } from '@angular/material/table';
 import { BaseQuestionComponent } from '../base-question/base-question.component';
+import { BaseSight } from '../../models/base-sight';
+import { LocationService } from '../../services/location.service';
 
 
 @Component({
@@ -24,6 +26,7 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
   questionArray: BaseQuizQuestion[];
   questionToUpdate: BaseQuizQuestion;
   @Input() questionsSelected: BaseQuizQuestion[] = [];
+  allSights: BaseSight[];
 
   listOfData: BaseQuizQuestion[] = [];
   questionsDataSource = new MatTableDataSource(this.listOfData);
@@ -39,6 +42,7 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
   constructor(
     private quizTemplateService: QuizService,
     private questionService: QuestionService,
+    private sightService: LocationService,
     public dialog: MatDialog,
     public snackbar: MatSnackBar,
     private formBuilder: FormBuilder,
@@ -47,6 +51,9 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
+    this.sightService.getAllSights().subscribe(sights => {
+      this.allSights = sights;
+    });
     if (this.data.submitEvent == undefined) {
       this.buttonText = "Add Quiz";
       this.titleText = "New Quiz";
@@ -63,7 +70,8 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
         title: ['', [
           Validators.required
         ]],
-        questions: []
+        questions: [],
+        sightId: ['']
       });
     }
     else {
@@ -76,7 +84,8 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
           title: [this.data.quizTemplateToUpdate.title, [
           Validators.required
         ]],
-          questions: [this.data.quizTemplateToUpdate.questions]
+          questions: [this.data.quizTemplateToUpdate.questions],
+          sightId: [this.data.quizTemplateToUpdate.sightId]
       });
     }
   }

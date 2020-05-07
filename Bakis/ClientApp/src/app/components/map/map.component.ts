@@ -213,7 +213,6 @@ export class MapComponent implements AfterViewInit  {
 
   getPointsForSight(sight: any) {
     if (this.isAuthenticated()) {
-      
       var sightId = sight._source.options.title;
       this.consumerService.sightCheckIn(sightId).subscribe(data => {
         console.log(data);

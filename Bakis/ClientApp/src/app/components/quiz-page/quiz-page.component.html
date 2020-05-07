@@ -22,6 +22,11 @@
         <td mat-cell *matCellDef="let quizTemplate"> {{quizTemplate.title}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="sightName">
+        <th mat-header-cell *matHeaderCellDef> Assigned Sight </th>
+        <td mat-cell *matCellDef="let quizTemplate"> {{quizTemplate.sightName}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="questions">
         <th mat-header-cell *matHeaderCellDef> Questions </th>
         <td mat-cell *matCellDef="let quizTemplate"> {{getQuestionTitles(quizTemplate).join("\n")}} </td>

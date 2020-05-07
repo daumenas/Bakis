@@ -11,16 +11,21 @@
             <input matInput formControlName="title" placeholder="Title">
           </mat-form-field>
           <mat-form-field class="full-width">
+            <mat-label>Assign questions</mat-label>
             <mat-select formControlName="questions" multiple>
               <mat-option *ngFor="let question of questionArray" [value]="question">{{question.title}}</mat-option>
             </mat-select>
           </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Choose a sight</mat-label>
+            <mat-select formControlName="sightId">
+              <mat-option *ngFor="let sight of allSights" [value]="sight.id">{{sight.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
           <button (click)="addQuestion()">Add Question</button>
         </mat-card-content>
-
         <button type="submit" [mat-dialog-close] mat-stroked-button color="accent" (click)="onSubmit()"
                 [disabled]="!baseQuizTemplateForm.valid" class="btn-block">{{buttonText}}</button>
-
       </form>
     </mat-card>
   </div>
