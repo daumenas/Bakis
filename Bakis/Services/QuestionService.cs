@@ -82,13 +82,13 @@ namespace Bakis.Services
             await _repository.Update(itemToUpdate);
         }
 
-        public async Task<ICollection<GetQuestionDto>> GetAllByQuizId(int id)
+        public async Task<ICollection<GetQuestionDto>> GetAllEmptyAndByQuizId(int id)
         {
             var questions = await _repository.GetAll();
             List<Question> unselectedQuestion = new List<Question>();
             foreach (var question in questions)
             {
-                if (question.QuizTemplateId == id || question.QuizTemplateId == null)
+                if (question.QuizTemplate.Id == id || question.QuizTemplate == null)
                 {
                     unselectedQuestion.Add(question);
                 }

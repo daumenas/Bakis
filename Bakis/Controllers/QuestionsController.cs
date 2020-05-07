@@ -78,7 +78,7 @@ namespace Bakis.Controllers
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetQuestionByQuizId(int id, string name)
         {
-            var question = await _questionsService.GetAllByQuizId(id);
+            var question = await _questionsService.GetAllEmptyAndByQuizId(id);
 
             if (question == null)
                 return NotFound();

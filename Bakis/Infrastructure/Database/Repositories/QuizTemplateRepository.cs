@@ -16,14 +16,17 @@ namespace Bakis.Infrastructure.Database.Repositories
         }
         public async Task<ICollection<QuizTemplate>> GetAll()
         {
-            var quizTemplates = await _context.QuizTemplates.Include(c => c.Questions).ToArrayAsync();
+            var quizTemplates = await _context.QuizTemplates.Include(c => c.Questions).Include(c => c.Sight).ToArrayAsync();
 
             return quizTemplates;
         }
 
         public async Task<QuizTemplate> GetById(int id)
         {
-            var quizTemplate = await _context.QuizTemplates.FindAsync(id);
+            var quizTemplate = await _context.QuizTemplates.Include(c => c.Questions)
+                .Where(c => c.Id == id).FirstOrDefaultAsync();
+            quizTemplate.Questions = await _context.Questions.Include(c => c.QuestionChoices)
+                .Where(c => c.QuizTemplate.Id == quizTemplate.Id).ToArrayAsync();
 
             return quizTemplate;
         }
@@ -32,13 +35,19 @@ namespace Bakis.Infrastructure.Database.Repositories
         {
             var createQuiz = new QuizTemplate()
             {
-                Title = newQuizTemplate.Title
+                Title = newQuizTemplate.Title,
+                SightId = newQuizTemplate.SightId
             };
             _context.QuizTemplates.Add(createQuiz);
             await _context.SaveChangesAsync();
             createQuiz.Questions = newQuizTemplate.Questions;
             _context.QuizTemplates.Attach(createQuiz);
             var changes = await _context.SaveChangesAsync();
+
+            var sightToUpdate = await _context.Sights.FindAsync(createQuiz.SightId);
+            sightToUpdate.QuizTemplate = createQuiz;
+            _context.Sights.Attach(sightToUpdate);
+            var changesSight = await _context.SaveChangesAsync();
 
             return newQuizTemplate.Id;
         }
@@ -57,6 +66,12 @@ namespace Bakis.Infrastructure.Database.Repositories
             var changes = await _context.SaveChangesAsync();
 
             return changes > 0;
+        }
+
+        public async Task<QuizTemplate> GetBySightId(int id)
+        {
+            var quizTemplate = await _context.QuizTemplates.Include(c => c.Questions).Where(c => c.SightId == id).FirstOrDefaultAsync();
+            return quizTemplate;
         }
     }
 }

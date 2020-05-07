@@ -26,7 +26,7 @@ export class QuizPageComponent implements OnInit {
 
   listOfData: BaseQuizTemplate[] = [];
 
-  displayedColumns: string[] = ['id', 'title', 'questions', 'actions'];
+  displayedColumns: string[] = ['id', 'title', 'sightName', 'questions', 'actions'];
 
   quizTemplatesDataSource = new MatTableDataSource(this.listOfData);
 

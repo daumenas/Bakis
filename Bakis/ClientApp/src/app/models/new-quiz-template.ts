@@ -5,5 +5,6 @@ import { BaseQuizQuestion } from './base-quiz-question';
 export abstract class NewQuizTemplate {
   name: string;
   title: string;
+  sightId: number;
   questions: BaseQuizQuestion[];
 }

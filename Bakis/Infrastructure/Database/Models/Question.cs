@@ -15,7 +15,6 @@ namespace Bakis.Infrastructure.Database.Models
         [Required]
         public string Title { get; set; }
         public int CorrectAnswer { get; set; }
-        public int? QuizTemplateId { get; set; }
         public QuizTemplate QuizTemplate { get; set; }
         public ICollection<QuestionChoice> QuestionChoices { get; set; }
     }

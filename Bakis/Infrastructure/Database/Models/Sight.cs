@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,5 +22,6 @@ namespace Bakis.Infrastructure.Database.Models
         [Required]
         public double Longitude { get; set; }
         public ICollection<ConsumerSight> UserSight { get; set; }
+        public virtual QuizTemplate QuizTemplate { get; set; }
     }
 }

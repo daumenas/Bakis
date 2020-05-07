@@ -8,5 +8,6 @@ namespace Bakis.Infrastructure.Database.Repositories
 {
     public interface IQuizTemplateRepository : IRepositoryBase<QuizTemplate>
     {
+        Task<QuizTemplate> GetBySightId(int id);
     }
 }

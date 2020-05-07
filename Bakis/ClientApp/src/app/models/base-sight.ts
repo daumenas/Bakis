@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Time } from '@angular/common';
+import { BaseQuizTemplate } from './base-quiz-template';
 
 export abstract class BaseSight {
   name: string;
@@ -8,5 +9,6 @@ export abstract class BaseSight {
   address: string
   latitude: number;
   longitude: number;
+  quizTemplate: BaseQuizTemplate;
 }
 

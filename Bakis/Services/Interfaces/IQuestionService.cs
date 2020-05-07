@@ -13,6 +13,6 @@ namespace Bakis.Services.Interfaces
         Task<NewQuestionDto> Create(NewQuestionDto newClient);
         Task Update(int id, UpdateQuestionDto updateData);
         Task<bool> Delete(int id);
-        Task<ICollection<GetQuestionDto>> GetAllByQuizId(int id);
+        Task<ICollection<GetQuestionDto>> GetAllEmptyAndByQuizId(int id);
     }
 }

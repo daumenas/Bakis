@@ -13,5 +13,6 @@ namespace Bakis.Services.Interfaces
         Task<NewQuizTemplateDto> Create(NewQuizTemplateDto newQuizTemplate);
         Task Update(int id, UpdateQuizTemplateDto updateData);
         Task<bool> Delete(int id);
+        Task<GetQuizTemplateDto> GetBySightId(int id);
     }
 }

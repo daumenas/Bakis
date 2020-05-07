@@ -12,13 +12,15 @@ namespace Bakis.Services
 {
     public class SightService : ISightService
     {
-        private readonly IRepositoryBase<Sight> _repository;
+        private readonly ISightRepository _repository;
+        private readonly IQuizTemplateService _quizService;
         private readonly IMapper _mapper;
 
-        public SightService(ISightRepository repository, IMapper mapper)
+        public SightService(ISightRepository repository, IMapper mapper, IQuizTemplateService quizService)
         {
             _repository = repository;
             _mapper = mapper;
+            _quizService = quizService;
         }
 
         public async Task<GetSightDto> GetById(int id)

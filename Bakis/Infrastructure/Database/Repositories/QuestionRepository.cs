@@ -16,14 +16,24 @@ namespace Bakis.Infrastructure.Database.Repositories
         }
         public async Task<ICollection<Question>> GetAll()
         {
-            var questions = await _context.Questions.Include(c => c.QuestionChoices).Include(c => c.QuizTemplate).ToArrayAsync();
+            var questions = await _context.Questions.Include(c => c.QuestionChoices)
+                .Include(c => c.QuizTemplate).ToArrayAsync();
+
+            return questions;
+        }
+
+        public async Task<ICollection<Question>> GetAllByQuizId(int quizId)
+        {
+            var questions = await _context.Questions.Include(c => c.QuestionChoices)
+                .Include(c => c.QuizTemplate).Where(c => c.QuizTemplate.Id == quizId).ToArrayAsync();
 
             return questions;
         }
 
         public async Task<Question> GetById(int id)
         {
-            var questions = await _context.Questions.FindAsync(id);
+            var questions = await _context.Questions.Include(c => c.QuestionChoices)
+                .Where(c => c.Id == id).FirstOrDefaultAsync();
 
             return questions;
         }
