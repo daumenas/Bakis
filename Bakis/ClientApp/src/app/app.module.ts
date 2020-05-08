@@ -51,6 +51,7 @@ import { QuizPageComponent } from './components/quiz-page/quiz-page.component';
 import { BaseQuizTemplate } from './models/base-quiz-template';
 import { BaseQuestionComponent } from './components/base-question/base-question.component';
 import { SubmitEventComponent } from './components/submit-event/submit-event.component';
+import { QuizGameComponent } from './components/quiz-game/quiz-game.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -73,7 +74,8 @@ export function tokenGetter() {
     UserEditDialogComponent,
     BaseSightComponent,
     MapComponent,
-    SubmitEventComponent
+    SubmitEventComponent,
+    QuizGameComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

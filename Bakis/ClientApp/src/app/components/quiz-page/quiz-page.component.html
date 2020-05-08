@@ -36,6 +36,8 @@
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let quizTemplate">
           <button mat-flat-button color="primary" (click)="openEditForm(quizTemplate)">Edit</button>
+          &nbsp;
+          <button mat-flat-button color="warn" class="actionButtons" (click)="openPreviewForm(quizTemplate)">Preview</button>
         </td>
       </ng-container>
 
