@@ -197,14 +197,14 @@ export class MapComponent implements AfterViewInit  {
     for (var i = 0; i < markers.length; i++) {
       var meters = this.location.distanceTo(markers[i]._latlng);
       if (meters <= 30) {
-        markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' + listOfData[i].description + '</p>' + ((isSight) ? '' : this.listOfEventData[i].checkedIn + ' / ' + this.listOfEventData[i].amount + ' </p>')
+        markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' + listOfData[i].description + '</p>' + listOfData[i].checkedIn + ((isSight) ? '' : ' / ' + this.listOfEventData[i].amount) + '</p>' 
           + '<button class="checkIn">Check in</button>' +
           ((isSight) ? '<button class="playGame">Play game</button>' : '')
           );
         markers[i].update();
       }
       else {
-        markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' + listOfData[i].description + '</p>' + ((isSight) ? '' : '<br/> ' + this.listOfEventData[i].checkedIn + ' / ' + this.listOfEventData[i].amount + ' </p>')
+        markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' + listOfData[i].description + '</p>' + listOfData[i].checkedIn + ((isSight) ? '' : ' / ' + this.listOfEventData[i].amount) + '</p>' 
           + '<button class="checkIn" disabled>Check in</button>' +
           ((isSight) ? '<button class="playGame" disabled>Play game</button>' : ''));
         markers[i].update();
@@ -237,7 +237,7 @@ export class MapComponent implements AfterViewInit  {
         '<br />' + this.listOfSightData[sight._source.options.id].description +
         '</p>' + '<br />' + this.listOfSightData[sight._source.options.id].checkedIn +
         '<button class="checkIn" style="display: none">Check in</button>');
-      this.eventMarkers[sight._source.options.id].update();
+      this.sightsMarkers[sight._source.options.id].update();
     }
   }
 

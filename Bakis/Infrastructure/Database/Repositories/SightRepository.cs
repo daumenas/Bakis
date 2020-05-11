@@ -26,8 +26,11 @@ namespace Bakis.Infrastructure.Database.Repositories
         {
             var sight = await Context.Sights.Include(c => c.QuizTemplate)
                 .Where(c => c.Id == id).FirstOrDefaultAsync();
-            sight.QuizTemplate.Questions = await Context.Questions.Include(c => c.QuestionChoices)
-                .Where(c => c.QuizTemplate.Id == sight.QuizTemplate.Id).ToArrayAsync();
+            if (sight.QuizTemplate != null)
+            {
+                sight.QuizTemplate.Questions = await Context.Questions.Include(c => c.QuestionChoices)
+                                .Where(c => c.QuizTemplate.Id == sight.QuizTemplate.Id).ToArrayAsync();
+            }
             return sight;
         }
 
