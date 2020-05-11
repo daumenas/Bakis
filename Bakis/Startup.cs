@@ -83,9 +83,9 @@ namespace Bakis
 
                 if (env.IsDevelopment())
                 {
-                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200/");
-                    spa.UseAngularCliServer(npmScript: "start");
-                    spa.Options.StartupTimeout = TimeSpan.FromSeconds(200);
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200/");
+                    //spa.UseAngularCliServer(npmScript: "start");
+                    //spa.Options.StartupTimeout = TimeSpan.FromSeconds(200);
                 }
             });
         }

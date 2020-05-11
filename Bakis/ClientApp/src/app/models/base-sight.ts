@@ -10,5 +10,6 @@ export abstract class BaseSight {
   latitude: number;
   longitude: number;
   quizTemplate: BaseQuizTemplate;
+  checkedIn: number;
 }
 

@@ -145,7 +145,7 @@ export class MapComponent implements AfterViewInit  {
     let tempMarkers = [];
     for (var i = 0; i < this.listOfSightData.length; i++) {
       tempMarkers[i] = L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude],
-        { title: this.listOfSightData[i].id, icon: sightIcon })
+        { title: this.listOfSightData[i].id, icon: sightIcon, id: i })
         .addTo(map)
         .bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>' + 
           '<button class="checkIn" style="display: none">Check in</button>' + '<button class="playGame" style="display: none">Play Game</button>')
@@ -230,6 +230,14 @@ export class MapComponent implements AfterViewInit  {
       this.consumerService.sightCheckIn(sightId).subscribe(data => {
         this.sendReceiveService.pointSender(true);
       });
+      this.listOfSightData[sight._source.options.id].checkedIn = this.listOfSightData[sight._source.options.id].checkedIn + 1;
+      this.sightService.editSight(this.listOfSightData[sight._source.options.id], this.listOfSightData[sight._source.options.id].id).subscribe(() => {
+      });
+      this.sightsMarkers[sight._source.options.id]._popup.setContent('<p>' + this.listOfSightData[sight._source.options.id].name +
+        '<br />' + this.listOfSightData[sight._source.options.id].description +
+        '</p>' + '<br />' + this.listOfSightData[sight._source.options.id].checkedIn +
+        '<button class="checkIn" style="display: none">Check in</button>');
+      this.eventMarkers[sight._source.options.id].update();
     }
   }
 
