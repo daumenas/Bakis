@@ -4,14 +4,16 @@ using Bakis.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bakis.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200508093708_EventAmountEndChecked")]
+    partial class EventAmountEndChecked
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,26 +127,6 @@ namespace Bakis.Migrations
                     b.ToTable("ConsumerEvent");
                 });
 
-            modelBuilder.Entity("Bakis.Infrastructure.Database.Models.ConsumerQuiz", b =>
-                {
-                    b.Property<int>("ConsumerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuizTemplateId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("ConsumerId", "QuizTemplateId");
-
-                    b.HasIndex("QuizTemplateId");
-
-                    b.ToTable("ConsumerQuiz");
-                });
-
             modelBuilder.Entity("Bakis.Infrastructure.Database.Models.ConsumerSight", b =>
                 {
                     b.Property<int>("ConsumerId")
@@ -251,9 +233,6 @@ namespace Bakis.Migrations
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CheckedIn")
-                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -489,21 +468,6 @@ namespace Bakis.Migrations
                     b.HasOne("Bakis.Infrastructure.Database.Models.CityEvent", "CityEvent")
                         .WithMany("UserEvent")
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Bakis.Infrastructure.Database.Models.ConsumerQuiz", b =>
-                {
-                    b.HasOne("Bakis.Infrastructure.Database.Models.Consumer", "Consumer")
-                        .WithMany("UserQuiz")
-                        .HasForeignKey("ConsumerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Bakis.Infrastructure.Database.Models.QuizTemplate", "QuizTemplate")
-                        .WithMany("UserQuiz")
-                        .HasForeignKey("QuizTemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

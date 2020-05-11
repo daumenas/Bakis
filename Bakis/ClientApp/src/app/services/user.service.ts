@@ -47,4 +47,8 @@ export class UserService {
   sightCheckIn(sightId: any) {
     return this.http.get<boolean>(`${this.userApi}/${this.thisUserId}/${sightId}`);
   }
+
+  eventCheckIn(eventId: any) {
+    return this.http.get<boolean>(`${this.userApi}/${this.thisUserId}/${eventId}`);
+  }
 }

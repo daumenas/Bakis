@@ -16,6 +16,9 @@ namespace Bakis.Dtos.CityEvents
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
         public DateTime Time { get; set; }
+        public DateTime EndTime { get; set; }
+        public int Amount { get; set; }
+        public int CheckedIn { get; set; }
         public bool Approval { get; set; }
     }
 }

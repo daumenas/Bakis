@@ -23,5 +23,6 @@ namespace Bakis.Infrastructure.Database.Models
         public double Longitude { get; set; }
         public ICollection<ConsumerSight> UserSight { get; set; }
         public virtual QuizTemplate QuizTemplate { get; set; }
+        public int CheckedIn { get; set; }
     }
 }

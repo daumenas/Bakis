@@ -92,7 +92,6 @@ export class BaseSightComponent implements OnInit, ControlValueAccessor {
 
   addNewSight(newSight: BaseSight) {
     this.sightService.registerSight(newSight).subscribe(() => {
-
     });
   }
 
@@ -110,6 +109,7 @@ export class BaseSightComponent implements OnInit, ControlValueAccessor {
   onSubmit() {
     if (this.data.isEdit == undefined) {
       const sight = this.getFormSightData();
+      sight.checkedIn = 0;
       this.addNewSight(sight);
       if (this.baseSightForm.valid) {
         console.log("Form Submitted!");
@@ -118,11 +118,13 @@ export class BaseSightComponent implements OnInit, ControlValueAccessor {
     }
     else {
       const sight = this.getFormSightData();
+      sight.checkedIn = this.data.sightToUpdate.checkedIn;
       this.editSight(sight);
       if (this.baseSightForm.valid) {
         console.log("Form Submitted!");
       }
       this.sightService.editSight(sight, this.data.sightToUpdate.id);
+      
     }
   }
 

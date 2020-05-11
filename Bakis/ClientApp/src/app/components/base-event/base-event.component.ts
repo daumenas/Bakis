@@ -81,38 +81,50 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
         ]],
         time: ['', [
           Validators.required
+        ]],
+        endTime: ['', [
+          Validators.required
+        ]],
+        amount: ['', [
+          Validators.required
         ]]
       });
     }
     else {
       this.buttonText = this.data.saveEditText;
       this.titleText = "Edit Event";
-        this.baseEventForm = this.formBuilder.group({
-          name: [this.data.eventToUpdate.name, [
+      this.baseEventForm = this.formBuilder.group({
+        name: [this.data.eventToUpdate.name, [
           Validators.required
         ]],
         description: [this.data.eventToUpdate.description, [
           Validators.required
         ]],
-          points: [this.data.eventToUpdate.points, [
+        points: [this.data.eventToUpdate.points, [
           Validators.required
         ]],
-          address: [this.data.eventToUpdate.address, [
+        address: [this.data.eventToUpdate.address, [
           Validators.required
         ]],
-          latitude: [this.data.eventToUpdate.latitude, [
+        latitude: [this.data.eventToUpdate.latitude, [
           Validators.required
         ]],
-          longitude: [this.data.eventToUpdate.longitude, [
+        longitude: [this.data.eventToUpdate.longitude, [
           Validators.required
         ]],
-          dateFrom: [formatDate(this.data.eventToUpdate.dateFrom, "yyyy-MM-dd", "en", "+0400"), [
+        dateFrom: [formatDate(this.data.eventToUpdate.dateFrom, "yyyy-MM-dd", "en", "+0400"), [
           Validators.required
         ]],
-          dateTo: [formatDate(this.data.eventToUpdate.dateTo, "yyyy-MM-dd", "en", "+0400"), [
+        dateTo: [formatDate(this.data.eventToUpdate.dateTo, "yyyy-MM-dd", "en", "+0400"), [
           Validators.required
         ]],
-          time: [formatDate(this.data.eventToUpdate.time, "HH:mm", "en", "+0400"), [
+        time: [formatDate(this.data.eventToUpdate.time, "HH:mm", "en", "+0400"), [
+          Validators.required
+        ]],
+        endTime: [formatDate(this.data.eventToUpdate.endTime, "HH:mm", "en", "+0300"), [
+          Validators.required
+        ]],
+        amount: [this.data.eventToUpdate.amount, [
           Validators.required
         ]]
       });
@@ -131,6 +143,7 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
   }
 
   editEvent(editEvent: BaseEvent) {
+    editEvent.checkedIn = this.data.eventToUpdate.checkedIn;
     this.eventService.editEvent(editEvent, this.data.eventToUpdate.id).subscribe(() => {
     });
   }

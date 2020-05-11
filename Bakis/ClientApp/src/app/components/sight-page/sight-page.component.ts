@@ -22,7 +22,7 @@ export class SightPageComponent implements OnInit {
   listOfData: TableRowSight[] = [];
 
   displayedColumns: string[] = ['id', 'name', 'description', 'points',
-    'address', 'latitude', 'longitude', 'actions'];
+    'address', 'latitude', 'longitude', 'checkedIn', 'actions'];
 
   sightDataSource = new MatTableDataSource(this.listOfData);
 

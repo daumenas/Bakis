@@ -11,5 +11,8 @@ export abstract class BaseEvent {
   dateFrom: Date;
   dateTo: Date;
   time: Date;
+  endTime: Date;
+  amount: number;
+  checkedIn: number;
   approval: boolean;
 }

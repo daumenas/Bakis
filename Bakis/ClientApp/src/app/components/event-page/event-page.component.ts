@@ -24,7 +24,7 @@ export class EventPageComponent implements OnInit {
   saveEditText: string = "Edit event";
 
   displayedColumns: string[] = ['id', 'name', 'description', 'points',
-    'address', 'latitude', 'longitude', 'dateFrom', 'dateTo', 'time', 'actions'];
+    'address', 'latitude', 'longitude', 'dateFrom', 'dateTo', 'time', 'endTime', 'amount', 'checkedIn', 'actions'];
 
   eventDataSource = new MatTableDataSource(this.listOfData);
 
@@ -103,6 +103,19 @@ export class EventPageComponent implements OnInit {
     if (confirm('If you confirm,' + eventToDelete.name + ' will be permanently deleted.')) {
       this.deleteEventById(eventToDelete.id)
     }
+  }
+
+  showFlushConfirm(eventToDelete: TableRowEvent): void {
+    if (confirm('If you confirm,' + eventToDelete.name + ' will have nobody checked in.')) {
+      this.flushEventById(eventToDelete);
+    }
+  }
+
+  flushEventById(event: TableRowEvent) {
+    event.checkedIn = 0;
+    this.eventService.editEvent(event, event.id).subscribe(() => {
+      this.refreshTable();
+    });
   }
 
   deleteEventById(id: number) {

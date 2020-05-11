@@ -17,5 +17,6 @@ namespace Bakis.Dtos.Sights
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public GetQuizTemplateDto QuizTemplate { get; set; }
+        public int CheckedIn { get; set; }
     }
 }

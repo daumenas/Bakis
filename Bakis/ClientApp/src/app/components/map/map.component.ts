@@ -123,16 +123,17 @@ export class MapComponent implements AfterViewInit  {
 
   setEventMarkers(map, eventIcon) {
   let tempEvents = [];
-  for (var i = 0; i < this.listOfEventData.length; i++) {
-    tempEvents[i] = L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude], { icon: eventIcon}).addTo(
-      map)
-      .bindPopup('<p>' + this.listOfEventData[i].name + '<br />' + this.listOfEventData[i].description + '</p>' +
+    for (var i = 0; i < this.listOfEventData.length; i++) {
+      tempEvents[i] = L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude], { icon: eventIcon, id: i }).addTo(
+        map)
+        .bindPopup('<p>' + this.listOfEventData[i].name + '<br />' + this.listOfEventData[i].description + '</p>' + '<br />' + this.listOfEventData[i].checkedIn + '/' + this.listOfEventData[i].amount + '</p>' +
         '<button class="checkIn" style="display: none">Check in</button>')
       .on("popupopen", (a) => {
         var popUp = a.target.getPopup()
         popUp.getElement()
           .querySelector(".checkIn")
           .addEventListener("click", e => {
+            this.setCheckedInEvent(popUp);
             this.getPointsForSight(popUp);
           });
       }) 
@@ -144,9 +145,9 @@ export class MapComponent implements AfterViewInit  {
     let tempMarkers = [];
     for (var i = 0; i < this.listOfSightData.length; i++) {
       tempMarkers[i] = L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude],
-        { title: this.listOfSightData[i].id, icon: sightIcon })
+        { title: this.listOfSightData[i].id, icon: sightIcon, id: i })
         .addTo(map)
-        .bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>' +
+        .bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>' + 
           '<button class="checkIn" style="display: none">Check in</button>' + '<button class="playGame" style="display: none">Play Game</button>')
         .on("popupopen", (a) => {
           var popUp = a.target.getPopup()
@@ -196,14 +197,14 @@ export class MapComponent implements AfterViewInit  {
     for (var i = 0; i < markers.length; i++) {
       var meters = this.location.distanceTo(markers[i]._latlng);
       if (meters <= 30) {
-        markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' + listOfData[i].description + '</p>'
+        markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' + listOfData[i].description + '</p>' + listOfData[i].checkedIn + ((isSight) ? '' : ' / ' + this.listOfEventData[i].amount) + '</p>' 
           + '<button class="checkIn">Check in</button>' +
           ((isSight) ? '<button class="playGame">Play game</button>' : '')
           );
         markers[i].update();
       }
       else {
-        markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' + listOfData[i].description + '</p>'
+        markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' + listOfData[i].description + '</p>' + listOfData[i].checkedIn + ((isSight) ? '' : ' / ' + this.listOfEventData[i].amount) + '</p>' 
           + '<button class="checkIn" disabled>Check in</button>' +
           ((isSight) ? '<button class="playGame" disabled>Play game</button>' : ''));
         markers[i].update();
@@ -211,13 +212,32 @@ export class MapComponent implements AfterViewInit  {
     }
   }
 
+  setCheckedInEvent(event: any) {
+    this.listOfEventData[event._source.options.id].checkedIn = this.listOfEventData[event._source.options.id].checkedIn + 1;
+    this.eventService.editEvent(this.listOfEventData[event._source.options.id], this.listOfEventData[event._source.options.id].id).subscribe(() => {
+    });
+    this.eventMarkers[event._source.options.id]._popup.setContent('<p>' + this.listOfEventData[event._source.options.id].name +
+      '<br />' + this.listOfEventData[event._source.options.id].description +
+      '</p>' + '<br />' + this.listOfEventData[event._source.options.id].checkedIn +
+      '/' + this.listOfEventData[event._source.options.id].amount + '</p>' +
+      '<button class="checkIn" style="display: none">Check in</button>');
+    this.eventMarkers[event._source.options.id].update();
+  }
+
   getPointsForSight(sight: any) {
     if (this.isAuthenticated()) {
       var sightId = sight._source.options.title;
       this.consumerService.sightCheckIn(sightId).subscribe(data => {
-        console.log(data);
         this.sendReceiveService.pointSender(true);
       });
+      this.listOfSightData[sight._source.options.id].checkedIn = this.listOfSightData[sight._source.options.id].checkedIn + 1;
+      this.sightService.editSight(this.listOfSightData[sight._source.options.id], this.listOfSightData[sight._source.options.id].id).subscribe(() => {
+      });
+      this.sightsMarkers[sight._source.options.id]._popup.setContent('<p>' + this.listOfSightData[sight._source.options.id].name +
+        '<br />' + this.listOfSightData[sight._source.options.id].description +
+        '</p>' + '<br />' + this.listOfSightData[sight._source.options.id].checkedIn +
+        '<button class="checkIn" style="display: none">Check in</button>');
+      this.sightsMarkers[sight._source.options.id].update();
     }
   }
 
