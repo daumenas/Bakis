@@ -26,6 +26,12 @@ namespace Bakis.Infrastructure.Database
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<ConsumerQuiz>().HasKey(entity =>
+            new
+            {
+                entity.ConsumerId,
+                entity.QuizTemplateId
+            });
             builder.Entity<ConsumerSight>().HasKey(entity =>
             new
             {
@@ -38,6 +44,14 @@ namespace Bakis.Infrastructure.Database
                 entity.ConsumerId,
                 entity.EventId
             });
+            builder.Entity<ConsumerQuiz>()
+            .HasOne(entity => entity.QuizTemplate)
+            .WithMany(e => e.UserQuiz)
+            .HasForeignKey(entity => entity.QuizTemplateId);
+            builder.Entity<ConsumerQuiz>()
+                .HasOne(entity => entity.Consumer)
+                .WithMany(e => e.UserQuiz)
+                .HasForeignKey(entity => entity.ConsumerId);
 
             builder.Entity<ConsumerSight>()
                 .HasOne(entity => entity.Sight)

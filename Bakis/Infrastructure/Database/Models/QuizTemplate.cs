@@ -13,5 +13,6 @@ namespace Bakis.Infrastructure.Database.Models
         [ForeignKey("Sight")]
         public int SightId { get; set; }
         public virtual Sight Sight { get; set; }
+        public ICollection<ConsumerQuiz> UserQuiz { get; set; }
     }
 }
