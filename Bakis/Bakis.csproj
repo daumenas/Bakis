@@ -45,6 +45,8 @@
     <Compile Remove="Migrations\20200308112745_NewMigration.Designer.cs" />
     <Compile Remove="Migrations\20200308113051_NewMigration.cs" />
     <Compile Remove="Migrations\20200308113051_NewMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200511133140_SightCheckedTwo.cs" />
+    <Compile Remove="Migrations\20200511133140_SightCheckedTwo.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

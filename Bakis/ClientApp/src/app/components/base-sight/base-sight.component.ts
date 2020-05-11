@@ -92,12 +92,10 @@ export class BaseSightComponent implements OnInit, ControlValueAccessor {
 
   addNewSight(newSight: BaseSight) {
     this.sightService.registerSight(newSight).subscribe(() => {
-
     });
   }
 
   editSight(editSight: BaseSight) {
-    console.log(editSight);
     this.sightService.editSight(editSight, this.data.sightToUpdate.id).subscribe(() => {
     });
   }
