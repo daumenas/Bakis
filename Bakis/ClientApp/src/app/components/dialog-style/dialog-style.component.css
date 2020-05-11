@@ -14,3 +14,21 @@
 .mat-card:not([class*=mat-elevation-z]) {
   box-shadow: none;
 }
+
+.answerBar {
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px
+}
+
+.question {
+  margin-top: 10px
+}
+
+.questionPagination {
+  text-align: right
+}
+
+.quizCenter {
+  text-align: center
+}

@@ -9,6 +9,7 @@ import { BaseQuizTemplate } from '../../models/base-quiz-template';
 import { NewQuizTemplate } from '../../models/new-quiz-template';
 import { BaseQuizTemplateComponent } from '../base-quiz-template/base-quiz-template.component';
 import { QuestionService } from '../../services/question.service';
+import { QuizGameComponent } from '../quiz-game/quiz-game.component';
 
 
 @Component({
@@ -95,6 +96,21 @@ export class QuizPageComponent implements OnInit {
         isEdit: true,
         quizTemplateToUpdate: this.quizTemplateToUpdate,
         quizId: this.quizTemplateToUpdate.id
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.refreshTable();
+    });
+  }
+
+  openPreviewForm(quizTemplate: BaseQuizTemplate): void {
+    this.quizTemplateToUpdate = Object.assign(quizTemplate);
+    const dialogRef = this.dialog.open(QuizGameComponent, {
+      width: '550px',
+      data: {
+        quizId: this.quizTemplateToUpdate.id,
+        quizName: this.quizTemplateToUpdate.title
       }
     });
 

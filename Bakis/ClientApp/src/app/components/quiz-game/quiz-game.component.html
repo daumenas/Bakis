@@ -1,0 +1,13 @@
+<div class="box-wrapper">
+  <div class="event-wrapper quizCenter" fxLayout="row" fxLayoutAlign="center center">
+    <div class="questionPagination">{{displayedNowNumber + "/" + displayedEndNumber }}</div>
+        <mat-card-title>{{data.quizName}}</mat-card-title>
+        <mat-divider></mat-divider>
+        <h5 class="question">{{question}}</h5>
+        <mat-divider></mat-divider>
+        <button mat-flat-button color="primary" class="answerBar" value="{{answer.id}}" (click)="checkAnswer(answer.id, answer.title)"
+                *ngFor="let answer of answers">
+          {{answer.title}}
+        </button>
+  </div>
+</div>
