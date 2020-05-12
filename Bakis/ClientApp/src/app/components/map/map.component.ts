@@ -5,10 +5,11 @@ import { TableRowEvent } from '../../models/table-row-event';
 import { CityEventService } from '../../services/city-event.service';
 import "leaflet/dist/images/marker-shadow.png";
 import { LocationService } from '../../services/location.service';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { SendReceiveService } from '../../services/send-receive.service';
 import { UserService } from '../../services/user.service';
 import { AuthenticationService } from '../../services/authentication.service';
+import { PictureGameComponent } from '../picture-game/picture-game.component';
 
 @Component({
   selector: 'app-map',
@@ -31,6 +32,7 @@ export class MapComponent implements AfterViewInit  {
     private sightService: LocationService,
     private sendReceiveService: SendReceiveService,
     private elementRef: ElementRef,
+    public dialog: MatDialog,
     private auth: AuthenticationService) { }
 
   ngAfterViewInit(): void {
@@ -244,7 +246,14 @@ export class MapComponent implements AfterViewInit  {
   playGame() {
     if (this.isAuthenticated()) {
       this.sendReceiveService.pointSender(true);
-      alert("PLAY GAME");
+      const dialogRef = this.dialog.open(PictureGameComponent, {
+          width: '550px',
+          data: {
+          }
+        });
+        dialogRef.afterClosed().subscribe(() => {
+          this.sendReceiveService.pointSender(true);
+        });
     }
   }
 

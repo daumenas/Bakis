@@ -1,0 +1,17 @@
+<div class="gameContainer">
+  <h5>Take a picture of your location!</h5>
+  <form [formGroup]="pictureForm" class="picture-form">
+    <button type="button" class="cameraButton" mat-fab color="primary" (click)="fileInput.click()">
+      <mat-icon class="buttonText">camera</mat-icon>
+      <input #fileInput formControlName="picture" type="file" accept="image/*" capture="environment"
+             style="display:none;" (change)="onSelectFile($event)">
+    </button>
+    <br />
+    <br />
+    <img [src]="url" height="200">
+    <br />
+    <br />
+    <button type="submit" [mat-dialog-close] mat-stroked-button color="accent" (click)="onSubmit()"
+            [disabled]="!pictureForm.valid" class="btn-block">Submit</button>
+  </form>
+</div>
