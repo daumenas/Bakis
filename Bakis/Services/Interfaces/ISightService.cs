@@ -13,5 +13,6 @@ namespace Bakis.Services.Interfaces
         Task<NewSightDto> Create(NewSightDto newSight);
         Task Update(int id, UpdateSightDto updateData);
         Task<bool> Delete(int id);
+        Task<ICollection<GetSightDto>> GetAllByUserId(int id);
     }
 }

@@ -18,5 +18,7 @@ namespace Bakis.Dtos.Sights
         public double Longitude { get; set; }
         public GetQuizTemplateDto QuizTemplate { get; set; }
         public int CheckedIn { get; set; }
+        public bool IsCheckedIn { get; set; }
+        public ICollection<ConsumerSight> UserSight { get; set; }
     }
 }

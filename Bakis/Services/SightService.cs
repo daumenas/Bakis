@@ -13,14 +13,14 @@ namespace Bakis.Services
     public class SightService : ISightService
     {
         private readonly ISightRepository _repository;
-        private readonly IQuizTemplateService _quizService;
+        private readonly IConsumersService _consumersService;
         private readonly IMapper _mapper;
 
-        public SightService(ISightRepository repository, IMapper mapper, IQuizTemplateService quizService)
+        public SightService(ISightRepository repository, IMapper mapper, IConsumersService consumersService)
         {
             _repository = repository;
             _mapper = mapper;
-            _quizService = quizService;
+            _consumersService = consumersService;
         }
 
         public async Task<GetSightDto> GetById(int id)
@@ -74,6 +74,26 @@ namespace Bakis.Services
 
             _mapper.Map(updateData, itemToUpdate);
             await _repository.Update(itemToUpdate);
+        }
+
+        public async Task<ICollection<GetSightDto>> GetAllByUserId(int id)
+        {
+            var sights = await _repository.GetAll();
+            var sightsDto = _mapper.Map<GetSightDto[]>(sights);
+            var consumer = await _consumersService.GetById(id);
+            foreach (var sight in sightsDto)
+            {
+                sight.IsCheckedIn = false;
+                foreach (var userSight in consumer.UserSight)
+                {
+                    if(userSight.SightId == sight.Id)
+                    {
+                        sight.IsCheckedIn = true;
+                        break;
+                    }
+                }
+            }
+            return sightsDto;
         }
     }
 }
