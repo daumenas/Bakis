@@ -1,0 +1,13 @@
+.gameContainer {
+  text-align: center
+}
+
+.cameraButton {
+  width: 100px;
+  height: 100px
+}
+
+.buttonText {
+  font-size: 50px;
+  transform: translate(-12px, -14px);
+}

@@ -9,7 +9,9 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { SendReceiveService } from '../../services/send-receive.service';
 import { UserService } from '../../services/user.service';
 import { AuthenticationService } from '../../services/authentication.service';
+import { PictureGameComponent } from '../picture-game/picture-game.component';
 import { QuizGameComponent } from '../quiz-game/quiz-game.component';
+
 
 @Component({
   selector: 'app-map',
@@ -247,6 +249,15 @@ export class MapComponent implements AfterViewInit  {
 
   playGame(sight: any) {
     if (this.isAuthenticated()) {
+      this.sendReceiveService.pointSender(true);
+      const dialogRef = this.dialog.open(PictureGameComponent, {
+          width: '550px',
+          data: {
+          }
+        });
+        dialogRef.afterClosed().subscribe(() => {
+          this.sendReceiveService.pointSender(true);
+        });
       if (this.listOfSightData[sight._source.options.id].quizTemplate != null) {
         const dialogRef = this.dialog.open(QuizGameComponent, {
           width: '550px',

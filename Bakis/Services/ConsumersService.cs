@@ -111,7 +111,7 @@ namespace Bakis.Services
             _mapper.Map(updateConsumerData, consumerToUpdate);
 
             await _repository.Update(consumerToUpdate);
-            await _userService.Update(id, updateConsumerData);
+            //await _userService.Update(id, updateConsumerData);
         }
 
         public async Task<bool> EmailExists(string email)
