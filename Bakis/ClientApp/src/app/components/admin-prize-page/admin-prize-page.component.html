@@ -1,0 +1,54 @@
+<div>
+  <br>
+  <button mat-flat-button class="top-of-page-actions" color="primary" (click)=openAddForm()>Add new prize</button>
+  <br>
+  <mat-form-field class="top-of-page-actions">
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search...">
+  </mat-form-field>
+  <br>
+</div>
+
+<div class="table-wrapper">
+  <div class="table-scroll">
+    <table mat-table [dataSource]="prizeDataSource">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let prize">{{prize.id}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="picture">
+        <th mat-header-cell *matHeaderCellDef> Picture </th>
+        <td mat-cell *matCellDef="let prize"><img src="{{prize.picture}}" height="100"> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let prize"> {{prize.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let prize"> {{prize.description}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="points">
+        <th mat-header-cell *matHeaderCellDef> Points </th>
+        <td mat-cell *matCellDef="let prize"> {{prize.points}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let prize">
+          <button mat-flat-button color="primary" class="actionButtons" (click)="openEditForm(prize)">Edit</button>
+          &nbsp;
+          <button mat-flat-button color="warn" class="actionButtons" (click)="showDeleteConfirm(prize)">Delete</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>
+<mat-paginator #prizePaginator [pageSize]="10" [pageSizeOptions]="[10, 20, 40]">></mat-paginator>

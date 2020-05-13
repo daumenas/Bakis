@@ -13,14 +13,19 @@ import { RoleGuardService } from './services/role-guard.service';
 import { QuizPageComponent } from './components/quiz-page/quiz-page.component';
 import { SubmitEventComponent } from './components/submit-event/submit-event.component';
 import { EventManagerRoleGuardService } from './services/event-manager-role-guard.service';
+import { AdminPrizePageComponent } from './components/admin-prize-page/admin-prize-page.component';
+import { BasePrizeComponent } from './components/base-prize/base-prize.component';
+import { UserPrizePageComponent } from './components/user-prize-page/user-prize-page.component';
+import { UserRoleGuardService } from './services/user-role-guard.service';
 
 export const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'login', component: LogInComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'register', component: RegisterComponent }
 ];
 
 export const APP_ROUTES_CONSUMER: Routes = [
+  { path: 'userprizepage', component: UserPrizePageComponent, canActivate: [UserRoleGuardService] }
 ];
 
 export const APP_ROUTES_ADMIN: Routes = [
@@ -29,7 +34,9 @@ export const APP_ROUTES_ADMIN: Routes = [
   { path: 'quizpage', component: QuizPageComponent, canActivate: [RoleGuardService] },
   { path: 'sightpage', component: SightPageComponent, canActivate: [RoleGuardService] },
   { path: 'baseevent', component: BaseEventComponent, canActivate: [RoleGuardService] },
-  { path: 'editevent', component: UserEditDialogComponent, canActivate: [RoleGuardService] }
+  { path: 'adminprizepage', component: AdminPrizePageComponent, canActivate: [RoleGuardService] },
+  { path: 'baseprize', component: BasePrizeComponent, canActivate: [RoleGuardService] },
+  { path: 'editevent', component: UserEditDialogComponent, canActivate: [RoleGuardService], }
 ];
 
 export const APP_ROUTES_EVENT_MANAGER: Routes = [

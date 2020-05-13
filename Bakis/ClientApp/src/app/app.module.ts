@@ -53,6 +53,9 @@ import { BaseQuestionComponent } from './components/base-question/base-question.
 import { SubmitEventComponent } from './components/submit-event/submit-event.component';
 import { QuizGameComponent } from './components/quiz-game/quiz-game.component';
 import { PictureGameComponent } from './components/picture-game/picture-game.component';
+import { AdminPrizePageComponent } from './components/admin-prize-page/admin-prize-page.component';
+import { BasePrizeComponent } from './components/base-prize/base-prize.component';
+import { UserPrizePageComponent } from './components/user-prize-page/user-prize-page.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -77,7 +80,10 @@ export function tokenGetter() {
     MapComponent,
     SubmitEventComponent,
     QuizGameComponent,
-    PictureGameComponent
+    PictureGameComponent,
+    AdminPrizePageComponent,
+    BasePrizeComponent,
+    UserPrizePageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

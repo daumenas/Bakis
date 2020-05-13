@@ -1,0 +1,17 @@
+<mat-card-header>
+  <mat-card-title>Prizes</mat-card-title>
+  <div class="points" *ngIf="loggedIn()">
+    Points: {{points}}
+  </div>
+</mat-card-header>
+<br />
+<div class="cardContainer">
+    <mat-card *ngFor="let prize of listOfData" class="cardStyle" (click)="getPrize(prize)">
+      <div style="width: 118px">
+        <img src="{{prize.picture}}" height=100px class="imageStyle"/>
+        <mat-card-title class="cardTitle">{{prize.name}}</mat-card-title>
+        <mat-card-subtitle class="cardSubtitle">{{prize.description}}</mat-card-subtitle>
+        <mat-card-subtitle class="cardSubtitle">{{prize.points}}</mat-card-subtitle>
+      </div>
+    </mat-card>
+</div>
