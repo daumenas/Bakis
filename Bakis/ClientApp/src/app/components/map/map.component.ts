@@ -10,6 +10,8 @@ import { SendReceiveService } from '../../services/send-receive.service';
 import { UserService } from '../../services/user.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { PictureGameComponent } from '../picture-game/picture-game.component';
+import { QuizGameComponent } from '../quiz-game/quiz-game.component';
+
 
 @Component({
   selector: 'app-map',
@@ -135,8 +137,7 @@ export class MapComponent implements AfterViewInit  {
         popUp.getElement()
           .querySelector(".checkIn")
           .addEventListener("click", e => {
-            this.setCheckedInEvent(popUp);
-            this.getPointsForSight(popUp);
+            this.getPointsForEvent(popUp);
           });
       }) 
     }
@@ -164,7 +165,7 @@ export class MapComponent implements AfterViewInit  {
           popUp.getElement()
             .querySelector(".playGame")
             .addEventListener("click", e => {
-              this.playGame();
+              this.playGame(popUp);
             });
         }) 
     }
@@ -201,20 +202,20 @@ export class MapComponent implements AfterViewInit  {
       if (meters <= 30) {
         markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' + listOfData[i].description + '</p>' + listOfData[i].checkedIn + ((isSight) ? '' : ' / ' + this.listOfEventData[i].amount) + '</p>' 
           + '<button class="checkIn">Check in</button>' +
-          ((isSight) ? '<button class="playGame">Play game</button>' : '')
+          ((isSight) ? '<button ' + ((this.listOfSightData[i].quizTemplate == null) ? 'style="display: none"' : '') + ' class="playGame">Play game</button>' : '')
           );
         markers[i].update();
       }
       else {
         markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' + listOfData[i].description + '</p>' + listOfData[i].checkedIn + ((isSight) ? '' : ' / ' + this.listOfEventData[i].amount) + '</p>' 
           + '<button class="checkIn" disabled>Check in</button>' +
-          ((isSight) ? '<button class="playGame" disabled>Play game</button>' : ''));
+          ((isSight) ? '<button ' + ((this.listOfSightData[i].quizTemplate == null) ? 'style="display: none"' : '') + ' class="playGame" disabled>Play game</button>' : ''));
         markers[i].update();
       }
     }
   }
 
-  setCheckedInEvent(event: any) {
+  getPointsForEvent(event: any) {
     this.listOfEventData[event._source.options.id].checkedIn = this.listOfEventData[event._source.options.id].checkedIn + 1;
     this.eventService.editEvent(this.listOfEventData[event._source.options.id], this.listOfEventData[event._source.options.id].id).subscribe(() => {
     });
@@ -222,28 +223,31 @@ export class MapComponent implements AfterViewInit  {
       '<br />' + this.listOfEventData[event._source.options.id].description +
       '</p>' + '<br />' + this.listOfEventData[event._source.options.id].checkedIn +
       '/' + this.listOfEventData[event._source.options.id].amount + '</p>' +
-      '<button class="checkIn" style="display: none">Check in</button>');
+      '<button class="checkIn" style="display: none">Check in</button>' );
     this.eventMarkers[event._source.options.id].update();
+    this.eventMarkers[event._source.options.id];
+    
   }
 
   getPointsForSight(sight: any) {
+    console.log(this.listOfSightData[sight._source.options.id]);
     if (this.isAuthenticated()) {
       var sightId = sight._source.options.title;
       this.consumerService.sightCheckIn(sightId).subscribe(data => {
         this.sendReceiveService.pointSender(true);
-      });
-      this.listOfSightData[sight._source.options.id].checkedIn = this.listOfSightData[sight._source.options.id].checkedIn + 1;
-      this.sightService.editSight(this.listOfSightData[sight._source.options.id], this.listOfSightData[sight._source.options.id].id).subscribe(() => {
+        this.listOfSightData[sight._source.options.id].checkedIn = this.listOfSightData[sight._source.options.id].checkedIn + 1;
+        this.sightService.editSight(this.listOfSightData[sight._source.options.id], this.listOfSightData[sight._source.options.id].id).subscribe(() => {
+        });
       });
       this.sightsMarkers[sight._source.options.id]._popup.setContent('<p>' + this.listOfSightData[sight._source.options.id].name +
         '<br />' + this.listOfSightData[sight._source.options.id].description +
-        '</p>' + '<br />' + this.listOfSightData[sight._source.options.id].checkedIn +
-        '<button class="checkIn" style="display: none">Check in</button>');
+        '</p>' + '<br />' + this.listOfSightData[sight._source.options.id].checkedIn + '</p>' +
+        '<button class="checkIn" style="display: none">Check in</button>' + '<button class="playGame ' + ((this.listOfSightData[sight._source.options.id].quizTemplate == null) ? ' style="display: none"' : '') + '">Play Game</button>')
       this.sightsMarkers[sight._source.options.id].update();
     }
   }
 
-  playGame() {
+  playGame(sight: any) {
     if (this.isAuthenticated()) {
       this.sendReceiveService.pointSender(true);
       const dialogRef = this.dialog.open(PictureGameComponent, {
@@ -254,7 +258,19 @@ export class MapComponent implements AfterViewInit  {
         dialogRef.afterClosed().subscribe(() => {
           this.sendReceiveService.pointSender(true);
         });
+      if (this.listOfSightData[sight._source.options.id].quizTemplate != null) {
+        const dialogRef = this.dialog.open(QuizGameComponent, {
+          width: '550px',
+          data: {
+            quizId: this.listOfSightData[sight._source.options.id].quizTemplate.id,
+            quizName: this.listOfSightData[sight._source.options.id].quizTemplate.title
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(() => {
+          this.sendReceiveService.pointSender(true);
+        });
+      }
     }
   }
-
 }
