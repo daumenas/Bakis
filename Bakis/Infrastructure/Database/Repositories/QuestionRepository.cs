@@ -45,7 +45,7 @@ namespace Bakis.Infrastructure.Database.Repositories
                 CorrectAnswer = newQuestion.CorrectAnswer,
                 Name = newQuestion.Name,
                 Title = newQuestion.Title,
-                Type = newQuestion.Type
+                Points = newQuestion.Points
             };
             _context.Questions.Add(createQuestion);
             await _context.SaveChangesAsync();

@@ -56,7 +56,7 @@ export class BaseQuestionComponent implements OnInit, ControlValueAccessor {
         name: ['', [
           Validators.required
         ]],
-        type: ['', [
+        points: ['', [
           Validators.required
         ]],
         title: ['', [
@@ -75,7 +75,7 @@ export class BaseQuestionComponent implements OnInit, ControlValueAccessor {
           name: ['', [
             Validators.required
           ]],
-          type: ['', [
+          points: ['', [
             Validators.required
           ]],
           title: ['', [

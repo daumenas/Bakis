@@ -11,8 +11,8 @@ namespace Bakis.Infrastructure.Database.Repositories
     public class ConsumerRepository : IConsumerRepository
     {
         protected readonly AppDbContext Context;
-        private readonly IRepositoryBase<ConsumerSight> _consumerSightRepository;
-        public ConsumerRepository(AppDbContext context, IRepositoryBase<ConsumerSight> consumerSightRepository)
+        private readonly IConsumerSightRepository _consumerSightRepository;
+        public ConsumerRepository(AppDbContext context, IConsumerSightRepository consumerSightRepository)
         {
             Context = context;
             _consumerSightRepository = consumerSightRepository;
@@ -71,25 +71,10 @@ namespace Bakis.Infrastructure.Database.Repositories
             return await Context.Consumers.Select(consumer => consumer.Email).ContainsAsync(email);
         }
 
-        public async Task<bool> UpdateVisited(int id, int sightId)
+        public async Task<ConsumerSight> IsCheckedIn(int id, int sightId)
         {
-            var sight = await Context.Sights.SingleOrDefaultAsync(sight => sight.Id == sightId);
-            var consumer = await Context.Consumers.SingleOrDefaultAsync(cons => cons.Id == id);
-
-            var consumerSight = new ConsumerSight()
-            {
-                    ConsumerId = consumer.Id,
-                    SightId = sight.Id,
-                    Consumer = consumer,
-                    Sight = sight,
-            };
-
-            var newConsumerSightId = await _consumerSightRepository.Create(consumerSight);
-            consumer.Points += sight.Points;
-            Context.Consumers.Attach(consumer);
-            var changes = await Context.SaveChangesAsync();
-
-            return changes > 0;
+            var consumerSight = await Context.ConsumerSight.SingleOrDefaultAsync(c => c.ConsumerId == id & c.SightId == sightId);
+            return consumerSight;
         }
     }
 }
