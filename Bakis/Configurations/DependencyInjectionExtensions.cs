@@ -1,4 +1,5 @@
-﻿using Bakis.Infrastructure.Database.Repositories;
+﻿using Bakis.Infrastructure.Database.Models;
+using Bakis.Infrastructure.Database.Repositories;
 using Bakis.Services;
 using Bakis.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,7 +27,8 @@ namespace Bakis.Configurations
                 .AddScoped<ISightRepository, SightRepository>()
                 .AddScoped<IQuizTemplateRepository, QuizTemplateRepository>()
                 .AddScoped<IQuestionRepository, QuestionRepository>()
-                .AddScoped<IQuestionChoiceRepository, QuestionChoiceRepository>();
+                .AddScoped<IQuestionChoiceRepository, QuestionChoiceRepository>()
+                .AddScoped<IRepositoryBase<ConsumerSight>, ConsumerSightRepository>();
         }
 
         public static IServiceCollection AddApplicationDependencies(this IServiceCollection service)

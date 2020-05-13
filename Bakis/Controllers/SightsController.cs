@@ -32,6 +32,16 @@ namespace Bakis.Controllers
             return Ok(sights);
         }
 
+        // GET: api/Sights/byuser/1
+        [HttpGet("byuser{id}")]
+        [Produces(typeof(GetSightDto[]))]
+        public async Task<IActionResult> GetAllByUserId(int id)
+        {
+            var sights = await _sightService.GetAllByUserId(id);
+
+            return Ok(sights);
+        }
+
         // GET: api/Sights/5
         [HttpGet("{id}")]
         [Produces(typeof(GetSightDto))]

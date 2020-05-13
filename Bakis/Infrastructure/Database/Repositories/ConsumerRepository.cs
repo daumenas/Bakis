@@ -11,11 +11,11 @@ namespace Bakis.Infrastructure.Database.Repositories
     public class ConsumerRepository : IConsumerRepository
     {
         protected readonly AppDbContext Context;
-        private readonly UserManager<User> _userManager;
-        public ConsumerRepository(AppDbContext context, UserManager<User> userManager)
+        private readonly IRepositoryBase<ConsumerSight> _consumerSightRepository;
+        public ConsumerRepository(AppDbContext context, IRepositoryBase<ConsumerSight> consumerSightRepository)
         {
             Context = context;
-            _userManager = userManager;
+            _consumerSightRepository = consumerSightRepository;
         }
 
         public async Task<ICollection<Consumer>> GetAll()
@@ -28,6 +28,9 @@ namespace Bakis.Infrastructure.Database.Repositories
         public async Task<Consumer> GetById(int id)
         {
             var consumer = await Context.Consumers.FindAsync(id);
+            consumer.UserSight = await Context.ConsumerSight.Where(c => c.ConsumerId == id).ToArrayAsync();
+            consumer.UserEvent = await Context.ConsumerEvent.Where(c => c.ConsumerId == id).ToArrayAsync();
+            consumer.UserQuiz = await Context.ConsumerQuiz.Where(c => c.ConsumerId == id).ToArrayAsync();
 
             return consumer;
         }
@@ -73,18 +76,16 @@ namespace Bakis.Infrastructure.Database.Repositories
             var sight = await Context.Sights.SingleOrDefaultAsync(sight => sight.Id == sightId);
             var consumer = await Context.Consumers.SingleOrDefaultAsync(cons => cons.Id == id);
 
-            var consumerSight = new List<ConsumerSight>()
+            var consumerSight = new ConsumerSight()
             {
-                new ConsumerSight
-                {
+                    ConsumerId = consumer.Id,
+                    SightId = sight.Id,
                     Consumer = consumer,
                     Sight = sight,
-                }
             };
 
-            consumer.UserSight = consumerSight;
+            var newConsumerSightId = await _consumerSightRepository.Create(consumerSight);
             consumer.Points += sight.Points;
-
             Context.Consumers.Attach(consumer);
             var changes = await Context.SaveChangesAsync();
 
