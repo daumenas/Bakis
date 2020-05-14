@@ -71,10 +71,16 @@ namespace Bakis.Infrastructure.Database.Repositories
             return await Context.Consumers.Select(consumer => consumer.Email).ContainsAsync(email);
         }
 
-        public async Task<ConsumerSight> IsCheckedIn(int id, int sightId)
+        public async Task<ConsumerSight> IsCheckedInSight(int id, int sightId)
         {
             var consumerSight = await Context.ConsumerSight.SingleOrDefaultAsync(c => c.ConsumerId == id & c.SightId == sightId);
             return consumerSight;
+        }
+
+        public async Task<ConsumerEvent> IsCheckedInEvent(int id, int eventId)
+        {
+            var consumerEvent = await Context.ConsumerEvent.SingleOrDefaultAsync(c => c.ConsumerId == id & c.EventId == eventId);
+            return consumerEvent;
         }
     }
 }

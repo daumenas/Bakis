@@ -76,6 +76,15 @@ namespace Bakis.Controllers
             return NoContent();
         }
 
+        // PUT: api/Consumers/5/11
+        [HttpGet("{id}/{eventId}")]
+        public async Task<IActionResult> GetEventCheckIn(int id, int eventId)
+        {
+            await _consumersService.UpdateVisitedEvent(id, eventId);
+
+            return NoContent();
+        }
+
         // POST: api/Consumers
         [HttpPost]
         [Produces(typeof(NewConsumerDto))]

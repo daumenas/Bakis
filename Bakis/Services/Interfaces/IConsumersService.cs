@@ -15,5 +15,6 @@ namespace Bakis.Services.Interfaces
         Task<bool> Delete(int id);
         Task<bool> EmailExists(string email);
         Task<bool> UpdateVisited(int id, int sightId, bool isGamePlayed, int points);
+        Task<bool> UpdateVisitedEvent(int id, int eventId);
     }
 }
