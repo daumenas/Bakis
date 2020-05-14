@@ -19,6 +19,7 @@ namespace Bakis.Dtos.Sights
         public GetQuizTemplateDto QuizTemplate { get; set; }
         public int CheckedIn { get; set; }
         public bool IsCheckedIn { get; set; }
+        public bool IsGamePlayed { get; set; }
         public ICollection<ConsumerSight> UserSight { get; set; }
     }
 }
