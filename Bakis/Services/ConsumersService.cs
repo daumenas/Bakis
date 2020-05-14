@@ -18,6 +18,7 @@ namespace Bakis.Services
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
         private readonly ISightRepository _sightRepository;
+        private readonly ICityEventRepository _cityEventRepository;
         private readonly IConsumerSightRepository _consumerSightRepository;
 
 
@@ -26,6 +27,7 @@ namespace Bakis.Services
             IMapper mapper,
             IUserService userService,
             ISightRepository sightRepository,
+            ICityEventRepository cityEventRepository,
             IConsumerSightRepository consumerSightRepository
             )
         {
@@ -33,6 +35,7 @@ namespace Bakis.Services
             _mapper = mapper;
             _userService = userService;
             _sightRepository = sightRepository;
+            _cityEventRepository = cityEventRepository;
             _consumerSightRepository = consumerSightRepository;
         }
 
@@ -137,7 +140,7 @@ namespace Bakis.Services
             var consumer = await GetById(id);
             if (consumer.UserSight != null)
             {
-                consumerSight = await IsCheckedIn(id, sightId);
+                consumerSight = await IsCheckedInSight(id, sightId);
                 if (consumerSight != null)
                 {
                     isCheckedIn = true;
@@ -160,19 +163,24 @@ namespace Bakis.Services
             }
             else if (isCheckedIn == false && isGamePlayed == true)
             {
-                consumer = await CheckIn(consumerSight, consumer, sight.Points);
+                consumer = await CheckIn(consumer, sight.Points);
                 consumer = await PlayGame(consumerSight, consumer, points);
             }
             else
             {
-                consumer = await CheckIn(consumerSight, consumer, sight.Points);
+                consumer = await CheckIn(consumer, sight.Points);
             }
             return await UpdatePoints(id, consumer);
         }
 
-        public async Task<ConsumerSight> IsCheckedIn(int userId, int sightId)
+        public async Task<ConsumerSight> IsCheckedInSight(int userId, int sightId)
         {
-            return await _repository.IsCheckedIn(userId, sightId);
+            return await _repository.IsCheckedInSight(userId, sightId);
+        }
+
+        public async Task<ConsumerEvent> IsCheckedInEvent(int userId, int eventId)
+        {
+            return await _repository.IsCheckedInEvent(userId, eventId);
         }
 
         public async Task<bool> UpdatePoints(int id, GetConsumerDto updateConsumerPoints)
@@ -183,10 +191,9 @@ namespace Bakis.Services
             return true;
         }
 
-        public async Task<GetConsumerDto> CheckIn(ConsumerSight consumerSight, GetConsumerDto currentConsumer,
-            int sightPoints)
+        public async Task<GetConsumerDto> CheckIn(GetConsumerDto currentConsumer,int Points)
         {
-            currentConsumer.Points += sightPoints;
+            currentConsumer.Points += Points;
             return currentConsumer;
         }
 
@@ -196,6 +203,31 @@ namespace Bakis.Services
             currentConsumer.Points += points;
             await _consumerSightRepository.Update(consumerSight);
             return currentConsumer;
+        }
+
+        public async Task<bool> UpdateVisitedEvent(int id, int eventId)
+        {
+            var consumerEvent = new ConsumerEvent();
+            var cityEvent = await _cityEventRepository.GetById(eventId);
+            var consumer = await GetById(id);
+            if (consumer.UserEvent != null)
+            {
+                consumerEvent = await IsCheckedInEvent(id, eventId);
+            }
+            if (consumerEvent == null)
+            {
+                consumer.UserEvent = new List<ConsumerEvent>()
+                {
+                    new ConsumerEvent {
+                        ConsumerId = id,
+                        EventId = eventId
+                    }
+                };
+                consumer = await CheckIn(consumer, cityEvent.Points);
+                return await UpdatePoints(id, consumer);
+            }
+            return false;
+            
         }
 
 

@@ -216,8 +216,13 @@ export class MapComponent implements AfterViewInit  {
   }
 
   getPointsForEvent(event: any) {
-    this.listOfEventData[event._source.options.id].checkedIn = this.listOfEventData[event._source.options.id].checkedIn + 1;
-    this.eventService.editEvent(this.listOfEventData[event._source.options.id], this.listOfEventData[event._source.options.id].id).subscribe(() => {
+    console.log(this.listOfEventData[event._source.options.id]);
+    var eventId = this.listOfEventData[event._source.options.id].id;
+    this.consumerService.eventCheckIn(eventId).subscribe(data => {
+      this.sendReceiveService.pointSender(true);
+      this.listOfEventData[event._source.options.id].checkedIn = this.listOfEventData[event._source.options.id].checkedIn + 1;
+      this.eventService.editEvent(this.listOfEventData[event._source.options.id], this.listOfEventData[event._source.options.id].id).subscribe(() => {
+      });
     });
     this.eventMarkers[event._source.options.id]._popup.setContent('<p>' + this.listOfEventData[event._source.options.id].name +
       '<br />' + this.listOfEventData[event._source.options.id].description +
