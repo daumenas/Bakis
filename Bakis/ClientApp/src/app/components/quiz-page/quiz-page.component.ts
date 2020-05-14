@@ -10,6 +10,7 @@ import { NewQuizTemplate } from '../../models/new-quiz-template';
 import { BaseQuizTemplateComponent } from '../base-quiz-template/base-quiz-template.component';
 import { QuestionService } from '../../services/question.service';
 import { QuizGameComponent } from '../quiz-game/quiz-game.component';
+import { SendReceiveService } from '../../services/send-receive.service';
 
 
 @Component({
@@ -37,10 +38,14 @@ export class QuizPageComponent implements OnInit {
     public dialog: MatDialog,
     private questionService: QuestionService,
     private quizService: QuizService,
+    private sendReceiveService: SendReceiveService
   ) { }
 
   ngOnInit() {
     this.refreshTable();
+    this.sendReceiveService.pointsReceive$.subscribe((data) => {
+      this.refreshTable();
+    });
   }
 
   refreshTable() {
@@ -84,7 +89,6 @@ export class QuizPageComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.refreshTable();
     });
   }
 
@@ -98,9 +102,7 @@ export class QuizPageComponent implements OnInit {
         quizId: this.quizTemplateToUpdate.id
       }
     });
-
     dialogRef.afterClosed().subscribe(() => {
-      this.refreshTable();
     });
   }
 
@@ -115,7 +117,6 @@ export class QuizPageComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.refreshTable();
     });
   }
 
