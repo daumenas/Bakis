@@ -1,0 +1,68 @@
+table.mat-table {
+  width: 100%;
+}
+
+td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:last-of-type {
+  max-width: 10em;
+}
+
+.actionButtons {
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+  padding-left: 10px;
+}
+
+.mat-card {
+  margin-bottom: 20px;
+  margin-right: 20px;
+  display: inline-block;
+}
+
+.mat-card:hover{
+  box-shadow: 0px 6px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+.points {
+  position: absolute;
+  z-index: 1500;
+  background-color: white;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: 2px solid black;
+  text-align: left;
+  right: 10px;
+  border-radius: 25px;
+}
+
+.cardSubtitle {
+  margin-bottom: 1px;
+  word-wrap: break-word;
+}
+
+.cardTitle {
+  font-size: 14px;
+  margin-top: 1px;
+  word-wrap: break-word;
+}
+
+.imageStyle {
+  max-width: 118px;
+}
+
+.cardStyle {
+  width: 150px;
+  height: 230px;
+}
+
+.cardContainer {
+  text-align: center;
+}
+
+
+
+
+
+

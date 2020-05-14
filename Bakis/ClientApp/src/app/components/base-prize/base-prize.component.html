@@ -1,0 +1,32 @@
+<div class="box-wrapper">
+  <div class="event-wrapper" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card class="box">
+      <mat-card-header>
+        <mat-card-title>{{titleText}}</mat-card-title>
+      </mat-card-header>
+
+      <form [formGroup]="basePrizeForm" class="event-form">
+        <mat-card-content>
+          <mat-form-field class="full-width">
+            <input matInput maxlength="18" formControlName="name" placeholder="Name">
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput maxlength="18" formControlName="description" placeholder="Description">
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="points" type="number" placeholder="Points">
+          </mat-form-field>
+        </mat-card-content>
+        <button type="button" mat-raised-button (click)="fileInput.click()">Choose Image</button>
+        <input hidden formControlName="picture" (change)="onSelectFile($event)" #fileInput type="file" id="file">
+        <br />
+        <br />
+        <img [src]="url" height="80">
+        <br />
+        <br />
+        <button type="submit" [mat-dialog-close] mat-stroked-button color="accent" (click)="onSubmit()" [disabled]="!basePrizeForm.valid" class="btn-block">{{buttonText}}</button>
+
+      </form>
+    </mat-card>
+  </div>
+</div>

@@ -49,6 +49,17 @@ export class NavMenuComponent {
     return false;
   }
 
+  checkIfUser() {
+    if (this.check()) {
+      const user = this.auth.decode();
+      if (user.role === "User") {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
+
   logout() {
     this.auth.logout();
     this.router.navigate(['/']);
