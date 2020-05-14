@@ -35,5 +35,8 @@ export class LocationService {
     return this.http.delete(`${this.sightApi}/${id}`);
   }
 
+  getAllSightsByUserId(id: number): Observable<TableRowSight[]> {
+    return this.http.get<TableRowSight[]>(`${this.sightApi}/byuser/${id}`);
+  }
 
 }

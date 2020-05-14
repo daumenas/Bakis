@@ -17,6 +17,7 @@ export class QuizGameComponent implements OnInit {
   correctAnswer: number;
   question: string;
   pointsGained: number;
+  pointValue: number;
   incorrectText: string;
   questionNumber: number;
   displayedNowNumber: number;
@@ -42,6 +43,7 @@ export class QuizGameComponent implements OnInit {
     this.displayedNowNumber = this.startingQuestion + 1;
     this.questionService.getAllQuestionsByQuizId(this.data.quizId, this.data.quizName).subscribe(questions => {
       this.correctAnswer = questions[this.startingQuestion].correctAnswer;
+      this.pointValue = questions[this.startingQuestion].points;
       this.question = questions[this.startingQuestion].name;
       this.answers = questions[this.startingQuestion].questionChoices;
       this.questionNumber = questions.length - 1;
@@ -50,8 +52,9 @@ export class QuizGameComponent implements OnInit {
   }
 
   checkAnswer(id, title) {
-      if (this.correctAnswer === id) {
-        this.snackbar.open("Correct! +{POINTS}", null, {
+    if (this.correctAnswer === id) {
+      this.pointsGained = this.pointsGained + this.pointValue;
+      this.snackbar.open("Correct! You collected: " + this.pointsGained, null, {
           duration: 1500
         });
       } else {
@@ -60,7 +63,7 @@ export class QuizGameComponent implements OnInit {
         });
     }
     if (this.startingQuestion === this.questionNumber) {
-      this.dialogRef.close();
+      this.dialogRef.close(this.pointsGained);
     } else {
       this.startingQuestion = this.startingQuestion + 1;
       this.loadQuestion();
