@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bakis.Dtos.Consumers;
+using Bakis.Dtos.Sights;
 using Bakis.Infrastructure.Database.Models;
 using Bakis.Infrastructure.Database.Repositories;
 using Bakis.Services.Interfaces;
@@ -16,17 +17,23 @@ namespace Bakis.Services
         private readonly IConsumerRepository _repository;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
+        private readonly ISightRepository _sightRepository;
+        private readonly IConsumerSightRepository _consumerSightRepository;
 
 
         public ConsumersService(
             IConsumerRepository repository,
             IMapper mapper,
-            IUserService userService
+            IUserService userService,
+            ISightRepository sightRepository,
+            IConsumerSightRepository consumerSightRepository
             )
         {
             _repository = repository;
             _mapper = mapper;
             _userService = userService;
+            _sightRepository = sightRepository;
+            _consumerSightRepository = consumerSightRepository;
         }
 
         public async Task<GetConsumerDto> GetById(int id)
@@ -111,7 +118,10 @@ namespace Bakis.Services
             _mapper.Map(updateConsumerData, consumerToUpdate);
 
             await _repository.Update(consumerToUpdate);
-            //await _userService.Update(id, updateConsumerData);
+            if(updateConsumerData.Role != null)
+            {
+                await _userService.Update(id, updateConsumerData);
+            }
         }
 
         public async Task<bool> EmailExists(string email)
@@ -119,9 +129,75 @@ namespace Bakis.Services
             return await _repository.EmailExists(email);
         }
 
-        public async Task<bool> UpdateVisited(int id, int sightId)
+        public async Task<bool> UpdateVisited(int id, int sightId, bool isGamePlayed, int points)
         {
-            return await _repository.UpdateVisited(id, sightId);
+            bool isCheckedIn = false;
+            var consumerSight = new ConsumerSight();
+            var sight = await _sightRepository.GetById(sightId);
+            var consumer = await GetById(id);
+            if (consumer.UserSight != null)
+            {
+                consumerSight = await IsCheckedIn(id, sightId);
+                if (consumerSight != null)
+                {
+                    isCheckedIn = true;
+                }
+            }
+            if (consumerSight == null)
+            {
+                consumer.UserSight = new List<ConsumerSight>()
+                {
+                    new ConsumerSight {
+                        ConsumerId = id,
+                        SightId = sightId,
+                        IsGamePlayed = isGamePlayed
+                    }
+                };
+            }
+            if (isCheckedIn)
+            {
+                consumer = await PlayGame(consumerSight, consumer, points);
+            }
+            else if (isCheckedIn == false && isGamePlayed == true)
+            {
+                consumer = await CheckIn(consumerSight, consumer, sight.Points);
+                consumer = await PlayGame(consumerSight, consumer, points);
+            }
+            else
+            {
+                consumer = await CheckIn(consumerSight, consumer, sight.Points);
+            }
+            return await UpdatePoints(id, consumer);
         }
+
+        public async Task<ConsumerSight> IsCheckedIn(int userId, int sightId)
+        {
+            return await _repository.IsCheckedIn(userId, sightId);
+        }
+
+        public async Task<bool> UpdatePoints(int id, GetConsumerDto updateConsumerPoints)
+        {
+            var consumerToUpdate = await _repository.GetById(id);
+            _mapper.Map(updateConsumerPoints, consumerToUpdate);
+            await _repository.Update(consumerToUpdate);
+            return true;
+        }
+
+        public async Task<GetConsumerDto> CheckIn(ConsumerSight consumerSight, GetConsumerDto currentConsumer,
+            int sightPoints)
+        {
+            currentConsumer.Points += sightPoints;
+            return currentConsumer;
+        }
+
+        public async Task<GetConsumerDto> PlayGame(ConsumerSight consumerSight, GetConsumerDto currentConsumer, int points)
+        {
+            consumerSight.IsGamePlayed = true;
+            currentConsumer.Points += points;
+            await _consumerSightRepository.Update(consumerSight);
+            return currentConsumer;
+        }
+
+
     }
 }

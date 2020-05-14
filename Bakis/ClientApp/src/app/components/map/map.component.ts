@@ -233,7 +233,7 @@ export class MapComponent implements AfterViewInit  {
     console.log(this.listOfSightData[sight._source.options.id]);
     if (this.isAuthenticated()) {
       var sightId = sight._source.options.title;
-      this.consumerService.sightCheckIn(sightId).subscribe(data => {
+      this.consumerService.sightCheckIn(sightId, false, 0).subscribe(data => {
         this.sendReceiveService.pointSender(true);
         this.listOfSightData[sight._source.options.id].checkedIn = this.listOfSightData[sight._source.options.id].checkedIn + 1;
         this.sightService.editSight(this.listOfSightData[sight._source.options.id], this.listOfSightData[sight._source.options.id].id).subscribe(() => {

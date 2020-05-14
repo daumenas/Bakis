@@ -44,8 +44,8 @@ export class UserService {
     return this.http.get<boolean>(`${this.userApi}/${email}/exists`);
   }
 
-  sightCheckIn(sightId: any) {
-    return this.http.get<boolean>(`${this.userApi}/${this.thisUserId}/${sightId}`);
+  sightCheckIn(sightId: any, isGamePlayed: boolean, points: number) {
+    return this.http.get<boolean>(`${this.userApi}/${this.thisUserId}/${sightId}/${isGamePlayed}/${points}`);
   }
 
   eventCheckIn(eventId: any) {

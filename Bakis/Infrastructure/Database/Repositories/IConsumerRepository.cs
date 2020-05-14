@@ -10,6 +10,6 @@ namespace Bakis.Infrastructure.Database.Repositories
     {
         Task<Consumer> FindByEmail(string email);
         Task<bool> EmailExists(string email);
-        Task<bool> UpdateVisited(int id, int sightId);
+        Task<ConsumerSight> IsCheckedIn(int id, int sightId);
     }
 }

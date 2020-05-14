@@ -9,9 +9,9 @@ namespace Bakis.Infrastructure.Database.Models
     public class Question : BaseEntity
     {
         [Required]
-        public string Type { get; set; }
-        [Required]
         public string Name { get; set; }
+        [Required]
+        public int Points { get; set; }
         [Required]
         public string Title { get; set; }
         public int CorrectAnswer { get; set; }

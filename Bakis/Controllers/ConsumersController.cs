@@ -67,11 +67,11 @@ namespace Bakis.Controllers
             return NoContent();
         }
 
-        // PUT: api/Consumers/5/11
-        [HttpGet("{id}/{sightId}")]
-        public async Task<IActionResult> Get(int id, int sightId)
+        // PUT: api/Consumers/5/11/true/1
+        [HttpGet("{id}/{sightId}/{isGamePlayed}/{points}")]
+        public async Task<IActionResult> Get(int id, int sightId, bool isGamePlayed, int points)
         {
-            await _consumersService.UpdateVisited(id, sightId);
+            await _consumersService.UpdateVisited(id, sightId, isGamePlayed, points);
 
             return NoContent();
         }
