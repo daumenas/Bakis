@@ -6,6 +6,7 @@ import { TableRowPrize } from '../../models/table-row-prize';
 import { BasePrize } from '../../models/base-prize';
 import { PrizeService } from '../../services/prize.service';
 import { BasePrizeComponent } from '../base-prize/base-prize.component';
+import { SendReceiveService } from '../../services/send-receive.service';
 
 @Component({
   selector: 'app-admin-prize-page',
@@ -26,10 +27,14 @@ export class AdminPrizePageComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private prizeService: PrizeService,
+    private sendReceiveService: SendReceiveService
   ) { }
 
   ngOnInit() {
     this.refreshTable();
+    this.sendReceiveService.pointsReceive$.subscribe((data) => {
+      this.refreshTable();
+    });
   }
 
   refreshTable() {

@@ -6,6 +6,7 @@ import { TableRowSight } from "../../models/table-row-sight";
 import { BaseSightComponent } from '../base-sight/base-sight.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { BaseSight } from '../../models/base-sight';
+import { SendReceiveService } from '../../services/send-receive.service';
 
 
 @Component({
@@ -31,10 +32,14 @@ export class SightPageComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private sightService: LocationService,
+    private sendReceiveService: SendReceiveService
   ) { }
 
   ngOnInit() {
     this.refreshTable();
+    this.sendReceiveService.pointsReceive$.subscribe((data) => {
+      this.refreshTable();
+    });
   }
 
   refreshTable() {
@@ -74,7 +79,6 @@ export class SightPageComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.refreshTable();
     });
   }
 
@@ -90,7 +94,6 @@ export class SightPageComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.refreshTable();
     });
   }
 

@@ -27,6 +27,7 @@ export class BaseSightComponent implements OnInit, ControlValueAccessor {
     public snackbar: MatSnackBar,
     private sightService: LocationService,
     private formBuilder: FormBuilder,
+    private sendReceiveService: SendReceiveService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.latlngService.latLngReceive$.subscribe((data) => {
@@ -92,11 +93,13 @@ export class BaseSightComponent implements OnInit, ControlValueAccessor {
 
   addNewSight(newSight: BaseSight) {
     this.sightService.registerSight(newSight).subscribe(() => {
+      this.sendReceiveService.pointSender(true);
     });
   }
 
   editSight(editSight: BaseSight) {
     this.sightService.editSight(editSight, this.data.sightToUpdate.id).subscribe(() => {
+      this.sendReceiveService.pointSender(true);
     });
   }
 

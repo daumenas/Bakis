@@ -12,16 +12,19 @@ export class SendReceiveService {
   sightReceive$: Observable<any>;
   eventReceive$: Observable<any>;
   pointsReceive$: Observable<any>;
+  dialogReceive$: Observable<any>;
   private subjectLatLng = new Subject<any>();
   private subjectSight = new Subject<any>();
   private subjectEvent = new Subject<any>();
   private subjectPoints = new Subject<any>();
+  private subjectDialog = new Subject<any>();
 
   constructor() {
     this.latLngReceive$ = this.subjectLatLng.asObservable();
     this.sightReceive$ = this.subjectSight.asObservable();
     this.eventReceive$ = this.subjectEvent.asObservable();
     this.pointsReceive$ = this.subjectPoints.asObservable();
+    this.dialogReceive$ = this.subjectDialog.asObservable();
   }
 
   latLngSender(data) {
@@ -38,5 +41,9 @@ export class SendReceiveService {
 
   pointSender(data) {
     this.subjectPoints.next(data);
+  }
+
+  dialogSender(data) {
+    this.subjectDialog.next(data);
   }
 }

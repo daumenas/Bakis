@@ -14,6 +14,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BaseQuestionComponent } from '../base-question/base-question.component';
 import { BaseSight } from '../../models/base-sight';
 import { LocationService } from '../../services/location.service';
+import { SendReceiveService } from '../../services/send-receive.service';
 
 
 @Component({
@@ -46,6 +47,7 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
     public dialog: MatDialog,
     public snackbar: MatSnackBar,
     private formBuilder: FormBuilder,
+    private sendReceiveService: SendReceiveService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
   }
@@ -97,11 +99,13 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
 
   addNewQuizTemplate(newQuiz: NewQuizTemplate) {
     this.quizTemplateService.registerQuizTemplate(newQuiz).subscribe(() => {
+      this.sendReceiveService.pointSender(true);
     });
   }
 
   editQuizTemplate(editQuiz: NewQuizTemplate) {
     this.quizTemplateService.editQuizTemplates(editQuiz, this.data.quizTemplateToUpdate.id).subscribe(() => {
+      this.sendReceiveService.pointSender(true);
     });
   }
 

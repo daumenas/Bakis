@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TableRowUser } from "../../models/table-row-user";
 import { UserEditDialogComponent } from '../user-edit-dialog/user-edit-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { SendReceiveService } from '../../services/send-receive.service';
 
 @Component({
   selector: 'app-consumer-page',
@@ -34,11 +35,14 @@ export class ConsumerPageComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private userService: UserService,
+    private sendReceiveService: SendReceiveService
   ) { }
 
   ngOnInit() {
     this.refreshTable();
-    
+    this.sendReceiveService.pointsReceive$.subscribe((data) => {
+      this.refreshTable();
+    });
   }
 
   refreshTable() {
@@ -91,14 +95,6 @@ export class ConsumerPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(() => {
       this.refreshTable();
-    });
-  }
-
-  editUser(user: TableRowUser, id: number) {
-    this.userService.editUser(user, id).subscribe(() => {
-      this.refreshTable();
-    }, error => {
-      this.showUnexpectedError();
     });
   }
 
