@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TableRowEvent } from "../../models/table-row-event";
 import { BaseEventComponent } from '../base-event/base-event.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { SendReceiveService } from '../../services/send-receive.service';
 
 
 @Component({
@@ -33,10 +34,14 @@ export class EventPageComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private eventService: CityEventService,
+    private sendReceiveService: SendReceiveService
   ) { }
 
   ngOnInit() {
     this.refreshTable();
+    this.sendReceiveService.pointsReceive$.subscribe((data) => {
+      this.refreshTable();
+    });
   }
 
   refreshTable() {
@@ -73,7 +78,6 @@ export class EventPageComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.refreshTable();
     });
   }
 
@@ -95,7 +99,6 @@ export class EventPageComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.refreshTable();
     });
   }
 

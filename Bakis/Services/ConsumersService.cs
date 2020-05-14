@@ -144,6 +144,11 @@ namespace Bakis.Services
                 if (consumerSight != null)
                 {
                     isCheckedIn = true;
+                    if(consumerSight.IsGamePlayed)
+                    {
+                        return false;
+                    }
+
                 }
             }
             if (consumerSight == null)

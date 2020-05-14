@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from "@angular/router"
 import { AuthenticationService } from '../../services/authentication.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { SendReceiveService } from '../../services/send-receive.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
     private userService: UserService,
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
+    private sendReceiveService: SendReceiveService,
   ) {
     this.maxDate = new Date();
     const currentYear = new Date().getFullYear();
@@ -77,6 +79,9 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
 
   addNewUser(newUser: NewUser) {
     this.userService.registerUser(newUser).subscribe(() => {
+      if (this.adminCheckBool) {
+        this.sendReceiveService.pointSender(true);
+      }
     });
   }
 

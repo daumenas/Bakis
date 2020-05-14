@@ -84,11 +84,16 @@ namespace Bakis.Services
             foreach (var sight in sightsDto)
             {
                 sight.IsCheckedIn = false;
+                sight.IsGamePlayed = false;
                 foreach (var userSight in consumer.UserSight)
                 {
                     if(userSight.SightId == sight.Id)
                     {
                         sight.IsCheckedIn = true;
+                        if (userSight.IsGamePlayed)
+                        {
+                            sight.IsGamePlayed = true;
+                        }
                         break;
                     }
                 }

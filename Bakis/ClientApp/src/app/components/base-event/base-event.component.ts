@@ -33,6 +33,7 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
     private eventService: CityEventService,
     private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder,
+    private sendReceiveService: SendReceiveService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.latlngService.latLngReceive$.subscribe((data) => {
@@ -139,12 +140,14 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
 
   addNewEvent(newEvent: BaseEvent) {
     this.eventService.registerEvent(newEvent).subscribe(() => {
+      this.sendReceiveService.pointSender(true);
     });
   }
 
   editEvent(editEvent: BaseEvent) {
     editEvent.checkedIn = this.data.eventToUpdate.checkedIn;
     this.eventService.editEvent(editEvent, this.data.eventToUpdate.id).subscribe(() => {
+      this.sendReceiveService.pointSender(true);
     });
   }
 

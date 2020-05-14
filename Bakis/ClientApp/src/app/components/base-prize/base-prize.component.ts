@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { HomeComponent } from '../../home/home.component';
 import { PrizeService } from '../../services/prize.service';
 import { BasePrize } from '../../models/base-prize';
+import { SendReceiveService } from '../../services/send-receive.service';
 
 @Component({
   selector: 'app-base-prize',
@@ -24,6 +25,7 @@ export class BasePrizeComponent implements OnInit {
     public snackbar: MatSnackBar,
     private prizeService: PrizeService,
     private formBuilder: FormBuilder,
+    private sendReceiveService: SendReceiveService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {}
 
@@ -73,11 +75,13 @@ export class BasePrizeComponent implements OnInit {
 
   addNewPrize(newPrize: BasePrize) {
     this.prizeService.registerPrize(newPrize).subscribe(() => {
+      this.sendReceiveService.pointSender(true);
     });
   }
 
   editPrize(editPrize: BasePrize) {
     this.prizeService.editPrize(editPrize, this.data.prizeToUpdate.id).subscribe(() => {
+      this.sendReceiveService.pointSender(true);
     });
   }
 
