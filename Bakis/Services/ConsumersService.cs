@@ -169,7 +169,7 @@ namespace Bakis.Services
             else if (isCheckedIn == false && isGamePlayed == true)
             {
                 consumer = await CheckIn(consumer, sight.Points);
-                consumer = await PlayGame(consumerSight, consumer, points);
+                consumer = await PlayGame(consumer.UserSight.First(), consumer, points);
             }
             else
             {
@@ -191,8 +191,10 @@ namespace Bakis.Services
         public async Task<bool> UpdatePoints(int id, GetConsumerDto updateConsumerPoints)
         {
             var consumerToUpdate = await _repository.GetById(id);
-            _mapper.Map(updateConsumerPoints, consumerToUpdate);
+            consumerToUpdate.Points = updateConsumerPoints.Points;
             await _repository.Update(consumerToUpdate);
+            _mapper.Map(updateConsumerPoints, consumerToUpdate);
+            await _repository.Create(consumerToUpdate);
             return true;
         }
 

@@ -33,7 +33,7 @@ namespace Bakis.Controllers
         }
 
         // GET: api/Sights/byuser/1
-        [HttpGet("byuser{id}")]
+        [HttpGet("byuser/{id}")]
         [Produces(typeof(GetSightDto[]))]
         public async Task<IActionResult> GetAllByUserId(int id)
         {

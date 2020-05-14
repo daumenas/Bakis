@@ -83,8 +83,8 @@ namespace Bakis.Services
             var consumer = await _consumersService.GetById(id);
             foreach (var sight in sightsDto)
             {
-                sight.IsCheckedIn = false;
-                sight.IsGamePlayed = false;
+                //sight.IsCheckedIn = false;
+                //sight.IsGamePlayed = false;
                 foreach (var userSight in consumer.UserSight)
                 {
                     if(userSight.SightId == sight.Id)

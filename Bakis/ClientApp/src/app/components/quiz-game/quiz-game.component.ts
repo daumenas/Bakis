@@ -5,6 +5,7 @@ import { QuestionService } from '../../services/question.service';
 import { BaseQuizQuestion } from '../../models/base-quiz-question';
 import { BaseQuizQuestionChoice } from '../../models/base-quiz-question-choice';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NewQuizQuestionChoice } from '../../models/new-quiz-question-choice';
 
 @Component({
   selector: 'app-quiz-game',
@@ -22,6 +23,7 @@ export class QuizGameComponent implements OnInit {
   questionNumber: number;
   displayedNowNumber: number;
   displayedEndNumber: number;
+  correctAnswerTitle: NewQuizQuestionChoice;
   answers: BaseQuizQuestionChoice[]; 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
@@ -31,8 +33,15 @@ export class QuizGameComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.dialogRef.disableClose = true;
+    this.dialogRef.backdropClick().subscribe(() => {
+      if (confirm('Are you sure you want to close it? This game will not be available anymore.')) {
+        this.dialogRef.close();
+      }
+    });
     this.question = "";
     this.answers;
+
     this.startingQuestion = 0;
     this.pointsGained = 0;
     this.incorrectText = "";
@@ -51,14 +60,15 @@ export class QuizGameComponent implements OnInit {
     })
   }
 
-  checkAnswer(id, title) {
+  checkAnswer(id) {
     if (this.correctAnswer === id) {
       this.pointsGained = this.pointsGained + this.pointValue;
       this.snackbar.open("Correct! You collected: " + this.pointsGained, null, {
           duration: 1500
         });
-      } else {
-        this.snackbar.open("Incorrect, Correct answer: " + title, null, {
+    } else {
+      this.correctAnswerTitle = this.answers.find(e => e.id == this.correctAnswer);
+      this.snackbar.open("Incorrect, Correct answer: " + this.correctAnswerTitle.title, null, {
           duration: 1500
         });
     }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { BaseUser } from '../../models/base-user';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-picture-game',
@@ -16,9 +17,16 @@ export class PictureGameComponent implements OnInit {
   private thisUserId: number;
 
   constructor(private formBuilder: FormBuilder,
-    private userService: UserService) { }
+    private userService: UserService,
+    public dialogRef: MatDialogRef<PictureGameComponent>) { }
 
   ngOnInit(): void {
+    this.dialogRef.disableClose = true;
+    this.dialogRef.backdropClick().subscribe(() => {
+      if (confirm('Are you sure you want to close it?')) {
+        this.dialogRef.close();
+      }
+    });
     this.pictureForm = this.formBuilder.group({
       picture: ['', [
         Validators.required
@@ -28,11 +36,7 @@ export class PictureGameComponent implements OnInit {
 
   onSubmit(): any {
     this.thisUserId = JSON.parse(localStorage.getItem('userId'));
-    this.userService.getUser().subscribe(user => {
-      this.user = user;
-      this.user.points = user.points + 10;
-      this.userService.editUser(this.user, this.thisUserId).subscribe();
-    })
+    this.dialogRef.close(true);
   };
 
   onSelectFile(event) { 
