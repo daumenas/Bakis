@@ -29,6 +29,16 @@ namespace Bakis.Infrastructure.Database
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<QuizTemplate>()
+                .HasMany(c => c.Questions)
+                .WithOne(e => e.QuizTemplate)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<Question>()
+                .HasMany(c => c.QuestionChoices)
+                .WithOne(e => e.Question)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.Entity<ConsumerQuiz>().HasKey(entity =>
             new
             {

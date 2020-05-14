@@ -29,7 +29,6 @@ namespace Bakis.Services
         public async Task<GetQuizTemplateDto> GetById(int id)
         {
             var quizTemplate = await _repository.GetById(id);
-            quizTemplate.Questions = await _questionRepository.GetAllByQuizId(id);
             var quizTemplateDto = _mapper.Map<GetQuizTemplateDto>(quizTemplate);
 
             quizTemplateDto.SightName = quizTemplate.Sight.Name;
@@ -79,8 +78,6 @@ namespace Bakis.Services
 
             if (item == null)
                 return false;
-
-            item.Questions = await _questionRepository.GetAllByQuizId(item.Id);
 
             var deleted = await _repository.Delete(item);
             return deleted;

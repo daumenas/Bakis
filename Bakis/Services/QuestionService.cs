@@ -12,7 +12,7 @@ namespace Bakis.Services
 {
     public class QuestionService : IQuestionService
     {
-        private readonly IRepositoryBase<Question> _repository;
+        private readonly IQuestionRepository _repository;
         private readonly IMapper _mapper;
 
         public QuestionService(IQuestionRepository repository, IMapper mapper)
@@ -84,16 +84,8 @@ namespace Bakis.Services
 
         public async Task<ICollection<GetQuestionDto>> GetAllEmptyAndByQuizId(int id)
         {
-            var questions = await _repository.GetAll();
-            List<Question> unselectedQuestion = new List<Question>();
-            foreach (var question in questions)
-            {
-                if (question.QuizTemplate.Id == id || question.QuizTemplate == null)
-                {
-                    unselectedQuestion.Add(question);
-                }
-            }
-            var questionsDto = _mapper.Map<GetQuestionDto[]>(unselectedQuestion);
+            var questions = await _repository.GetAllByQuizId(id);
+            var questionsDto = _mapper.Map<GetQuestionDto[]>(questions);
 
             return questionsDto;
         }

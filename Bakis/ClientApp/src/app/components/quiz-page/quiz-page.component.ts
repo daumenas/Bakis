@@ -111,6 +111,7 @@ export class QuizPageComponent implements OnInit {
     const dialogRef = this.dialog.open(QuizGameComponent, {
       width: '550px',
       data: {
+        questions: this.quizTemplateToUpdate.questions,
         quizId: this.quizTemplateToUpdate.id,
         quizName: this.quizTemplateToUpdate.title
       }

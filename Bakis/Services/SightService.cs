@@ -39,6 +39,14 @@ namespace Bakis.Services
             return sightsDto;
         }
 
+        public async Task<ICollection<GetSightDto>> GetAllWithoutQuiz()
+        {
+            var sights = await _repository.GetAllWithoutQuiz();
+            var sightsDto = _mapper.Map<GetSightDto[]>(sights);
+
+            return sightsDto;
+        }
+
         public async Task<NewSightDto> Create(NewSightDto newSightDto)
         {
             if (newSightDto == null)
@@ -83,8 +91,6 @@ namespace Bakis.Services
             var consumer = await _consumersService.GetById(id);
             foreach (var sight in sightsDto)
             {
-                sight.IsCheckedIn = false;
-                sight.IsGamePlayed = false;
                 foreach (var userSight in consumer.UserSight)
                 {
                     if(userSight.SightId == sight.Id)

@@ -21,6 +21,12 @@ namespace Bakis.Infrastructure.Database.Repositories
 
             return sights;
         }
+        public async Task<ICollection<Sight>> GetAllWithoutQuiz()
+        {
+            var sights = await Context.Sights.Include(c => c.QuizTemplate).Where(c => c.QuizTemplate == null).ToArrayAsync();
+
+            return sights;
+        }
 
         public async Task<Sight> GetById(int id)
         {

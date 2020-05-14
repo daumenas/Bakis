@@ -8,5 +8,6 @@ namespace Bakis.Infrastructure.Database.Repositories
 {
     public interface ISightRepository : IRepositoryBase<Sight>
     {
+        Task<ICollection<Sight>> GetAllWithoutQuiz();
     }
 }
