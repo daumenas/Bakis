@@ -21,5 +21,6 @@ namespace Bakis.Dtos.CityEvents
         public int Amount { get; set; }
         public int CheckedIn { get; set; }
         public bool Approval { get; set; }
+        public int CreatedBy { get; set; }
     }
 }
