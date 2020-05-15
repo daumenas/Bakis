@@ -28,9 +28,13 @@ export class MapComponent implements AfterViewInit  {
   private location;
   private sightsMarkers = [];
   private eventMarkers = [];
+  sightSelectionIcon: any;
   sightIcon: any;
-  markerIcon: any;
+  sightCheckIcon: any;
+  sightPlayedIcon: any;
   eventIcon: any;
+  eventCheckIcon: any;
+  markerIcon: any;
 
   constructor(
     private eventService: CityEventService,
@@ -46,22 +50,13 @@ export class MapComponent implements AfterViewInit  {
       [53.739685, 27.380221],
       [56.636485, 20.439204]
     ];
-    var iconSettings = L.Icon.extend({
-      options: {
-        iconAnchor: [20, 50],
-        popupAnchor: [0, -25]
-      }
-    });
-    this.markerIcon = new iconSettings({ iconUrl: '../../../assets/marker-icon.png' })
-    this.eventIcon = new iconSettings({ iconUrl: '../../../assets/event.png' })
-    this.sightIcon = new iconSettings({ iconUrl: '../../../assets/telescope.png' });
     let map = L.map('map', {
       center: [54.896870, 23.886105],
       zoom: 15,
       maxBounds: maxBounds,
       minZoom: 8
     });
-
+    this.loadIcons();
     this.initMap(map);
 
     map.on('click', e => {
@@ -90,7 +85,21 @@ export class MapComponent implements AfterViewInit  {
         this.sendReceiveService.sightSender(this.sightsMarkers);
       });
     }
-    
+  }
+
+  loadIcons() {
+    var iconSettings = L.Icon.extend({
+      options: {
+        iconAnchor: [20, 50],
+        popupAnchor: [0, -25]
+      }
+    });
+    this.markerIcon = new iconSettings({ iconUrl: '../../../assets/marker-icon.png' })
+    this.eventIcon = new iconSettings({ iconUrl: '../../../assets/event.png' })
+    this.eventCheckIcon = new iconSettings({ iconUrl: '../../../assets/eventCheck.png' })
+    this.sightIcon = new iconSettings({ iconUrl: '../../../assets/telescope.png' });
+    this.sightCheckIcon = new iconSettings({ iconUrl: '../../../assets/telescopeCheck.png' });
+    this.sightPlayedIcon = new iconSettings({ iconUrl: '../../../assets/telescopeDone.png' });
   }
 
   private initMap(map): void {
@@ -161,8 +170,9 @@ export class MapComponent implements AfterViewInit  {
   setSightMarkers(map) {
     let tempMarkers = [];
     for (var i = 0; i < this.listOfSightData.length; i++) {
+      this.setMarkerIcon(this.listOfSightData[i]);
       tempMarkers[i] = L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude],
-        { title: this.listOfSightData[i].id, icon: this.sightIcon, id: i })
+        { title: this.listOfSightData[i].id, icon: this.sightSelectionIcon, id: i })
         .addTo(map)
         .bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>' + 
           '<button class="checkIn" style="display: none">Check in</button>' + '<button class="playGame" style="display: none">Play Game</button>')
@@ -184,6 +194,16 @@ export class MapComponent implements AfterViewInit  {
         }) 
     }
     this.sightsMarkers = tempMarkers;
+  }
+
+  setMarkerIcon(sight: UserSight) {
+    if (sight.isGamePlayed) {
+      this.sightSelectionIcon = this.sightPlayedIcon;
+    } else if (sight.isCheckedIn) {
+      this.sightSelectionIcon = this.sightCheckIcon;
+    } else {
+      this.sightSelectionIcon = this.sightIcon;
+    }
   }
 
   getDistance(isSight) {
@@ -268,6 +288,9 @@ export class MapComponent implements AfterViewInit  {
         '<button class="checkIn" style="display: none">Check in</button>' + ((this.listOfSightData[sight._source.options.id].isGamePlayed) ?
           '<button class="playGame" style="display: none">Play Game</button>' : '<button class="playGame">Play Game</button>'))
         this.listOfSightData[sight._source.options.id].isCheckedIn = true;
+        this.setMarkerIcon(this.listOfSightData[sight._source.options.id]);
+        this.sightsMarkers[sight._source.options.id].setIcon(this.sightSelectionIcon);
+        this.sightsMarkers[sight._source.options.id].update();
       }
     }
   }
@@ -336,6 +359,8 @@ export class MapComponent implements AfterViewInit  {
       '</p>' + '<br />' + this.listOfSightData[sight._source.options.id].checkedIn + '</p>' +
       ((this.listOfSightData[sight._source.options.id].isCheckedIn) ? '<button class="checkIn" style="display: none">Check in</button>' :
         '<button class="checkIn">Check in</button>') + '<button style="display: none" class="playGame">Play Game</button>')
+    this.setMarkerIcon(this.listOfSightData[sight._source.options.id]);
+    this.sightsMarkers[sight._source.options.id].setIcon(this.sightSelectionIcon);
     this.sightsMarkers[sight._source.options.id].update();
   }
 }
