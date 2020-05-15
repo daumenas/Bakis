@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bakis.Dtos.CityEvents;
 using Bakis.Dtos.Consumers;
+using Bakis.Dtos.Prizes;
 using Bakis.Dtos.QuestionChoices;
 using Bakis.Dtos.Questions;
 using Bakis.Dtos.QuizTemplates;
@@ -73,6 +74,15 @@ namespace Bakis.Configurations
 
             CreateMap<UpdateQuizTemplateDto, QuizTemplate>(MemberList.None);
             CreateMap<QuizTemplate, UpdateQuizTemplateDto>(MemberList.None);
+
+            CreateMap<NewPrizeDto, Prize>(MemberList.None);
+            CreateMap<Prize, NewPrizeDto>(MemberList.None);
+
+            CreateMap<GetPrizeDto, Prize>(MemberList.None);
+            CreateMap<Prize, GetPrizeDto>(MemberList.None);
+
+            CreateMap<UpdatePrizeDto, Prize>(MemberList.None);
+            CreateMap<Prize, UpdatePrizeDto>(MemberList.None);
         }
     }
 }

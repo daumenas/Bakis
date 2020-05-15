@@ -20,6 +20,7 @@ namespace Bakis.Infrastructure.Database
         public DbSet<ConsumerSight> ConsumerSight { get; set; }
         public DbSet<ConsumerEvent> ConsumerEvent { get; set; }
         public DbSet<ConsumerQuiz> ConsumerQuiz { get; set; }
+        public DbSet<Prize> Prizes { get; set; }
 
         private readonly IConfiguration _configuration;
         public AppDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
