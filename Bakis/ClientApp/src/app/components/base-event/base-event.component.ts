@@ -119,7 +119,7 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
         dateTo: [formatDate(this.data.eventToUpdate.dateTo, "yyyy-MM-dd", "en", "+0400"), [
           Validators.required
         ]],
-        time: [formatDate(this.data.eventToUpdate.time, "HH:mm", "en", "+0400"), [
+        time: [formatDate(this.data.eventToUpdate.time, "HH:mm", "en", "+0300"), [
           Validators.required
         ]],
         endTime: [formatDate(this.data.eventToUpdate.endTime, "HH:mm", "en", "+0300"), [
@@ -134,7 +134,7 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
 
   getFormEventData(): BaseEvent {
     const formUserData = Object.assign(this.baseEventForm.value);
-    formUserData.time = new Date("2000-01-01T" + formUserData.time + ":00");
+    //formUserData.time = new Date("2000-01-01T" + formUserData.time + ":00");
     return formUserData;
   }
 

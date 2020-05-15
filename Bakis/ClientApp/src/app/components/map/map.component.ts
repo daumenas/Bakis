@@ -168,9 +168,15 @@ export class MapComponent implements AfterViewInit  {
       tempEvents[i] = L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude],
         { title: this.listOfEventData[i].id, icon: this.eventSelectionIcon, id: i }).addTo(
         map)
-        .bindPopup('<p>' + this.listOfEventData[i].name + '<br />' + this.listOfEventData[i].description + '</p>' +
-          '<br />' + this.listOfEventData[i].checkedIn + '/' + this.listOfEventData[i].amount + '</p>' +
-        '<button class="checkIn" style="display: none">Check in</button>')
+        .bindPopup('<div style="text-align: center"><h3>' + this.listOfEventData[i].name + '</h3><p>' + this.listOfEventData[i].description +
+          '</p>' + this.listOfEventData[i].address + 
+        '<br />' + 'Amount of people checked in here: ' + this.listOfEventData[i].checkedIn + '<br />' +
+        'Estimated maximum amount of people: ' + this.listOfEventData[i].amount + '<br />' +
+        "Starts: " + this.listOfEventData[i].dateFrom.toString().split("T").shift() +
+        " at: " + this.listOfEventData[i].time.toString().split("T").pop() + '<br />' + "Ends: " +
+        this.listOfEventData[i].dateTo.toString().split("T").shift() +
+        " at: " + this.listOfEventData[i].endTime.toString().split("T").pop() + '<br />' +
+        '<button class="checkIn" style="display: none">Check in</button>' + '</div>')
       .on("popupopen", (a) => {
         var popUp = a.target.getPopup()
         popUp.getElement()
@@ -190,8 +196,11 @@ export class MapComponent implements AfterViewInit  {
       tempMarkers[i] = L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude],
         { title: this.listOfSightData[i].id, icon: this.sightSelectionIcon, id: i })
         .addTo(map)
-        .bindPopup('<p>' + this.listOfSightData[i].name + '<br />' + this.listOfSightData[i].description + '</p>' + 
-          '<button class="checkIn" style="display: none">Check in</button>' + '<button class="playGame" style="display: none">Play Game</button>')
+        .bindPopup(
+          '<div style="text-align: center"><h3>' + this.listOfSightData[i].name + '</h3><p>' + this.listOfSightData[i].description +
+          '</p>' + this.listOfSightData[i].address +
+          '<br />' + 'Amount of people checked in here: ' + this.listOfSightData[i].checkedIn + '<br />' +
+        '<button class="checkIn" style="display: none">Check in</button>' + '<button class="playGame" style="display: none">Play Game</button>' + '</div>')
         .on("popupopen", (a) => {
           var popUp = a.target.getPopup()
           popUp.getElement()
@@ -258,23 +267,35 @@ export class MapComponent implements AfterViewInit  {
     for (var i = 0; i < markers.length; i++) {
       var meters = this.location.distanceTo(markers[i]._latlng);
       if (meters <= 30) {
-        markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' + listOfData[i].description +
-          '</p>' + listOfData[i].checkedIn + ((isSight) ? '' : ' / ' + this.listOfEventData[i].amount) + '</p>'
+        markers[i]._popup.setContent(
+          '<div style="text-align: center"><h3>' + listOfData[i].name + '</h3><p>' + listOfData[i].description +
+          '</p>' + listOfData[i].address + '<br />' +
+          '</p>' + 'Amount of people checked in here: ' + listOfData[i].checkedIn + ((isSight) ? '' : '<br />' +
+            'Estimated maximum amount of people: ' + this.listOfEventData[i].amount + '<br />' +
+            "Starts: " + this.listOfEventData[i].dateFrom.toString().split("T").shift() +
+            " at: " + this.listOfEventData[i].time.toString().split("T").pop() + '<br />' + "Ends: " + this.listOfEventData[i].dateTo.toString().split("T").shift() +
+            " at: " + this.listOfEventData[i].endTime.toString().split("T").pop() + '<br />') + '<br />' + '<br />'
           + ((listOfData[i].isCheckedIn == true) ? '<button class="checkIn" style="display: none">Check in</button>' :
-            '<button class="checkIn">Check in</button>') +
+            '<button class="checkIn">Check in ' + listOfData[i].points + 'p </button>') +
           ((isSight) ? (this.listOfSightData[i].isGamePlayed == true) ?
-            '<button class="playGame" style="display: none">Play game</button>' : '<button class="playGame">Play game</button>' : '')
+            '<button class="playGame button" style="display: none">Play game</button>' : '<button class="playGame">Play game</button>' : '') + '</div>'
           );
         markers[i].update();
       }
       else {
-        markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' +
-          listOfData[i].description + '</p>' + listOfData[i].checkedIn +
-          ((isSight) ? '' : ' / ' + this.listOfEventData[i].amount) + '</p>'
-          + ((listOfData[i].isCheckedIn == true) ? '<button class="checkIn" style="display: none">Check in</button>' :
-            '<button class="checkIn" disabled>Check in</button>') +
+        markers[i]._popup.setContent(
+          '<div style="text-align: center"><h3>' + listOfData[i].name + '</h3><p>' +
+          listOfData[i].description + '</p>' + listOfData[i].address + '<br />' +
+          '</p>' + 'Amount of people checked in here: ' + listOfData[i].checkedIn +
+          ((isSight) ? '' : '<br />' + 'Estimated maximum amount of people: ' + this.listOfEventData[i].amount + '<br />' +
+            "Starts: " + this.listOfEventData[i].dateFrom.toString().split("T").shift() +
+            " at: " + this.listOfEventData[i].time.toString().split("T").pop() + '<br />' + "Ends: " + this.listOfEventData[i].dateTo.toString().split("T").shift() +
+            " at: " + this.listOfEventData[i].endTime.toString().split("T").pop() + '<br />') + '<br />' + '<br />' +
+          ((listOfData[i].isCheckedIn == true) ? '<button class="checkIn" style="display: none">Check in</button>' :
+            '<button class="checkIn" disabled>Check in ' + listOfData[i].points + 'p </button>') +
           ((isSight) ? (this.listOfSightData[i].isGamePlayed == true) ?
-            '<button class="playGame" style="display: none">Play game</button>' : '<button class="playGame" disabled>Play game</button>' : ''));
+            '<button class="playGame" style="display: none">Play game</button>' : '<button class="playGame" disabled>Play game</button>' : '') + '</div>'
+        );
         markers[i].update();
       }
     }
@@ -286,11 +307,17 @@ export class MapComponent implements AfterViewInit  {
       this.sendReceiveService.pointSender(true);
       this.listOfEventData[event._source.options.id].checkedIn = this.listOfEventData[event._source.options.id].checkedIn + 1;
       this.eventService.editEvent(this.listOfEventData[event._source.options.id], this.listOfEventData[event._source.options.id].id).subscribe(() => {
-        this.eventMarkers[event._source.options.id]._popup.setContent('<p>' + this.listOfEventData[event._source.options.id].name +
-          '<br />' + this.listOfEventData[event._source.options.id].description +
-          '</p>' + '<br />' + this.listOfEventData[event._source.options.id].checkedIn +
-          '/' + this.listOfEventData[event._source.options.id].amount + '</p>' +
-          '<button class="checkIn" style="display: none">Check in</button>');
+        this.eventMarkers[event._source.options.id]._popup.setContent(
+          '<div style="text-align: center"><h3>' + this.listOfEventData[event._source.options.id].name +
+          '</h3><p>' + this.listOfEventData[event._source.options.id].description +
+          '</p>' + this.listOfEventData[event._source.options.id].address + '<br />' +
+          'Amount of people checked in here: ' + this.listOfEventData[event._source.options.id].checkedIn +
+          '<br />' + 'Estimated maximum amount of people: ' + this.listOfEventData[event._source.options.id].amount + '<br />' +
+          "Starts: " + this.listOfEventData[event._source.options.id].dateFrom.toString().split("T").shift() +
+          " at: " + this.listOfEventData[event._source.options.id].time.toString().split("T").pop() + '<br />' + "Ends: " +
+          this.listOfEventData[event._source.options.id].dateTo.toString().split("T").shift() +
+          " at: " + this.listOfEventData[event._source.options.id].endTime.toString().split("T").pop() + '<br />' + 
+          '<button class="checkIn" style="display: none">Check in</button>' + '</div>');
         this.listOfEventData[event._source.options.id].isCheckedIn = true;
         this.setEventMarkerIcon(this.listOfEventData[event._source.options.id]);
         this.eventMarkers[event._source.options.id].setIcon(this.eventSelectionIcon);
@@ -309,11 +336,13 @@ export class MapComponent implements AfterViewInit  {
         this.sightService.editSight(this.listOfSightData[sight._source.options.id], this.listOfSightData[sight._source.options.id].id).subscribe(() => {
         });
       });
-      this.sightsMarkers[sight._source.options.id]._popup.setContent('<p>' + this.listOfSightData[sight._source.options.id].name +
-        '<br />' + this.listOfSightData[sight._source.options.id].description +
-        '</p>' + '<br />' + this.listOfSightData[sight._source.options.id].checkedIn + '</p>' +
+        this.sightsMarkers[sight._source.options.id]._popup.setContent(
+          '<div style="text-align: center"><h3>' + this.listOfSightData[sight._source.options.id].name +
+          '</h3><p>' + this.listOfSightData[sight._source.options.id].description +
+          '</p>' + this.listOfSightData[sight._source.options.id].address + '<br />' +
+          'Amount of people checked in here: ' + this.listOfSightData[sight._source.options.id].checkedIn + '<br />' + '<br />' +
         '<button class="checkIn" style="display: none">Check in</button>' + ((this.listOfSightData[sight._source.options.id].isGamePlayed) ?
-          '<button class="playGame" style="display: none">Play Game</button>' : '<button class="playGame">Play Game</button>'))
+            '<button class="playGame" style="display: none">Play Game</button>' : '<button class="playGame">Play Game</button>') + '</div>')
         this.listOfSightData[sight._source.options.id].isCheckedIn = true;
         this.setSightMarkerIcon(this.listOfSightData[sight._source.options.id]);
         this.sightsMarkers[sight._source.options.id].setIcon(this.sightSelectionIcon);
@@ -381,11 +410,12 @@ export class MapComponent implements AfterViewInit  {
 
   setAfterGameMarker(sight: any) {
     this.listOfSightData[sight._source.options.id].isGamePlayed = true;
-    this.sightsMarkers[sight._source.options.id]._popup.setContent('<p>' + this.listOfSightData[sight._source.options.id].name +
-      '<br />' + this.listOfSightData[sight._source.options.id].description +
-      '</p>' + '<br />' + this.listOfSightData[sight._source.options.id].checkedIn + '</p>' +
+    this.sightsMarkers[sight._source.options.id]._popup.setContent(
+      '<div style="text-align: center"><h3>' + this.listOfSightData[sight._source.options.id].name +
+      '</h3><p>' + this.listOfSightData[sight._source.options.id].description +
+      '</p>' + this.listOfSightData[sight._source.options.id].address + '<br />' + 'Amount of people checked in here: ' + this.listOfSightData[sight._source.options.id].checkedIn + '<br />' + '<br />' +
       ((this.listOfSightData[sight._source.options.id].isCheckedIn) ? '<button class="checkIn" style="display: none">Check in</button>' :
-        '<button class="checkIn">Check in</button>') + '<button style="display: none" class="playGame">Play Game</button>')
+        '<button class="checkIn">Check in ' + this.listOfSightData[sight._source.options.id].points + 'p </button>') + '<button style="display: none" class="playGame">Play Game</button>' + '</div>')
     this.setSightMarkerIcon(this.listOfSightData[sight._source.options.id]);
     this.sightsMarkers[sight._source.options.id].setIcon(this.sightSelectionIcon);
     this.sightsMarkers[sight._source.options.id].update();
