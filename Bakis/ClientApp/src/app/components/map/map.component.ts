@@ -413,9 +413,11 @@ export class MapComponent implements AfterViewInit  {
     this.sightsMarkers[sight._source.options.id]._popup.setContent(
       '<div style="text-align: center"><h3>' + this.listOfSightData[sight._source.options.id].name +
       '</h3><p>' + this.listOfSightData[sight._source.options.id].description +
-      '</p>' + this.listOfSightData[sight._source.options.id].address + '<br />' + 'Amount of people checked in here: ' + this.listOfSightData[sight._source.options.id].checkedIn + '<br />' + '<br />' +
+      '</p>' + this.listOfSightData[sight._source.options.id].address + '<br />' + 'Amount of people checked in here: ' +
+      this.listOfSightData[sight._source.options.id].checkedIn + '<br />' + '<br />' +
       ((this.listOfSightData[sight._source.options.id].isCheckedIn) ? '<button class="checkIn" style="display: none">Check in</button>' :
-        '<button class="checkIn">Check in ' + this.listOfSightData[sight._source.options.id].points + 'p </button>') + '<button style="display: none" class="playGame">Play Game</button>' + '</div>')
+        '<button class="checkIn">Check in ' + this.listOfSightData[sight._source.options.id].points + 'p </button>') +
+      '<button style="display: none" class="playGame">Play Game</button>' + '</div>')
     this.setSightMarkerIcon(this.listOfSightData[sight._source.options.id]);
     this.sightsMarkers[sight._source.options.id].setIcon(this.sightSelectionIcon);
     this.sightsMarkers[sight._source.options.id].update();
