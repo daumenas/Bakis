@@ -15,4 +15,5 @@ export abstract class BaseEvent {
   amount: number;
   checkedIn: number;
   approval: boolean;
+  createdBy: number;
 }
