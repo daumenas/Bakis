@@ -89,9 +89,9 @@ namespace Bakis.Services
             var sights = await _repository.GetAll();
             var sightsDto = _mapper.Map<GetSightDto[]>(sights);
             var consumer = await _consumersService.GetById(id);
-            foreach (var sight in sightsDto)
+            foreach (var userSight in consumer.UserSight)
             {
-                foreach (var userSight in consumer.UserSight)
+                foreach (var sight in sightsDto)
                 {
                     if(userSight.SightId == sight.Id)
                     {
