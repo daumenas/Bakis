@@ -13,5 +13,6 @@ namespace Bakis.Services.Interfaces
         Task<NewCityEventDto> Create(NewCityEventDto newCityEvent);
         Task Update(int id, UpdateCityEventDto updateData);
         Task<bool> Delete(int id);
+        Task<ICollection<GetCityEventDto>> GetAllByUserId(int id);
     }
 }

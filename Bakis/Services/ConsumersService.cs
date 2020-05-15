@@ -153,14 +153,13 @@ namespace Bakis.Services
             }
             if (consumerSight == null)
             {
-                consumer.UserSight = new List<ConsumerSight>()
+                consumerSight = new ConsumerSight
                 {
-                    new ConsumerSight {
-                        ConsumerId = id,
-                        SightId = sightId,
-                        IsGamePlayed = isGamePlayed
-                    }
+                    ConsumerId = id,
+                    SightId = sightId,
+                    IsGamePlayed = isGamePlayed
                 };
+                consumer.UserSight.Add(consumerSight);
             }
             if (isCheckedIn)
             {
@@ -221,13 +220,12 @@ namespace Bakis.Services
             }
             if (consumerEvent == null)
             {
-                consumer.UserEvent = new List<ConsumerEvent>()
+                consumerEvent = new ConsumerEvent
                 {
-                    new ConsumerEvent {
-                        ConsumerId = id,
-                        EventId = eventId
-                    }
+                    ConsumerId = id,
+                    EventId = eventId
                 };
+                consumer.UserEvent.Add(consumerEvent);
                 consumer = await CheckIn(consumer, cityEvent.Points);
                 return await UpdatePoints(id, consumer);
             }
