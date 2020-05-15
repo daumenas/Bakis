@@ -12,6 +12,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { PictureGameComponent } from '../picture-game/picture-game.component';
 import { QuizGameComponent } from '../quiz-game/quiz-game.component';
 import { UserSight } from '../../models/user-sight';
+import { UserEvent } from '../../models/user-event';
 
 
 @Component({
@@ -21,8 +22,8 @@ import { UserSight } from '../../models/user-sight';
     "../../../../node_modules/leaflet/dist/leaflet.css"]
 })
 export class MapComponent implements AfterViewInit  {
-  listOfEventData: TableRowEvent[] = [];
-  events: TableRowEvent[];
+  listOfEventData: UserEvent[] = [];
+  events: UserEvent[];
   listOfSightData: UserSight[] = [];
   sights: UserSight[];
   private location;
@@ -32,6 +33,7 @@ export class MapComponent implements AfterViewInit  {
   sightIcon: any;
   sightCheckIcon: any;
   sightPlayedIcon: any;
+  eventSelectionIcon: any;
   eventIcon: any;
   eventCheckIcon: any;
   markerIcon: any;
@@ -62,14 +64,25 @@ export class MapComponent implements AfterViewInit  {
     map.on('click', e => {
       this.sendReceiveService.latLngSender(e.latlng);
     });
-    this.eventService.getAllEvents().subscribe(events => {
-      this.events = events.filter(event => {
-        return event.approval === true
+    if (this.isAuthenticated()) {
+      this.eventService.getAllEventsByUserId().subscribe(events => {
+        this.events = events.filter(event => {
+          return event.approval === true
+        });
+        this.listOfEventData = [...this.events];
+        this.setEventMarkers(map);
+        this.sendReceiveService.eventSender(this.eventMarkers);
       });
-      this.listOfEventData = [...this.events];
-      this.setEventMarkers(map);
-      this.sendReceiveService.eventSender(this.eventMarkers);
-    });
+    } else {
+      this.eventService.getAllEventsForMap().subscribe(events => {
+        this.events = events.filter(event => {
+          return event.approval === true
+        });
+        this.listOfEventData = [...this.events];
+        this.setEventMarkers(map);
+        this.sendReceiveService.eventSender(this.eventMarkers);
+      });
+    }
     if (this.isAuthenticated()) {
       this.sightService.getAllSightsByUserId().subscribe(sights => {
         this.sights = sights;
@@ -151,9 +164,12 @@ export class MapComponent implements AfterViewInit  {
   setEventMarkers(map) {
   let tempEvents = [];
     for (var i = 0; i < this.listOfEventData.length; i++) {
-      tempEvents[i] = L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude], { icon: this.eventIcon, id: i }).addTo(
+      this.setEventMarkerIcon(this.listOfEventData[i]);
+      tempEvents[i] = L.marker([this.listOfEventData[i].latitude, this.listOfEventData[i].longitude],
+        { title: this.listOfEventData[i].id, icon: this.eventSelectionIcon, id: i }).addTo(
         map)
-        .bindPopup('<p>' + this.listOfEventData[i].name + '<br />' + this.listOfEventData[i].description + '</p>' + '<br />' + this.listOfEventData[i].checkedIn + '/' + this.listOfEventData[i].amount + '</p>' +
+        .bindPopup('<p>' + this.listOfEventData[i].name + '<br />' + this.listOfEventData[i].description + '</p>' +
+          '<br />' + this.listOfEventData[i].checkedIn + '/' + this.listOfEventData[i].amount + '</p>' +
         '<button class="checkIn" style="display: none">Check in</button>')
       .on("popupopen", (a) => {
         var popUp = a.target.getPopup()
@@ -170,7 +186,7 @@ export class MapComponent implements AfterViewInit  {
   setSightMarkers(map) {
     let tempMarkers = [];
     for (var i = 0; i < this.listOfSightData.length; i++) {
-      this.setMarkerIcon(this.listOfSightData[i]);
+      this.setSightMarkerIcon(this.listOfSightData[i]);
       tempMarkers[i] = L.marker([this.listOfSightData[i].latitude, this.listOfSightData[i].longitude],
         { title: this.listOfSightData[i].id, icon: this.sightSelectionIcon, id: i })
         .addTo(map)
@@ -196,13 +212,21 @@ export class MapComponent implements AfterViewInit  {
     this.sightsMarkers = tempMarkers;
   }
 
-  setMarkerIcon(sight: UserSight) {
+  setSightMarkerIcon(sight: UserSight) {
     if (sight.isGamePlayed) {
       this.sightSelectionIcon = this.sightPlayedIcon;
     } else if (sight.isCheckedIn) {
       this.sightSelectionIcon = this.sightCheckIcon;
     } else {
       this.sightSelectionIcon = this.sightIcon;
+    }
+  }
+
+  setEventMarkerIcon(event: UserEvent) {
+    if (event.isCheckedIn) {
+      this.eventSelectionIcon = this.eventCheckIcon;
+    } else {
+      this.eventSelectionIcon = this.eventIcon;
     }
   }
 
@@ -235,8 +259,8 @@ export class MapComponent implements AfterViewInit  {
       var meters = this.location.distanceTo(markers[i]._latlng);
       if (meters <= 30) {
         markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' + listOfData[i].description +
-          '</p>' + listOfData[i].checkedIn + ((isSight) ? '' : ' / ' + this.listOfEventData[i].amount) + '</p>' 
-          + ((isSight) ? ((this.listOfSightData[i].isCheckedIn == true) ? '<button class="checkIn" style="display: none">Check in</button>' : '<button class="checkIn">Check in</button>') :
+          '</p>' + listOfData[i].checkedIn + ((isSight) ? '' : ' / ' + this.listOfEventData[i].amount) + '</p>'
+          + ((listOfData[i].isCheckedIn == true) ? '<button class="checkIn" style="display: none">Check in</button>' :
             '<button class="checkIn">Check in</button>') +
           ((isSight) ? (this.listOfSightData[i].isGamePlayed == true) ?
             '<button class="playGame" style="display: none">Play game</button>' : '<button class="playGame">Play game</button>' : '')
@@ -247,7 +271,7 @@ export class MapComponent implements AfterViewInit  {
         markers[i]._popup.setContent('<p>' + listOfData[i].name + '<br />' +
           listOfData[i].description + '</p>' + listOfData[i].checkedIn +
           ((isSight) ? '' : ' / ' + this.listOfEventData[i].amount) + '</p>'
-          + ((isSight) ? ((this.listOfSightData[i].isCheckedIn == true) ? '<button class="checkIn" style="display: none">Check in</button>' : '<button class="checkIn" disabled>Check in</button>') :
+          + ((listOfData[i].isCheckedIn == true) ? '<button class="checkIn" style="display: none">Check in</button>' :
             '<button class="checkIn" disabled>Check in</button>') +
           ((isSight) ? (this.listOfSightData[i].isGamePlayed == true) ?
             '<button class="playGame" style="display: none">Play game</button>' : '<button class="playGame" disabled>Play game</button>' : ''));
@@ -267,6 +291,9 @@ export class MapComponent implements AfterViewInit  {
           '</p>' + '<br />' + this.listOfEventData[event._source.options.id].checkedIn +
           '/' + this.listOfEventData[event._source.options.id].amount + '</p>' +
           '<button class="checkIn" style="display: none">Check in</button>');
+        this.listOfEventData[event._source.options.id].isCheckedIn = true;
+        this.setEventMarkerIcon(this.listOfEventData[event._source.options.id]);
+        this.eventMarkers[event._source.options.id].setIcon(this.eventSelectionIcon);
         this.eventMarkers[event._source.options.id].update();
       });
     });
@@ -288,7 +315,7 @@ export class MapComponent implements AfterViewInit  {
         '<button class="checkIn" style="display: none">Check in</button>' + ((this.listOfSightData[sight._source.options.id].isGamePlayed) ?
           '<button class="playGame" style="display: none">Play Game</button>' : '<button class="playGame">Play Game</button>'))
         this.listOfSightData[sight._source.options.id].isCheckedIn = true;
-        this.setMarkerIcon(this.listOfSightData[sight._source.options.id]);
+        this.setSightMarkerIcon(this.listOfSightData[sight._source.options.id]);
         this.sightsMarkers[sight._source.options.id].setIcon(this.sightSelectionIcon);
         this.sightsMarkers[sight._source.options.id].update();
       }
@@ -359,7 +386,7 @@ export class MapComponent implements AfterViewInit  {
       '</p>' + '<br />' + this.listOfSightData[sight._source.options.id].checkedIn + '</p>' +
       ((this.listOfSightData[sight._source.options.id].isCheckedIn) ? '<button class="checkIn" style="display: none">Check in</button>' :
         '<button class="checkIn">Check in</button>') + '<button style="display: none" class="playGame">Play Game</button>')
-    this.setMarkerIcon(this.listOfSightData[sight._source.options.id]);
+    this.setSightMarkerIcon(this.listOfSightData[sight._source.options.id]);
     this.sightsMarkers[sight._source.options.id].setIcon(this.sightSelectionIcon);
     this.sightsMarkers[sight._source.options.id].update();
   }

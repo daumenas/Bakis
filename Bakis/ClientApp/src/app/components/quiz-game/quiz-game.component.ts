@@ -54,11 +54,11 @@ export class QuizGameComponent implements OnInit {
     this.displayedNowNumber = this.startingQuestion + 1;
     this.quizService.getQuiz(this.data.quizId).subscribe(quiz => {
       this.correctAnswer = quiz.questions[this.startingQuestion].correctAnswer;
+      this.pointValue = quiz.questions[this.startingQuestion].points;
       this.question = quiz.questions[this.startingQuestion].name;
       this.answers = quiz.questions[this.startingQuestion].questionChoices;
       this.questionNumber = quiz.questions.length - 1;
       this.displayedEndNumber = quiz.questions.length;
-      this.pointValue = questions[this.startingQuestion].points;
     })
   }
 

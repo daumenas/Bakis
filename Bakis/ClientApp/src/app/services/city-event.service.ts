@@ -3,6 +3,7 @@ import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { BaseEvent } from "../models/base-event";
 import { TableRowEvent } from "../models/table-row-event"
+import { UserEvent } from "../models/user-event";
 @Injectable({ providedIn: 'root' })
 
 @Injectable({
@@ -31,12 +32,21 @@ export class CityEventService {
     return this.http.get<TableRowEvent[]>(this.eventApi);
   }
 
+  getAllEventsForMap(): Observable<UserEvent[]> {
+    return this.http.get<UserEvent[]>(this.eventApi);
+  }
+
   editEvent(event: BaseEvent, id: number) {
     return this.http.put(`${this.eventApi}/${id}`, event);
   }
 
   deleteEvent(id: number) {
     return this.http.delete(`${this.eventApi}/${id}`);
+  }
+
+  getAllEventsByUserId(): Observable<UserEvent[]> {
+    this.thisUserId = JSON.parse(localStorage.getItem('userId'));
+    return this.http.get<UserEvent[]>(`${this.eventApi}/byuser/${this.thisUserId}`);
   }
 
 }
