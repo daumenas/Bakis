@@ -23,6 +23,10 @@ export class QuizService {
     return this.http.post<NewQuizTemplate>(this.quizApi, quizTemplate);
   }
 
+  getQuiz(id: number): Observable<BaseQuizTemplate> {
+    return this.http.get<BaseQuizTemplate>(`${this.quizApi}/${id}`);
+  }
+
   getAllQuizTemplates(): Observable<BaseQuizTemplate[]> {
     return this.http.get<BaseQuizTemplate[]>(this.quizApi);
   }

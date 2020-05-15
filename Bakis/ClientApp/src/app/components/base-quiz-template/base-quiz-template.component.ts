@@ -26,7 +26,7 @@ import { SendReceiveService } from '../../services/send-receive.service';
 export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
   questionArray: BaseQuizQuestion[];
   questionToUpdate: BaseQuizQuestion;
-  @Input() questionsSelected: BaseQuizQuestion[] = [];
+  questionsSelected: BaseQuizQuestion[];
   allSights: BaseSight[];
 
   listOfData: BaseQuizQuestion[] = [];
@@ -53,9 +53,6 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
-    this.sightService.getAllSights().subscribe(sights => {
-      this.allSights = sights;
-    });
     if (this.data.submitEvent == undefined) {
       this.buttonText = "Add Quiz";
       this.titleText = "New Quiz";
@@ -65,6 +62,9 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
       this.snackbarText = "Quiz Submitted"
     }
     if (this.data.isEdit == undefined) {
+      this.sightService.getAllSightsWithoutQuiz().subscribe(sights => {
+        this.allSights = sights;
+      });
       this.questionService.getAllQuestions().subscribe(questions => {
         this.questionArray = questions;
       });
@@ -73,13 +73,17 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
           Validators.required
         ]],
         questions: [],
-        sightId: ['']
+        sightId: ['', [Validators.required]]
       });
     }
     else {
+      this.sightService.getAllSights().subscribe(sights => {
+        this.allSights = sights;
+      });
       this.questionService.getAllQuestionsByQuizId(this.data.quizId, this.data.quizTemplateToUpdate.title).subscribe(questions => {
         this.questionArray = questions;
       });
+      console.log(this.questionsSelected);
       this.buttonText = "Submit";
       this.titleText = "Edit Quiz";
         this.baseQuizTemplateForm = this.formBuilder.group({
@@ -87,7 +91,7 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
           Validators.required
         ]],
           questions: [this.data.quizTemplateToUpdate.questions],
-          sightId: [this.data.quizTemplateToUpdate.sightId]
+          sightId: [this.data.quizTemplateToUpdate.sightId, [Validators.required]]
       });
     }
   }
