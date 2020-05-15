@@ -146,6 +146,7 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
 
   editEvent(editEvent: BaseEvent) {
     editEvent.checkedIn = this.data.eventToUpdate.checkedIn;
+    editEvent.createdBy = this.data.eventToUpdate.createdBy;
     this.eventService.editEvent(editEvent, this.data.eventToUpdate.id).subscribe(() => {
       this.sendReceiveService.pointSender(true);
     });

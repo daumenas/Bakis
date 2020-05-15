@@ -34,6 +34,10 @@ export class LocationService {
     return this.http.get<UserSight[]>(this.sightApi);
   }
 
+  getAllSightsWithoutQuiz(): Observable<TableRowSight[]> {
+    return this.http.get<TableRowSight[]>(`${ this.sightApi }/withoutQuiz`);
+  }
+
   editSight(sight: BaseSight, id: number) {
     return this.http.put(`${this.sightApi}/${id}`, sight);
   }

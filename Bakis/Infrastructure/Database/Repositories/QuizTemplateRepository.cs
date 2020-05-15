@@ -23,7 +23,7 @@ namespace Bakis.Infrastructure.Database.Repositories
 
         public async Task<QuizTemplate> GetById(int id)
         {
-            var quizTemplate = await _context.QuizTemplates.Include(c => c.Questions)
+            var quizTemplate = await _context.QuizTemplates.Include(c => c.Sight).Include(c => c.Questions)
                 .Where(c => c.Id == id).FirstOrDefaultAsync();
             quizTemplate.Questions = await _context.Questions.Include(c => c.QuestionChoices)
                 .Where(c => c.QuizTemplate.Id == quizTemplate.Id).ToArrayAsync();
@@ -33,21 +33,8 @@ namespace Bakis.Infrastructure.Database.Repositories
 
         public async Task<int> Create(QuizTemplate newQuizTemplate)
         {
-            var createQuiz = new QuizTemplate()
-            {
-                Title = newQuizTemplate.Title,
-                SightId = newQuizTemplate.SightId
-            };
-            _context.QuizTemplates.Add(createQuiz);
-            await _context.SaveChangesAsync();
-            createQuiz.Questions = newQuizTemplate.Questions;
-            _context.QuizTemplates.Attach(createQuiz);
+            _context.QuizTemplates.Add(newQuizTemplate);
             var changes = await _context.SaveChangesAsync();
-
-            var sightToUpdate = await _context.Sights.FindAsync(createQuiz.SightId);
-            sightToUpdate.QuizTemplate = createQuiz;
-            _context.Sights.Attach(sightToUpdate);
-            var changesSight = await _context.SaveChangesAsync();
 
             return newQuizTemplate.Id;
         }

@@ -32,6 +32,16 @@ namespace Bakis.Controllers
             return Ok(sights);
         }
 
+        // GET: api/Sights/withoutQuiz
+        [HttpGet("withoutQuiz")]
+        [Produces(typeof(GetSightDto[]))]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllWithoutQuiz()
+        {
+            var quizTemplate = await _sightService.GetAllWithoutQuiz();
+            return Ok(quizTemplate);
+        }
+
         // GET: api/Sights/byuser/1
         [HttpGet("byuser/{id}")]
         [Produces(typeof(GetSightDto[]))]

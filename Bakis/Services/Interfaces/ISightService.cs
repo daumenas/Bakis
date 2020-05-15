@@ -10,6 +10,7 @@ namespace Bakis.Services.Interfaces
     {
         Task<GetSightDto> GetById(int id);
         Task<ICollection<GetSightDto>> GetAll();
+        Task<ICollection<GetSightDto>> GetAllWithoutQuiz();
         Task<NewSightDto> Create(NewSightDto newSight);
         Task Update(int id, UpdateSightDto updateData);
         Task<bool> Delete(int id);

@@ -31,6 +31,16 @@ namespace Bakis.Controllers
             return Ok(cityEvents);
         }
 
+        // GET: api/CityEvents/byuser/1
+        [HttpGet("byuser{id}")]
+        [Produces(typeof(GetCityEventDto[]))]
+        public async Task<IActionResult> GetAllByUserId(int id)
+        {
+            var cityEvents = await _cityEventService.GetAllByUserId(id);
+
+            return Ok(cityEvents);
+        }
+
         // GET: api/CityEvents/5
         [HttpGet("{id}")]
         [Produces(typeof(GetCityEventDto))]

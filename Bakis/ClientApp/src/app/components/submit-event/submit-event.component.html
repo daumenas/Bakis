@@ -1,3 +1,92 @@
 <br>
 <button mat-flat-button class="top-of-page-actions" color="primary" (click)=openSubmitModal()>Submit Event</button>
 <br>
+<div>
+  <mat-form-field class="top-of-page-actions">
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search...">
+  </mat-form-field>
+  <br>
+</div>
+
+<div class="table-wrapper">
+  <div class="table-scroll">
+    <table mat-table [dataSource]="eventDataSource">
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let event" style="{{loadStatus(event, true)}}"> {{loadStatus(event, false)}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let event"> {{event.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let event"> {{event.description}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="points">
+        <th mat-header-cell *matHeaderCellDef> Points </th>
+        <td mat-cell *matCellDef="let event"> {{event.points}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let event"> {{event.address}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="latitude">
+        <th mat-header-cell *matHeaderCellDef> Latitude </th>
+        <td mat-cell *matCellDef="let event"> {{event.latitude}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="longitude">
+        <th mat-header-cell *matHeaderCellDef> Longitude </th>
+        <td mat-cell *matCellDef="let event"> {{event.longitude}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dateFrom">
+        <th mat-header-cell *matHeaderCellDef> From Date </th>
+        <td mat-cell *matCellDef="let event"> {{event.dateFrom | date:shortDate :'+0400'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dateTo">
+        <th mat-header-cell *matHeaderCellDef> To Date </th>
+        <td mat-cell *matCellDef="let event"> {{event.dateTo | date:shortDate :'+0400'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef> Time </th>
+        <td mat-cell *matCellDef="let event"> {{event.time | date:'HH:mm':'+0400'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="endTime">
+        <th mat-header-cell *matHeaderCellDef> End Time </th>
+        <td mat-cell *matCellDef="let event"> {{event.endTime | date:'HH:mm':'+0300'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef> Amount </th>
+        <td mat-cell *matCellDef="let event"> {{event.amount}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="checkedIn">
+        <th mat-header-cell *matHeaderCellDef> Checked In </th>
+        <td mat-cell *matCellDef="let event"> {{event.checkedIn}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let event">
+          <button mat-flat-button color="warn" class="actionButtons" (click)="showDeleteConfirm(event)">Delete</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>
+<mat-paginator #eventPaginator [pageSize]="10" [pageSizeOptions]="[10, 20, 40]">></mat-paginator>

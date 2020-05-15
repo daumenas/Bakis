@@ -13,12 +13,14 @@ namespace Bakis.Services
     public class CityEventService : ICityEventService
     {
         private readonly IRepositoryBase<CityEvent> _repository;
+        private readonly IConsumersService _consumersService;
         private readonly IMapper _mapper;
 
-        public CityEventService(ICityEventRepository repository, IMapper mapper)
+        public CityEventService(ICityEventRepository repository, IMapper mapper, IConsumersService consumersService)
         {
             _repository = repository;
             _mapper = mapper;
+            _consumersService = consumersService;
         }
 
         public async Task<GetCityEventDto> GetById(int id)
@@ -72,6 +74,25 @@ namespace Bakis.Services
 
             _mapper.Map(updateData, itemToUpdate);
             await _repository.Update(itemToUpdate);
+        }
+
+        public async Task<ICollection<GetCityEventDto>> GetAllByUserId(int id)
+        {
+            var cityEvents = await _repository.GetAll();
+            var cityEventsDto = _mapper.Map<GetCityEventDto[]>(cityEvents);
+            var consumer = await _consumersService.GetById(id);
+            foreach (var userEvent in consumer.UserEvent)
+            {
+                foreach (var cityEvent in cityEventsDto)
+                {
+                    if (userEvent.EventId == cityEvent.Id)
+                    {
+                        cityEvent.IsCheckedIn = true;
+                        break;
+                    }
+                }
+            }
+            return cityEventsDto;
         }
     }
 }

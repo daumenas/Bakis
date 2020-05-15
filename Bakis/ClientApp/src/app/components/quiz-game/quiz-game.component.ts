@@ -6,6 +6,7 @@ import { BaseQuizQuestion } from '../../models/base-quiz-question';
 import { BaseQuizQuestionChoice } from '../../models/base-quiz-question-choice';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NewQuizQuestionChoice } from '../../models/new-quiz-question-choice';
+import { QuizService } from '../../services/quiz.service';
 
 @Component({
   selector: 'app-quiz-game',
@@ -28,6 +29,7 @@ export class QuizGameComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private questionService: QuestionService,
+    private quizService: QuizService,
     public snackbar: MatSnackBar,
     public dialogRef: MatDialogRef<QuizGameComponent>, ) { }
 
@@ -50,13 +52,13 @@ export class QuizGameComponent implements OnInit {
 
   loadQuestion() {
     this.displayedNowNumber = this.startingQuestion + 1;
-    this.questionService.getAllQuestionsByQuizId(this.data.quizId, this.data.quizName).subscribe(questions => {
-      this.correctAnswer = questions[this.startingQuestion].correctAnswer;
+    this.quizService.getQuiz(this.data.quizId).subscribe(quiz => {
+      this.correctAnswer = quiz.questions[this.startingQuestion].correctAnswer;
+      this.question = quiz.questions[this.startingQuestion].name;
+      this.answers = quiz.questions[this.startingQuestion].questionChoices;
+      this.questionNumber = quiz.questions.length - 1;
+      this.displayedEndNumber = quiz.questions.length;
       this.pointValue = questions[this.startingQuestion].points;
-      this.question = questions[this.startingQuestion].name;
-      this.answers = questions[this.startingQuestion].questionChoices;
-      this.questionNumber = questions.length - 1;
-      this.displayedEndNumber = questions.length;
     })
   }
 
