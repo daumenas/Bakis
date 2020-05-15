@@ -28,7 +28,8 @@ namespace Bakis.Configurations
                 .AddScoped<IQuizTemplateRepository, QuizTemplateRepository>()
                 .AddScoped<IQuestionRepository, QuestionRepository>()
                 .AddScoped<IQuestionChoiceRepository, QuestionChoiceRepository>()
-                .AddScoped<IConsumerSightRepository, ConsumerSightRepository>();
+                .AddScoped<IConsumerSightRepository, ConsumerSightRepository>()
+                .AddScoped<IPrizeRepository, PrizeRepository>();
         }
 
         public static IServiceCollection AddApplicationDependencies(this IServiceCollection service)
@@ -42,7 +43,8 @@ namespace Bakis.Configurations
                 .AddScoped<ISightService, SightService>()
                 .AddScoped<IQuizTemplateService, QuizTemplateService>()
                 .AddScoped<IQuestionService, QuestionService>()
-                .AddScoped<IQuestionChoicesService, QuestionChoicesService>();
+                .AddScoped<IQuestionChoicesService, QuestionChoicesService>()
+                .AddScoped<IPrizeService, PrizeService>();
         }
     }
 }
