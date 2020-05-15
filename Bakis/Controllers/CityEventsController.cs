@@ -32,7 +32,7 @@ namespace Bakis.Controllers
         }
 
         // GET: api/CityEvents/byuser/1
-        [HttpGet("byuser{id}")]
+        [HttpGet("byuser/{id}")]
         [Produces(typeof(GetCityEventDto[]))]
         public async Task<IActionResult> GetAllByUserId(int id)
         {

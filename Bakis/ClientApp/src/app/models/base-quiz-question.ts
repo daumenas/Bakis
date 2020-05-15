@@ -8,5 +8,6 @@ export abstract class BaseQuizQuestion {
   type: string;
   title: string;
   correctAnswer: number;
+  points: number;
   questionChoices: BaseQuizQuestionChoice[];
 }

@@ -3,12 +3,15 @@ import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { BaseSight } from "../models/base-sight";
 import { TableRowSight } from "../models/table-row-sight"
+import { UserSight } from "../models/user-sight";
 
 @Injectable({
   providedIn: 'root'
 })
 
+
 export class LocationService {
+  private thisUserId: number;
   private readonly headers = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -27,6 +30,10 @@ export class LocationService {
     return this.http.get<TableRowSight[]>(this.sightApi);
   }
 
+  getAllSightsForMap(): Observable<UserSight[]> {
+    return this.http.get<UserSight[]>(this.sightApi);
+  }
+
   getAllSightsWithoutQuiz(): Observable<TableRowSight[]> {
     return this.http.get<TableRowSight[]>(`${ this.sightApi }/withoutQuiz`);
   }
@@ -39,5 +46,9 @@ export class LocationService {
     return this.http.delete(`${this.sightApi}/${id}`);
   }
 
+  getAllSightsByUserId(): Observable<UserSight[]> {
+    this.thisUserId = JSON.parse(localStorage.getItem('userId'));
+    return this.http.get<UserSight[]>(`${this.sightApi}/byuser/${this.thisUserId}`);
+  }
 
 }
