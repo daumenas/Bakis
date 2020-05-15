@@ -47,6 +47,16 @@
     <Compile Remove="Migrations\20200308113051_NewMigration.Designer.cs" />
     <Compile Remove="Migrations\20200511133140_SightCheckedTwo.cs" />
     <Compile Remove="Migrations\20200511133140_SightCheckedTwo.Designer.cs" />
+    <Compile Remove="Migrations\20200515101236_EventUserId.cs" />
+    <Compile Remove="Migrations\20200515101236_EventUserId.Designer.cs" />
+    <Compile Remove="Migrations\20200515101708_EventUserId.cs" />
+    <Compile Remove="Migrations\20200515101708_EventUserId.Designer.cs" />
+    <Compile Remove="Migrations\20200515101905_EventUserId.cs" />
+    <Compile Remove="Migrations\20200515101905_EventUserId.Designer.cs" />
+    <Compile Remove="Migrations\20200515102635_EventCreatedBy.cs" />
+    <Compile Remove="Migrations\20200515102635_EventCreatedBy.Designer.cs" />
+    <Compile Remove="Migrations\20200515103133_EventCreatedBy.cs" />
+    <Compile Remove="Migrations\20200515103133_EventCreatedBy.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -30,5 +30,6 @@ namespace Bakis.Infrastructure.Database.Models
         public int CheckedIn { get; set; }
         public bool Approval { get; set; }
         public ICollection<ConsumerEvent> UserEvent { get; set; }
+        public int CreatedBy { get; set; }
     }
 }

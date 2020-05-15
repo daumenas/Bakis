@@ -9,6 +9,7 @@ import { TableRowEvent } from "../models/table-row-event"
   providedIn: 'root'
 })
 export class CityEventService {
+  private thisUserId: number;
 
   private readonly headers = {
     headers: new HttpHeaders({
@@ -21,6 +22,8 @@ export class CityEventService {
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
   registerEvent(event: BaseEvent): Observable<BaseEvent> {
+    this.thisUserId = JSON.parse(localStorage.getItem('userId'));
+    event.createdBy = this.thisUserId;
     return this.http.post<BaseEvent>(this.eventApi, event);
   }
 
