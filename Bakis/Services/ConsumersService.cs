@@ -203,6 +203,7 @@ namespace Bakis.Services
 
         public async Task<GetConsumerDto> PlayGame(ConsumerSight consumerSight, GetConsumerDto currentConsumer, int points)
         {
+            consumerSight.IsGamePlayed = true;
             currentConsumer.Points += points;
             return currentConsumer;
         }
