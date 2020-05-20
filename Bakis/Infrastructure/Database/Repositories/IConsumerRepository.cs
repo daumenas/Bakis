@@ -12,5 +12,6 @@ namespace Bakis.Infrastructure.Database.Repositories
         Task<bool> EmailExists(string email);
         Task<ConsumerSight> IsCheckedInSight(int id, int sightId);
         Task<ConsumerEvent> IsCheckedInEvent(int id, int eventId);
+        Task<ConsumerPrize> IsPrizeBought(int id, int prizeId);
     }
 }

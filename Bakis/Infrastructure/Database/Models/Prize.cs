@@ -11,5 +11,6 @@ namespace Bakis.Infrastructure.Database.Models
         public string Description { get; set; }
         public string Picture { get; set; }
         public int Points { get; set; }
+        public ICollection<ConsumerPrize> UserPrize { get; set; }
     }
 }

@@ -28,5 +28,6 @@ namespace Bakis.Infrastructure.Database.Models
         public ICollection<ConsumerSight> UserSight { get; set; }
         public ICollection<ConsumerEvent> UserEvent { get; set; }
         public ICollection<ConsumerQuiz> UserQuiz { get; set; }
+        public ICollection<ConsumerPrize> UserPrize { get; set; }
     }
 }

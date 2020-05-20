@@ -62,9 +62,7 @@ export class UserPrizePageComponent implements OnInit {
         });
       } else {
         if (confirm("If you confirm," + prize.name + "will be yours for" + prize.points)) {
-          /* INSERT LOGIC */
-          this.user.points = user.points - prize.points;
-          this.userService.editUser(this.user, this.thisUserId).subscribe( data => {
+          this.userService.buyPrize(prize.id).subscribe(data => {
             this.loadPoints();
             this.refreshTable();
           });
