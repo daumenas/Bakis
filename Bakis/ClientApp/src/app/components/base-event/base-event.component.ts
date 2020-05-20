@@ -134,7 +134,6 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
 
   getFormEventData(): BaseEvent {
     const formUserData = Object.assign(this.baseEventForm.value);
-    //formUserData.time = new Date("2000-01-01T" + formUserData.time + ":00");
     return formUserData;
   }
 
