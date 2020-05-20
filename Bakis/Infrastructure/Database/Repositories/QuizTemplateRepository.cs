@@ -41,6 +41,12 @@ namespace Bakis.Infrastructure.Database.Repositories
 
         public async Task<bool> Update(QuizTemplate newQuizTemplate)
         {
+            var quizTemplate = await _context.QuizTemplates.Include(c => c.Sight).Include(c => c.Questions)
+                .Where(c => c.Id == newQuizTemplate.Id).FirstOrDefaultAsync();
+            quizTemplate.Questions = await _context.Questions.Include(c => c.QuestionChoices)
+                .Where(c => c.QuizTemplate.Id == quizTemplate.Id).ToArrayAsync();
+            quizTemplate.Questions = null;
+            var removeQuestions = await _context.SaveChangesAsync();
             _context.QuizTemplates.Attach(newQuizTemplate);
             var changes = await _context.SaveChangesAsync();
 

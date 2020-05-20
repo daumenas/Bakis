@@ -90,6 +90,7 @@ namespace Bakis.Services
 
             var itemToUpdate = await _repository.GetById(id);
 
+
             if (itemToUpdate == null)
                 throw new InvalidOperationException();
 

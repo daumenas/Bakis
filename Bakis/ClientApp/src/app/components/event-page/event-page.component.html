@@ -84,7 +84,7 @@
         <td mat-cell *matCellDef="let event">
           <button mat-flat-button color="primary" class="actionButtons" (click)="openEditForm(event)">{{editText}}</button>
           <button mat-flat-button color="warn" class="actionButtons" (click)="showDeleteConfirm(event)">Delete</button>
-          <button mat-flat-button color="accent" class="actionButtons" (click)="showFlushConfirm(event)">Flush</button>
+          <button mat-flat-button color="accent" class="actionButtons" *ngIf="!isApproval" (click)="showFlushConfirm(event)">Flush</button>
         </td>
       </ng-container>
 

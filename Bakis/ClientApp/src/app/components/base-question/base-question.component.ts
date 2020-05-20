@@ -69,19 +69,19 @@ export class BaseQuestionComponent implements OnInit, ControlValueAccessor {
       });
     }
     else {
-      this.buttonText = this.data.saveEditText;
+      this.buttonText = "Edit Question"
       this.titleText = "Edit Question";
       this.baseQuestionForm = this.formBuilder.group({
-          name: ['', [
+          name: [this.data.question.name, [
             Validators.required
           ]],
-          points: ['', [
+        points: [this.data.question.points, [
             Validators.required
           ]],
-          title: ['', [
+        title: [this.data.question.title, [
             Validators.required
           ]],
-          correctAnswer: ['', [
+        correctAnswer: [this.data.question.correctAnswer.title, [
             Validators.required
         ]],
         questionChoices: this.formBuilder.array([])

@@ -85,5 +85,18 @@ namespace Bakis.Controllers
 
             return Ok(question);
         }
+
+        [HttpGet("allquizchoices/{id}")]
+        [Produces(typeof(GetQuestionDto[]))]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllEmptyAndQuizQuestionChoices(int id, string name)
+        {
+            var question = await _questionsService.GetAllEmptyAndQuizQuestionChoices(id);
+
+            if (question == null)
+                return NotFound();
+
+            return Ok(question);
+        }
     }
 }

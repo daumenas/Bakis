@@ -80,7 +80,7 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
       this.sightService.getAllSights().subscribe(sights => {
         this.allSights = sights;
       });
-      this.questionService.getAllQuestionsByQuizId(this.data.quizId, this.data.quizTemplateToUpdate.title).subscribe(questions => {
+      this.questionService.getAllEmptyAndQuizQuestionChoices(this.data.quizId).subscribe(questions => {
         this.questionArray = questions;
       });
       console.log(this.questionsSelected);

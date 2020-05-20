@@ -89,5 +89,12 @@ namespace Bakis.Services
 
             return questionsDto;
         }
+        public async Task<ICollection<GetQuestionDto>> GetAllEmptyAndQuizQuestionChoices(int id)
+        {
+            var questions = await _repository.GetAllEmptyAndQuizQuestionChoices(id);
+            var questionsDto = _mapper.Map<GetQuestionDto[]>(questions);
+
+            return questionsDto;
+        }
     }
 }
