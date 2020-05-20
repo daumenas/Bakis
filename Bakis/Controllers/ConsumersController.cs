@@ -67,6 +67,15 @@ namespace Bakis.Controllers
             return NoContent();
         }
 
+        // PUT: api/Consumers/buyPrize/5/11/true/1
+        [HttpGet("buyPrize/{id}/{prizeId}")]
+        public async Task<IActionResult> Get(int id, int prizeId)
+        {
+            await _consumersService.BuyPrize(id, prizeId);
+
+            return NoContent();
+        }
+
         // PUT: api/Consumers/5/11/true/1
         [HttpGet("{id}/{sightId}/{isGamePlayed}/{points}")]
         public async Task<IActionResult> Get(int id, int sightId, bool isGamePlayed, int points)
