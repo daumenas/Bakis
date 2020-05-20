@@ -49,6 +49,7 @@ export class BasePrizeComponent implements OnInit {
       });
     }
     else {
+      this.url = this.data.prizeToUpdate.picture;
       this.titleText = "Edit Prize";
       this.buttonText = "Edit Prize"
       this.basePrizeForm = this.formBuilder.group({
@@ -58,8 +59,7 @@ export class BasePrizeComponent implements OnInit {
         description: [this.data.prizeToUpdate.description, [
           Validators.required
         ]],
-        picture: [this.data.prizeToUpdate.picture, [
-          Validators.required
+        picture: ['', [
         ]],
         points: [this.data.prizeToUpdate.points, [
           Validators.required
@@ -103,6 +103,7 @@ export class BasePrizeComponent implements OnInit {
     }
     else {
       const prize = this.getFormPrizeData();
+      prize.picture = this.url;
       this.editPrize(prize);
       if (this.basePrizeForm.valid) {
         console.log("Form Submitted!");
