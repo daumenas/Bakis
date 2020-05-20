@@ -31,6 +31,12 @@ namespace Bakis.Infrastructure.Database.Repositories
             return quizTemplate;
         }
 
+        public async Task<QuizTemplate> GetByIdWithoutQuestion(int id)
+        {
+            var quizTemplate = await _context.QuizTemplates.FindAsync(id);
+            return quizTemplate;
+        }
+
         public async Task<int> Create(QuizTemplate newQuizTemplate)
         {
             _context.QuizTemplates.Add(newQuizTemplate);
@@ -41,12 +47,6 @@ namespace Bakis.Infrastructure.Database.Repositories
 
         public async Task<bool> Update(QuizTemplate newQuizTemplate)
         {
-            var quizTemplate = await _context.QuizTemplates.Include(c => c.Sight).Include(c => c.Questions)
-                .Where(c => c.Id == newQuizTemplate.Id).FirstOrDefaultAsync();
-            quizTemplate.Questions = await _context.Questions.Include(c => c.QuestionChoices)
-                .Where(c => c.QuizTemplate.Id == quizTemplate.Id).ToArrayAsync();
-            quizTemplate.Questions = null;
-            var removeQuestions = await _context.SaveChangesAsync();
             _context.QuizTemplates.Attach(newQuizTemplate);
             var changes = await _context.SaveChangesAsync();
 
@@ -65,6 +65,18 @@ namespace Bakis.Infrastructure.Database.Repositories
         {
             var quizTemplate = await _context.QuizTemplates.Include(c => c.Questions).Where(c => c.SightId == id).FirstOrDefaultAsync();
             return quizTemplate;
+        }
+
+        public async Task<bool> RemoveAllQuestions(int id)
+        {
+            var quizTemplate = await _context.QuizTemplates.Include(c => c.Questions)
+                .Where(c => c.Id == id).FirstOrDefaultAsync();
+            quizTemplate.Questions = await _context.Questions.Include(c => c.QuestionChoices)
+                .Where(c => c.QuizTemplate.Id == quizTemplate.Id).ToListAsync();
+            //quizTemplate.Questions.();
+            _context.QuizTemplates.Update(quizTemplate);
+            var changes = await _context.SaveChangesAsync();
+            return changes > 0;
         }
     }
 }

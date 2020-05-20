@@ -32,7 +32,7 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
   listOfData: BaseQuizQuestion[] = [];
   questionsDataSource = new MatTableDataSource(this.listOfData);
 
-  toppingsControl = new FormControl([]);
+  questions = new FormControl();
 
   baseQuizTemplateForm: FormGroup;
   buttonText: string;
@@ -80,10 +80,9 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
       this.sightService.getAllSights().subscribe(sights => {
         this.allSights = sights;
       });
-      this.questionService.getAllEmptyAndQuizQuestionChoices(this.data.quizId).subscribe(questions => {
-        this.questionArray = questions;
+      this.questionService.getAllEmptyAndQuizQuestionChoices(this.data.quizId).subscribe(question => {
+        this.questionArray = question;
       });
-      console.log(this.questionsSelected);
       this.buttonText = "Submit";
       this.titleText = "Edit Quiz";
         this.baseQuizTemplateForm = this.formBuilder.group({
@@ -92,7 +91,7 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
         ]],
           questions: [this.data.quizTemplateToUpdate.questions],
           sightId: [this.data.quizTemplateToUpdate.sightId, [Validators.required]]
-      });
+        });
     }
   }
 

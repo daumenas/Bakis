@@ -81,11 +81,12 @@ export class BaseQuestionComponent implements OnInit, ControlValueAccessor {
         title: [this.data.question.title, [
             Validators.required
           ]],
-        correctAnswer: [this.data.question.correctAnswer.title, [
+        correctAnswer: [this.data.question.correctAnswer, [
             Validators.required
         ]],
         questionChoices: this.formBuilder.array([])
       });
+      this.questionChoicesSelected = this.data.question.questionChoices;
     }
     this.syncQuestionChoicesToForm();
   }
