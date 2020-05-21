@@ -8,6 +8,7 @@ import { UserService } from '../../services/user.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { BaseUser } from '../../models/base-user';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserPrize } from '../../models/user-prizes';
 
 @Component({
   selector: 'app-user-prize-page',
@@ -15,10 +16,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./user-prize-page.component.css']
 })
 export class UserPrizePageComponent implements OnInit {
-  prizes: TableRowPrize[] = [];
-  prizeToUpdate: TableRowPrize;
+  prizes: UserPrize[] = [];
+  prizeToUpdate: UserPrize;
   basePrizes: BasePrize[] = [];
-  listOfData: TableRowPrize[] = [];
+  listOfData: UserPrize[] = [];
   points: number;
   displayedColumns: string[] = ['id', 'picture', 'name', 'description', 'actions'];
   user: BaseUser;
@@ -44,31 +45,37 @@ export class UserPrizePageComponent implements OnInit {
   }
 
   refreshTable() {
-    this.prizeService.getAllPrizes().subscribe(prizes => {
+    this.prizeService.getAllPrizesByUserId().subscribe(prizes => {
       this.prizes = prizes;
       this.listOfData = [...this.prizes];
     });
     this.listOfData = [...this.prizes];
   }
 
-  getPrize(prize: TableRowPrize) {
-    this.thisUserId = JSON.parse(localStorage.getItem('userId'));
-    this.userService.getUser().subscribe(user => {
-      this.user = user;
-      if (this.user.points < prize.points) {
-        let need = prize.points - this.user.points;
-        this.snackbar.open("Insufficient points(Need: " + need + ")", null, {
-          duration: 1500
-        });
-      } else {
-        if (confirm("If you confirm," + prize.name + "will be yours for" + prize.points)) {
-          this.userService.buyPrize(prize.id).subscribe(data => {
-            this.loadPoints();
-            this.refreshTable();
+  getPrize(prize: UserPrize) {
+    if (prize.isRedeemed) {
+      this.thisUserId = JSON.parse(localStorage.getItem('userId'));
+      this.userService.getUser().subscribe(user => {
+        this.user = user;
+        if (this.user.points < prize.points) {
+          let need = prize.points - this.user.points;
+          this.snackbar.open("Insufficient points(Need: " + need + ")", null, {
+            duration: 1500
           });
+        } else {
+          if (confirm("If you confirm," + prize.name + "will be yours for" + prize.points)) {
+            this.userService.buyPrize(prize.id).subscribe(data => {
+              this.loadPoints();
+              this.refreshTable();
+            });
+          }
         }
-      }
-    })
+      })
+    } else {
+      this.snackbar.open("You aldready redeemed this prize", null, {
+        duration: 1500
+      });
+    }
   }
 
   loadPoints() {
