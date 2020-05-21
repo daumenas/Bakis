@@ -15,6 +15,7 @@ import { BaseQuestionComponent } from '../base-question/base-question.component'
 import { BaseSight } from '../../models/base-sight';
 import { LocationService } from '../../services/location.service';
 import { SendReceiveService } from '../../services/send-receive.service';
+import { of } from 'rxjs';
 
 
 @Component({
@@ -32,7 +33,6 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
   listOfData: BaseQuizQuestion[] = [];
   questionsDataSource = new MatTableDataSource(this.listOfData);
 
-  questions = new FormControl();
 
   baseQuizTemplateForm: FormGroup;
   buttonText: string;
@@ -72,7 +72,7 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
         title: ['', [
           Validators.required
         ]],
-        questions: [],
+        questions: ['', [Validators.required]],
         sightId: ['', [Validators.required]]
       });
     }
@@ -82,6 +82,7 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
       });
       this.questionService.getAllEmptyAndQuizQuestionChoices(this.data.quizId).subscribe(question => {
         this.questionArray = question;
+        this.toggleQuestions();
       });
       this.buttonText = "Submit";
       this.titleText = "Edit Quiz";
@@ -92,7 +93,22 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
           questions: [this.data.quizTemplateToUpdate.questions],
           sightId: [this.data.quizTemplateToUpdate.sightId, [Validators.required]]
         });
+      
     }
+  }
+
+  toggleQuestions() {
+    this.baseQuizTemplateForm.controls.questions.patchValue([...this.questionArray.map(item => {
+      if (item.id != undefined) {
+        for (var i = 0; i < this.data.quizTemplateToUpdate.questions.length; i++) {
+          if (item.id == this.data.quizTemplateToUpdate.questions[i].id) {
+            return item
+          }
+        }
+      }
+    }).filter(questions => {
+      return questions !== undefined;
+    })]);
   }
 
   getFormQuizTemplateData(): BaseQuizTemplate {

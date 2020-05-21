@@ -11,6 +11,7 @@ import { NewQuizQuestion } from '../../models/new-quiz-question';
 import { BaseQuizQuestionChoice } from '../../models/base-quiz-question-choice';
 import { ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { SendReceiveService } from '../../services/send-receive.service';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class BaseQuestionComponent implements OnInit, ControlValueAccessor {
     public dialog: MatDialog,
     public snackbar: MatSnackBar,
     private formBuilder: FormBuilder,
+    private sendReceiveService: SendReceiveService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
   }
@@ -98,11 +100,13 @@ export class BaseQuestionComponent implements OnInit, ControlValueAccessor {
 
   addNewQuestion(newQuestion: NewQuizQuestion) {
     this.questionService.registerQuestion(newQuestion).subscribe(() => {
+      this.sendReceiveService.pointSender(true);
     });
   }
 
   editQuestion(editQuestion: NewQuizQuestion) {
     this.questionService.editQuestion(editQuestion, this.data.questionToEdit.id).subscribe(() => {
+      this.sendReceiveService.pointSender(true);
     });
   }
 
