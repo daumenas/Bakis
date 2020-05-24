@@ -21,6 +21,7 @@ namespace Bakis.Infrastructure.Database
         public DbSet<ConsumerEvent> ConsumerEvent { get; set; }
         public DbSet<ConsumerQuiz> ConsumerQuiz { get; set; }
         public DbSet<Prize> Prizes { get; set; }
+        public DbSet<ConsumerPrize> ConsumerPrize { get; set; }
 
         private readonly IConfiguration _configuration;
         public AppDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
@@ -58,6 +59,14 @@ namespace Bakis.Infrastructure.Database
                 entity.ConsumerId,
                 entity.EventId
             });
+            builder.Entity<ConsumerPrize>().HasKey(entity =>
+            new
+            {
+                entity.ConsumerId,
+                entity.PrizeId
+            });
+
+
             builder.Entity<ConsumerQuiz>()
             .HasOne(entity => entity.QuizTemplate)
             .WithMany(e => e.UserQuiz)
@@ -65,6 +74,15 @@ namespace Bakis.Infrastructure.Database
             builder.Entity<ConsumerQuiz>()
                 .HasOne(entity => entity.Consumer)
                 .WithMany(e => e.UserQuiz)
+                .HasForeignKey(entity => entity.ConsumerId);
+
+            builder.Entity<ConsumerPrize>()
+                .HasOne(entity => entity.Prize)
+                .WithMany(e => e.UserPrize)
+                .HasForeignKey(entity => entity.PrizeId);
+            builder.Entity<ConsumerPrize>()
+                .HasOne(entity => entity.Consumer)
+                .WithMany(e => e.UserPrize)
                 .HasForeignKey(entity => entity.ConsumerId);
 
             builder.Entity<ConsumerSight>()

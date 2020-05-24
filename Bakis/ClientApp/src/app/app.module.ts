@@ -56,6 +56,8 @@ import { PictureGameComponent } from './components/picture-game/picture-game.com
 import { AdminPrizePageComponent } from './components/admin-prize-page/admin-prize-page.component';
 import { BasePrizeComponent } from './components/base-prize/base-prize.component';
 import { UserPrizePageComponent } from './components/user-prize-page/user-prize-page.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -121,7 +123,8 @@ export function tokenGetter() {
         blacklistedRoutes: ['example.com/examplebadroute/']
       }
     }),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [AuthGuardService,
     RoleGuardService

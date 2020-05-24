@@ -44,6 +44,10 @@ export class UserService {
     return this.http.get<boolean>(`${this.userApi}/${email}/exists`);
   }
 
+  buyPrize(prizeId: number) {
+    return this.http.get<boolean>(`${this.userApi}/buyPrize/${this.thisUserId}/${prizeId}`);
+  }
+
   sightCheckIn(sightId: any, isGamePlayed: boolean, points: number) {
     return this.http.get<boolean>(`${this.userApi}/${this.thisUserId}/${sightId}/${isGamePlayed}/${points}`);
   }

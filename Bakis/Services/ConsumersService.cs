@@ -20,6 +20,7 @@ namespace Bakis.Services
         private readonly ISightRepository _sightRepository;
         private readonly ICityEventRepository _cityEventRepository;
         private readonly IConsumerSightRepository _consumerSightRepository;
+        private readonly IPrizeRepository _prizeRepository;
 
 
         public ConsumersService(
@@ -28,7 +29,8 @@ namespace Bakis.Services
             IUserService userService,
             ISightRepository sightRepository,
             ICityEventRepository cityEventRepository,
-            IConsumerSightRepository consumerSightRepository
+            IConsumerSightRepository consumerSightRepository,
+            IPrizeRepository prizeRepository
             )
         {
             _repository = repository;
@@ -37,6 +39,7 @@ namespace Bakis.Services
             _sightRepository = sightRepository;
             _cityEventRepository = cityEventRepository;
             _consumerSightRepository = consumerSightRepository;
+            _prizeRepository = prizeRepository;
         }
 
         public async Task<GetConsumerDto> GetById(int id)
@@ -132,6 +135,31 @@ namespace Bakis.Services
             return await _repository.EmailExists(email);
         }
 
+        public async Task<bool> BuyPrize(int id, int prizeId)
+        {
+            var consumerPrize = new ConsumerPrize();
+            var prize = await _prizeRepository.GetById(prizeId);
+            var consumer = await GetById(id);
+            if (consumer.UserPrize != null)
+            {
+                consumerPrize = await _repository.IsPrizeBought(id, prizeId);
+            }
+            if(consumerPrize == null)
+            {
+                consumerPrize = new ConsumerPrize
+                {
+                    ConsumerId = id,
+                    PrizeId = prizeId
+                };
+                consumer.UserPrize.Add(consumerPrize);
+                consumer.Points = consumer.Points - prize.Points;
+                var consumerToUpdate = await _repository.GetById(id);
+                _mapper.Map(consumer, consumerToUpdate);
+                return await _repository.Update(consumerToUpdate);
+            }
+            return false;
+        }
+
         public async Task<bool> UpdateVisited(int id, int sightId, bool isGamePlayed, int points)
         {
             bool isCheckedIn = false;
@@ -203,6 +231,7 @@ namespace Bakis.Services
 
         public async Task<GetConsumerDto> PlayGame(ConsumerSight consumerSight, GetConsumerDto currentConsumer, int points)
         {
+            consumerSight.IsGamePlayed = true;
             currentConsumer.Points += points;
             return currentConsumer;
         }

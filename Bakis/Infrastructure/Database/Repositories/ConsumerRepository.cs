@@ -31,6 +31,7 @@ namespace Bakis.Infrastructure.Database.Repositories
             consumer.UserSight = await Context.ConsumerSight.Where(c => c.ConsumerId == id).ToArrayAsync();
             consumer.UserEvent = await Context.ConsumerEvent.Where(c => c.ConsumerId == id).ToArrayAsync();
             consumer.UserQuiz = await Context.ConsumerQuiz.Where(c => c.ConsumerId == id).ToArrayAsync();
+            consumer.UserPrize = await Context.ConsumerPrize.Where(c => c.ConsumerId == id).ToArrayAsync();
             return consumer;
         }
 
@@ -80,6 +81,11 @@ namespace Bakis.Infrastructure.Database.Repositories
         {
             var consumerEvent = await Context.ConsumerEvent.SingleOrDefaultAsync(c => c.ConsumerId == id & c.EventId == eventId);
             return consumerEvent;
+        }
+        public async Task<ConsumerPrize> IsPrizeBought(int id, int prizeId)
+        {
+            var consumerPrize = await Context.ConsumerPrize.SingleOrDefaultAsync(c => c.ConsumerId == id & c.PrizeId == prizeId);
+            return consumerPrize;
         }
     }
 }
