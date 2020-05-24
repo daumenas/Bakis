@@ -7,6 +7,7 @@ import { TableRowEvent } from "../../models/table-row-event";
 import { BaseEventComponent } from '../base-event/base-event.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { SendReceiveService } from '../../services/send-receive.service';
+import { MatSort } from '@angular/material/sort';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class EventPageComponent implements OnInit {
 
   eventDataSource = new MatTableDataSource(this.listOfData);
 
-  @ViewChild('eventPaginator') paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public dialog: MatDialog,
@@ -52,6 +54,7 @@ export class EventPageComponent implements OnInit {
       this.listOfData = [...this.events];
       this.eventDataSource = new MatTableDataSource(this.listOfData);
       this.eventDataSource.paginator = this.paginator;
+      this.eventDataSource.sort = this.sort;
     });
   }
 

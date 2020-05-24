@@ -7,6 +7,7 @@ import { BasePrize } from '../../models/base-prize';
 import { PrizeService } from '../../services/prize.service';
 import { BasePrizeComponent } from '../base-prize/base-prize.component';
 import { SendReceiveService } from '../../services/send-receive.service';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-admin-prize-page',
@@ -21,8 +22,8 @@ export class AdminPrizePageComponent implements OnInit {
   displayedColumns: string[] = ['id','picture', 'name', 'description', 'points', 'actions'];
   prizeDataSource = new MatTableDataSource(this.listOfData);
 
-
-  @ViewChild('prizePaginator') paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     public dialog: MatDialog,
@@ -43,6 +44,7 @@ export class AdminPrizePageComponent implements OnInit {
       this.listOfData = [...this.prizes];
       this.prizeDataSource = new MatTableDataSource(this.listOfData);
       this.prizeDataSource.paginator = this.paginator;
+      this.prizeDataSource.sort = this.sort;
     });
   }
 
