@@ -14,14 +14,14 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./event-user-list.component.css']
 })
 export class EventUserListComponent implements OnInit {
-  userIds: number[];
-  listOfData: number[] = [];
+  names: string[];
+  listOfData: string[] = [];
   users: BaseUser[];
   filtered: BaseUser[];
 
-  displayedColumns: string[] = ['name', 'lastname'];
+  displayedColumns: string[] = ['name'];
 
-  userDataSource = new MatTableDataSource(this.filtered);
+  userDataSource = new MatTableDataSource(this.listOfData);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -40,14 +40,10 @@ export class EventUserListComponent implements OnInit {
 
   refreshTable() {
     this.eventService.getEventByIdList(this.data.id).subscribe(event => {
-      this.userIds = event.userEvent.map(data => data.consumerId);
-      this.listOfData = [...this.userIds];
-      this.getUserNames();
-      this.sendReceiveService.eventReceive$.subscribe(() => {
-        this.userDataSource = new MatTableDataSource(this.filtered);
-        this.userDataSource.paginator = this.paginator;
-        this.userDataSource.sort = this.sort;
-      })
+      this.listOfData = [...event.consumerFullName];
+      this.userDataSource = new MatTableDataSource(this.listOfData);
+      this.userDataSource.paginator = this.paginator;
+      this.userDataSource.sort = this.sort;
     });
   }
 
@@ -60,15 +56,5 @@ export class EventUserListComponent implements OnInit {
   applyFilter(user: Event) {
     const filterValue = (user.target as HTMLInputElement).value;
     this.userDataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  getUserNames() {
-    console.log();
-    this.userService.getAllUsers().subscribe(users => {
-      this.filtered = users.filter(data => {
-        return this.listOfData.indexOf(data.id) !== -1
-      })
-      this.sendReceiveService.eventSender(true);
-    })
   }
 }

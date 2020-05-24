@@ -38,7 +38,7 @@ export class CityEventService {
   }
 
   getEventByIdList(id: number): Observable<EventList> {
-    return this.http.get<EventList>(`${this.eventApi}/${id}`);
+    return this.http.get<EventList>(`${this.eventApi}/getAllUsers/${id}`);
   }
 
   getAllEventsForMap(): Observable<UserEvent[]> {

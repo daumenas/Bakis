@@ -5,5 +5,5 @@ import { EventListUser } from './event-list-user';
 
 
 export class EventList extends TableRowEvent {
-  userEvent: EventListUser[]
+  consumerFullName: string[];
 }
