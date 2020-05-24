@@ -32,6 +32,10 @@ export class UserService {
     return this.http.get<BaseUser>(`${this.userApi}/${this.thisUserId}`);
   }
 
+  getUserById(id: number): Observable<BaseUser> {
+    return this.http.get<BaseUser>(`${this.userApi}/${id}`);
+  }
+
   editUser(user: BaseUser, id: number) {
     return this.http.put(`${this.userApi}/${id}`, user);
   }

@@ -1,4 +1,4 @@
-﻿using Bakis.Infrastructure.Database.Models;
+using Bakis.Infrastructure.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace Bakis.Infrastructure.Database.Repositories
         public async Task<CityEvent> GetById(int id)
         {
             var cityEvent = await Context.CityEvent.FindAsync(id);
-
+            cityEvent.UserEvent = await Context.ConsumerEvent.Where(c => c.EventId == id).ToArrayAsync();
             return cityEvent;
         }
 

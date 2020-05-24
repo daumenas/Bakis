@@ -37,6 +37,7 @@ export class MapComponent implements AfterViewInit  {
   eventIcon: any;
   eventCheckIcon: any;
   markerIcon: any;
+  dateNow: Date;
 
   constructor(
     private eventService: CityEventService,
@@ -48,6 +49,7 @@ export class MapComponent implements AfterViewInit  {
     private auth: AuthenticationService) { }
 
   ngAfterViewInit(): void {
+    this.dateNow = new Date();
     var maxBounds = [
       [53.739685, 27.380221],
       [56.636485, 20.439204]
@@ -265,6 +267,10 @@ export class MapComponent implements AfterViewInit  {
   setPopUp(markers, isSight) {
     let listOfData = (isSight) ? this.listOfSightData : this.listOfEventData;
     for (var i = 0; i < markers.length; i++) {
+      if (!isSight) {
+        var dateStart = new Date(this.listOfEventData[i].dateFrom);
+        var dateEnd = new Date(this.listOfEventData[i].dateTo);
+      }
       var meters = this.location.distanceTo(markers[i]._latlng);
       if (meters <= 30) {
         markers[i]._popup.setContent(
@@ -276,7 +282,9 @@ export class MapComponent implements AfterViewInit  {
             " at: " + this.listOfEventData[i].time.toString().split("T").pop() + '<br />' + "Ends: " + this.listOfEventData[i].dateTo.toString().split("T").shift() +
             " at: " + this.listOfEventData[i].endTime.toString().split("T").pop() + '<br />') + '<br />' + '<br />'
           + ((listOfData[i].isCheckedIn == true) ? '<button class="checkIn" style="display: none">Check in</button>' :
-            '<button class="checkIn">Check in ' + listOfData[i].points + 'p </button>') +
+            ((isSight) ? '<button class="checkIn">Check in ' + listOfData[i].points + 'p </button>' :
+              ((dateStart <= this.dateNow && dateEnd >= this.dateNow) ? '<button class="checkIn">Check in ' +
+                listOfData[i].points + 'p </button>' : '<button class="checkIn" style="display: none">Check in</button>'))) +
           ((isSight) ? (this.listOfSightData[i].isGamePlayed == true) ?
             '<button class="playGame button" style="display: none">Play game</button>' : '<button class="playGame">Play game</button>' : '') + '</div>'
           );
@@ -302,28 +310,36 @@ export class MapComponent implements AfterViewInit  {
   }
 
   getPointsForEvent(event: any) {
-    var eventId = this.listOfEventData[event._source.options.id].id;
-    this.consumerService.eventCheckIn(eventId).subscribe(data => {
-      this.sendReceiveService.pointSender(true);
-      this.listOfEventData[event._source.options.id].checkedIn = this.listOfEventData[event._source.options.id].checkedIn + 1;
-      this.eventService.editEvent(this.listOfEventData[event._source.options.id], this.listOfEventData[event._source.options.id].id).subscribe(() => {
-        this.eventMarkers[event._source.options.id]._popup.setContent(
-          '<div style="text-align: center"><h3>' + this.listOfEventData[event._source.options.id].name +
-          '</h3><p>' + this.listOfEventData[event._source.options.id].description +
-          '</p>' + this.listOfEventData[event._source.options.id].address + '<br />' +
-          'Amount of people checked in here: ' + this.listOfEventData[event._source.options.id].checkedIn +
-          '<br />' + 'Estimated maximum amount of people: ' + this.listOfEventData[event._source.options.id].amount + '<br />' +
-          "Starts: " + this.listOfEventData[event._source.options.id].dateFrom.toString().split("T").shift() +
-          " at: " + this.listOfEventData[event._source.options.id].time.toString().split("T").pop() + '<br />' + "Ends: " +
-          this.listOfEventData[event._source.options.id].dateTo.toString().split("T").shift() +
-          " at: " + this.listOfEventData[event._source.options.id].endTime.toString().split("T").pop() + '<br />' + 
-          '<button class="checkIn" style="display: none">Check in</button>' + '</div>');
-        this.listOfEventData[event._source.options.id].isCheckedIn = true;
-        this.setEventMarkerIcon(this.listOfEventData[event._source.options.id]);
-        this.eventMarkers[event._source.options.id].setIcon(this.eventSelectionIcon);
-        this.eventMarkers[event._source.options.id].update();
-      });
-    });
+    if (this.isAuthenticated()) {
+      if (this.listOfSightData[event._source.options.id].isCheckedIn == false) {
+        var dateStart = new Date(this.listOfEventData[event._source.options.id].dateFrom);
+        var dateEnd = new Date(this.listOfEventData[event._source.options.id].dateTo);
+        if (dateStart <= this.dateNow && dateEnd >= this.dateNow) {
+        var eventId = this.listOfEventData[event._source.options.id].id;
+        this.consumerService.eventCheckIn(eventId).subscribe(data => {
+          this.sendReceiveService.pointSender(true);
+          this.listOfEventData[event._source.options.id].checkedIn = this.listOfEventData[event._source.options.id].checkedIn + 1;
+          this.eventService.editEvent(this.listOfEventData[event._source.options.id], this.listOfEventData[event._source.options.id].id).subscribe(() => {
+            this.eventMarkers[event._source.options.id]._popup.setContent(
+              '<div style="text-align: center"><h3>' + this.listOfEventData[event._source.options.id].name +
+              '</h3><p>' + this.listOfEventData[event._source.options.id].description +
+              '</p>' + this.listOfEventData[event._source.options.id].address + '<br />' +
+              'Amount of people checked in here: ' + this.listOfEventData[event._source.options.id].checkedIn +
+              '<br />' + 'Estimated maximum amount of people: ' + this.listOfEventData[event._source.options.id].amount + '<br />' +
+              "Starts: " + this.listOfEventData[event._source.options.id].dateFrom.toString().split("T").shift() +
+              " at: " + this.listOfEventData[event._source.options.id].time.toString().split("T").pop() + '<br />' + "Ends: " +
+              this.listOfEventData[event._source.options.id].dateTo.toString().split("T").shift() +
+              " at: " + this.listOfEventData[event._source.options.id].endTime.toString().split("T").pop() + '<br />' +
+              '<button class="checkIn" style="display: none">Check in</button>' + '</div>');
+            this.listOfEventData[event._source.options.id].isCheckedIn = true;
+            this.setEventMarkerIcon(this.listOfEventData[event._source.options.id]);
+            this.eventMarkers[event._source.options.id].setIcon(this.eventSelectionIcon);
+            this.eventMarkers[event._source.options.id].update();
+          });
+        });
+        }
+      }
+    }
   }
 
   getPointsForSight(sight: any) {

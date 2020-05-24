@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TableRowEvent } from "../../models/table-row-event";
 import { MatPaginator } from '@angular/material/paginator';
 import { SendReceiveService } from '../../services/send-receive.service';
+import { EventUserListComponent } from '../event-user-list/event-user-list.component';
 
 @Component({
   selector: 'app-submit-event',
@@ -47,6 +48,18 @@ export class SubmitEventComponent implements OnInit {
       this.listOfData = [...this.events];
       this.eventDataSource = new MatTableDataSource(this.listOfData);
       this.eventDataSource.paginator = this.paginator;
+    });
+  }
+
+  openUserList(event: TableRowEvent): void {
+    const dialogRef = this.dialog.open(EventUserListComponent, {
+      width: '550px',
+      data: {
+        id: event.id
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
     });
   }
 

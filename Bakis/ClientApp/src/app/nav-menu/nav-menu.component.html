@@ -30,22 +30,22 @@
             <a class="nav-link text-dark" [routerLink]="['/register']">Register</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfAdmin()">
-            <a class="nav-link text-dark" [routerLink]="['/quizpage']">Quiz Page</a>
+            <a class="nav-link text-dark" [routerLink]="['/quizpage']">Quizzes</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfAdmin()">
-            <a class="nav-link text-dark" [routerLink]="['/consumerpage']">Consumer Page</a>
+            <a class="nav-link text-dark" [routerLink]="['/consumerpage']">Consumers</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfAdmin()">
-            <a class="nav-link text-dark" [routerLink]="['/eventpage']">Event Page</a>
+            <a class="nav-link text-dark" [routerLink]="['/eventpage']">Events</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfAdmin()">
-            <a class="nav-link text-dark" [routerLink]="['/sightpage']">Sight Page</a>
+            <a class="nav-link text-dark" [routerLink]="['/sightpage']">Sights</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfAdmin()">
-            <a class="nav-link text-dark" [routerLink]="['/adminprizepage']">Prize Page</a>
+            <a class="nav-link text-dark" [routerLink]="['/adminprizepage']">Prizes</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfUser()">
-            <a class="nav-link text-dark" [routerLink]="['/userprizepage']">Prize Page</a>
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfUser() || checkIfEvent()">
+            <a class="nav-link text-dark" [routerLink]="['/userprizepage']">Prizes</a>
           </li>
           <li class="nav-item aLink" [routerLinkActive]="['link-active']" *ngIf="checkIfEvent()">
             <a class="nav-link text-dark" [routerLink]="['/submitevent']">Submit Event</a>
