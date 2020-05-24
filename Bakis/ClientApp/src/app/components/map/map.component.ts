@@ -311,7 +311,7 @@ export class MapComponent implements AfterViewInit  {
 
   getPointsForEvent(event: any) {
     if (this.isAuthenticated()) {
-      if (this.listOfSightData[event._source.options.id].isCheckedIn == false) {
+      if (this.listOfEventData[event._source.options.id].isCheckedIn == false) {
         var dateStart = new Date(this.listOfEventData[event._source.options.id].dateFrom);
         var dateEnd = new Date(this.listOfEventData[event._source.options.id].dateTo);
         if (dateStart <= this.dateNow && dateEnd >= this.dateNow) {
