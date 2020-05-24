@@ -25,7 +25,6 @@ namespace Bakis.Infrastructure.Database.Repositories
         public async Task<CityEvent> GetById(int id)
         {
             var cityEvent = await Context.CityEvent.FindAsync(id);
-            cityEvent.UserEvent = await Context.ConsumerEvent.Where(c => c.EventId == id).ToArrayAsync();
             return cityEvent;
         }
 
@@ -51,6 +50,12 @@ namespace Bakis.Infrastructure.Database.Repositories
             var changes = await Context.SaveChangesAsync();
 
             return changes > 0;
+        }
+
+        public async Task<ICollection<ConsumerEvent>> GetAllUsersWhoCheckedIn(int id)
+        {
+            var cityEventConsumers = await Context.ConsumerEvent.Include(c => c.Consumer).Where(c => c.EventId == id).ToListAsync();
+            return cityEventConsumers;
         }
     }
 }

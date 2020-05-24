@@ -25,6 +25,6 @@ namespace Bakis.Dtos.CityEvents
         public bool Approval { get; set; }
         public bool IsCheckedIn { get; set; }
         public int CreatedBy { get; set; }
-        public ICollection<ConsumerEvent> UserEvent { get; set; }
+        public List<string> ConsumerFullName { get; set; }
     }
 }
