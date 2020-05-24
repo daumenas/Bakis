@@ -64,11 +64,11 @@ namespace Bakis.Infrastructure.Database.Repositories
                         .SingleOrDefault();
 
                     if (existingChild != null)
-                        // Update child
+                    {
                         _context.Entry(existingChild).CurrentValues.SetValues(childModel);
+                    }
                     else
                     {
-                        // Insert child
                         var newChild = await _questionRepository.GetById(childModel.Id);
                         quiz.Questions.Add(newChild);
                     }
