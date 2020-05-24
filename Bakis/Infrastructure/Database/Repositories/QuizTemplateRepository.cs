@@ -10,9 +10,11 @@ namespace Bakis.Infrastructure.Database.Repositories
     public class QuizTemplateRepository : IQuizTemplateRepository
     {
         protected readonly AppDbContext _context;
-        public QuizTemplateRepository(AppDbContext context)
+        protected readonly IQuestionRepository _questionRepository;
+        public QuizTemplateRepository(AppDbContext context, IQuestionRepository questionRepository)
         {
             _context = context;
+            _questionRepository = questionRepository;
         }
         public async Task<ICollection<QuizTemplate>> GetAll()
         {
@@ -47,7 +49,31 @@ namespace Bakis.Infrastructure.Database.Repositories
 
         public async Task<bool> Update(QuizTemplate newQuizTemplate)
         {
-            _context.QuizTemplates.Attach(newQuizTemplate);
+            var quiz = _context.QuizTemplates.Include(c => c.Questions).FirstOrDefault(x => x.Id == newQuizTemplate.Id);
+            if(quiz != null)
+            {
+                foreach (var question in quiz.Questions.ToList())
+                {
+                    if (!newQuizTemplate.Questions.Any(c => c.Id == question.Id))
+                        _context.Questions.Remove(question);
+                }
+                foreach (var childModel in newQuizTemplate.Questions)
+                {
+                    var existingChild = quiz.Questions
+                        .Where(c => c.Id == childModel.Id)
+                        .SingleOrDefault();
+
+                    if (existingChild != null)
+                        // Update child
+                        _context.Entry(existingChild).CurrentValues.SetValues(childModel);
+                    else
+                    {
+                        // Insert child
+                        var newChild = await _questionRepository.GetById(childModel.Id);
+                        quiz.Questions.Add(newChild);
+                    }
+                }
+            }
             var changes = await _context.SaveChangesAsync();
 
             return changes > 0;
@@ -73,7 +99,7 @@ namespace Bakis.Infrastructure.Database.Repositories
                 .Where(c => c.Id == id).FirstOrDefaultAsync();
             quizTemplate.Questions = await _context.Questions.Include(c => c.QuestionChoices)
                 .Where(c => c.QuizTemplate.Id == quizTemplate.Id).ToListAsync();
-            //quizTemplate.Questions.();
+            quizTemplate.Questions = null;
             _context.QuizTemplates.Update(quizTemplate);
             var changes = await _context.SaveChangesAsync();
             return changes > 0;
