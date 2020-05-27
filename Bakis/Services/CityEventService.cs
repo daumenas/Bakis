@@ -12,7 +12,7 @@ namespace Bakis.Services
 {
     public class CityEventService : ICityEventService
     {
-        private readonly IRepositoryBase<CityEvent> _repository;
+        private readonly ICityEventRepository _repository;
         private readonly IConsumersService _consumersService;
         private readonly IMapper _mapper;
 
@@ -93,6 +93,24 @@ namespace Bakis.Services
                 }
             }
             return cityEventsDto;
+        }
+
+        public async Task<GetCityEventDto> GetAllUsersWhoCheckedIn(int id)
+        {
+            var cityEvents = await _repository.GetById(id);
+            var cityEventsConsumers = await _repository.GetAllUsersWhoCheckedIn(id);
+            var cityEventDto = _mapper.Map<GetCityEventDto>(cityEvents);
+            cityEventDto.ConsumerFullName = new List<string>();
+            var consumers = await _consumersService.GetAll();
+            if (cityEventsConsumers != null)
+            {
+                foreach (var cityEventConsumer in cityEventsConsumers)
+                {
+                    string fullName = cityEventConsumer.Consumer.Name + " " + cityEventConsumer.Consumer.Surname;
+                    cityEventDto.ConsumerFullName.Add(fullName);
+                }
+            }
+            return cityEventDto;
         }
     }
 }

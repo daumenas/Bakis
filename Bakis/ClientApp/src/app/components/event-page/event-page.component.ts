@@ -8,6 +8,7 @@ import { BaseEventComponent } from '../base-event/base-event.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { SendReceiveService } from '../../services/send-receive.service';
 import { MatSort } from '@angular/material/sort';
+import { EventUserListComponent } from '../event-user-list/event-user-list.component';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class EventPageComponent implements OnInit {
   saveEditText: string = "Edit event";
 
   displayedColumns: string[] = ['id', 'name', 'description', 'points',
-    'address', 'latitude', 'longitude', 'dateFrom', 'dateTo', 'time', 'endTime', 'amount', 'checkedIn', 'actions'];
+    'address', 'latitude', 'longitude', 'dateFrom', 'dateTo', 'time', 'endTime', 'amount', 'checkedIn', 'userlist', 'actions'];
 
   eventDataSource = new MatTableDataSource(this.listOfData);
 
@@ -87,6 +88,18 @@ export class EventPageComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.eventDataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  openUserList(event: TableRowEvent): void {
+    const dialogRef = this.dialog.open(EventUserListComponent, {
+      width: '550px',
+      data: {
+        id: event.id
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+    });
   }
 
   openEditForm(event: TableRowEvent): void {

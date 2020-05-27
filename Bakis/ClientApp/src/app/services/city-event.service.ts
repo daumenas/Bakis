@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { BaseEvent } from "../models/base-event";
 import { TableRowEvent } from "../models/table-row-event"
 import { UserEvent } from "../models/user-event";
+import { EventList } from "../models/event-list";
 @Injectable({ providedIn: 'root' })
 
 @Injectable({
@@ -30,6 +31,14 @@ export class CityEventService {
 
   getAllEvents(): Observable<TableRowEvent[]> {
     return this.http.get<TableRowEvent[]>(this.eventApi);
+  }
+
+  getEventById(id: number): Observable<TableRowEvent[]> {
+    return this.http.get<TableRowEvent[]>(`${this.eventApi}/${id}`);
+  }
+
+  getEventByIdList(id: number): Observable<EventList> {
+    return this.http.get<EventList>(`${this.eventApi}/getAllUsers/${id}`);
   }
 
   getAllEventsForMap(): Observable<UserEvent[]> {

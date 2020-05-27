@@ -81,5 +81,18 @@ namespace Bakis.Controllers
 
             return NoContent();
         }
+
+        // GET: api/CityEvents/getAllUsers/5
+        [HttpGet("getAllUsers/{id}")]
+        [Produces(typeof(GetCityEventDto))]
+        public async Task<IActionResult> GetAllUsersWhoCheckedIn(int id)
+        {
+            var cityEvent = await _cityEventService.GetAllUsersWhoCheckedIn(id);
+
+            if (cityEvent == null)
+                return NotFound();
+
+            return Ok(cityEvent);
+        }
     }
 }

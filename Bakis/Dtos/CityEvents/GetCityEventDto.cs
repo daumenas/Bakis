@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Bakis.Dtos.Consumers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bakis.Infrastructure.Database.Models;
 
 namespace Bakis.Dtos.CityEvents
 {
@@ -23,5 +25,6 @@ namespace Bakis.Dtos.CityEvents
         public bool Approval { get; set; }
         public bool IsCheckedIn { get; set; }
         public int CreatedBy { get; set; }
+        public List<string> ConsumerFullName { get; set; }
     }
 }
