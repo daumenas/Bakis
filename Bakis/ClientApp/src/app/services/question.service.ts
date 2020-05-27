@@ -41,5 +41,9 @@ export class QuestionService {
     return this.http.get<BaseQuizQuestion[]>(`${this.questionApi}/${id}/${quizName}`);
   }
 
+  getAllEmptyAndQuizQuestionChoices(id: number): Observable<BaseQuizQuestion[]> {
+    return this.http.get<BaseQuizQuestion[]>(`${this.questionApi}/allquizchoices/${id}`);
+  }
+
 
 }

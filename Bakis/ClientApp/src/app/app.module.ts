@@ -38,6 +38,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatSortModule } from '@angular/material/sort';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 import { APP_ROUTES } from './app-routing.module';
@@ -109,7 +111,9 @@ export function tokenGetter() {
     MatPaginatorModule,
     MatCardModule,
     MatSnackBarModule,
+    MatBadgeModule,
     NgxMaterialTimepickerModule.setLocale('lt-LT'),
+    MatSortModule,
 
     HttpClientModule,
     FormsModule,

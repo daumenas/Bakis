@@ -11,6 +11,8 @@ import { BaseQuizTemplateComponent } from '../base-quiz-template/base-quiz-templ
 import { QuestionService } from '../../services/question.service';
 import { QuizGameComponent } from '../quiz-game/quiz-game.component';
 import { SendReceiveService } from '../../services/send-receive.service';
+import { BaseQuestionComponent } from '../base-question/base-question.component';
+import { MatSort } from '@angular/material/sort';
 
 
 @Component({
@@ -20,19 +22,24 @@ import { SendReceiveService } from '../../services/send-receive.service';
 })
 export class QuizPageComponent implements OnInit {
   quizTemplates: BaseQuizTemplate[];
+  questions: BaseQuizQuestion[];
   quizTemplateToUpdate: BaseQuizTemplate;
 
   quizQuestion: BaseQuizQuestion[] = [];
 
   baseQuiz: BaseQuizQuestion[] = [];
 
-  listOfData: BaseQuizTemplate[] = [];
+  listOfQuizData: BaseQuizTemplate[] = [];
+  listOfQuestionData: BaseQuizQuestion[] = [];
 
-  displayedColumns: string[] = ['id', 'title', 'sightName', 'questions', 'actions'];
+  displayedColumnsQuiz: string[] = ['id', 'title', 'sightName', 'questions', 'preview', 'actions'];
+  displayedColumnsQuestions: string[] = ['id', 'name', 'title', 'choices', 'correct', 'points', 'actions'];
 
-  quizTemplatesDataSource = new MatTableDataSource(this.listOfData);
+  quizTemplatesDataSource = new MatTableDataSource(this.listOfQuizData);
+  questionTemplatesDataSource = new MatTableDataSource(this.listOfQuestionData);
 
-  @ViewChild('sightPaginator') paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public dialog: MatDialog,
@@ -51,14 +58,32 @@ export class QuizPageComponent implements OnInit {
   refreshTable() {
     this.quizService.getAllQuizTemplates().subscribe(quizTemplates => {
       this.quizTemplates = quizTemplates;
-      this.listOfData = [...this.quizTemplates];
-      this.quizTemplatesDataSource = new MatTableDataSource(this.listOfData);
+      this.listOfQuizData = [...this.quizTemplates];
+      this.quizTemplatesDataSource = new MatTableDataSource(this.listOfQuizData);
       this.quizTemplatesDataSource.paginator = this.paginator;
+      this.quizTemplatesDataSource.sort = this.sort;
+    });
+    this.questionService.getAllQuestions().subscribe(questions => {
+      console.log(questions);
+      this.questions = questions;
+      this.listOfQuestionData = [...this.questions];
+      this.questionTemplatesDataSource = new MatTableDataSource(this.listOfQuestionData);
+      this.questionTemplatesDataSource.paginator = this.paginator;
     });
   }
 
   getQuestionTitles(quiz) {
     return quiz.questions.map(r => r.title);
+  }
+
+  getQuestionChoices(question) {
+    return question.questionChoices.map(r => r.title);
+  }
+
+  getQuestionCorrectAnswer(question) {
+    return question.questionChoices.find(choices => {
+      return choices.id === question.correctAnswer;
+    }).title;
   }
 
   showUnexpectedError(): void {
@@ -70,6 +95,11 @@ export class QuizPageComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.quizTemplatesDataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  applyQuestionFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.questionTemplatesDataSource.filter = filterValue.trim().toLowerCase();
   }
 
   registerQuizTemplate(newQuizTemplate: NewQuizTemplate) {
@@ -121,6 +151,28 @@ export class QuizPageComponent implements OnInit {
     });
   }
 
+  openNewQuestionForm(): void {
+    const dialogRef = this.dialog.open(BaseQuestionComponent, {
+      width: '550px',
+      data: {
+      }
+    });
+    dialogRef.afterClosed().subscribe(() => {
+    });
+  }
+
+  openEditQuestionForm(questionTemplate: BaseQuizQuestion): void {
+    const dialogRef = this.dialog.open(BaseQuestionComponent, {
+      width: '550px',
+      data: {
+        isEdit: true,
+        question: questionTemplate
+      }
+    });
+    dialogRef.afterClosed().subscribe(() => {
+    });
+  }
+
   editQuizTemplate(quizTemplate: NewQuizTemplate, id: number) {
     this.quizService.editQuizTemplates(quizTemplate, id).subscribe(() => {
       this.refreshTable();
@@ -129,14 +181,26 @@ export class QuizPageComponent implements OnInit {
     });
   }
 
-  showDeleteConfirm(quizTemplateToDelete: BaseQuizTemplate): void {
+  showQuizDeleteConfirm(quizTemplateToDelete: BaseQuizTemplate): void {
     if (confirm('If you confirm,' + quizTemplateToDelete.name + ' will be permanently deleted.')) {
-      this.deleteSightById(quizTemplateToDelete.id)
+      this.deleteQuizById(quizTemplateToDelete.id)
     }
   }
 
-  deleteSightById(id: number) {
+  deleteQuizById(id: number) {
     this.quizService.deleteQuizTemplate(id).subscribe(() => {
+      this.refreshTable();
+    });
+  }
+  showQuestionDeleteConfirm(questionTemplateToDelete: BaseQuizQuestion): void {
+    console.log(questionTemplateToDelete);
+    if (confirm('If you confirm,' + questionTemplateToDelete.name + ' will be permanently deleted.')) {
+      this.deleteQuestionById(questionTemplateToDelete.id)
+    }
+  }
+
+  deleteQuestionById(id: number) {
+    this.questionService.deleteQuestion(id).subscribe(() => {
       this.refreshTable();
     });
   }

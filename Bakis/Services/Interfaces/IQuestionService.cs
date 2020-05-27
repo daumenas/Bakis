@@ -14,5 +14,6 @@ namespace Bakis.Services.Interfaces
         Task Update(int id, UpdateQuestionDto updateData);
         Task<bool> Delete(int id);
         Task<ICollection<GetQuestionDto>> GetAllEmptyAndByQuizId(int id);
+        Task<ICollection<GetQuestionDto>> GetAllEmptyAndQuizQuestionChoices(int id);
     }
 }

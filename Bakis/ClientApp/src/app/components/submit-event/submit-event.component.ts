@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TableRowEvent } from "../../models/table-row-event";
 import { MatPaginator } from '@angular/material/paginator';
 import { SendReceiveService } from '../../services/send-receive.service';
+import { MatSort } from '@angular/material/sort';
 import { EventUserListComponent } from '../event-user-list/event-user-list.component';
 
 @Component({
@@ -26,7 +27,8 @@ export class SubmitEventComponent implements OnInit {
 
   eventDataSource = new MatTableDataSource(this.listOfData);
 
-  @ViewChild('eventPaginator') paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(public dialog: MatDialog,
     private eventService: CityEventService,
@@ -48,6 +50,7 @@ export class SubmitEventComponent implements OnInit {
       this.listOfData = [...this.events];
       this.eventDataSource = new MatTableDataSource(this.listOfData);
       this.eventDataSource.paginator = this.paginator;
+      this.eventDataSource.sort = this.sort;
     });
   }
 

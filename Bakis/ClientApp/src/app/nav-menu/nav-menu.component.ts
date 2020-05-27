@@ -52,7 +52,7 @@ export class NavMenuComponent {
   checkIfUser() {
     if (this.check()) {
       const user = this.auth.decode();
-      if (user.role === "User") {
+      if (user.role === "User" || user.role === "Event Organizer") {
         return true;
       }
       return false;

@@ -280,7 +280,7 @@ export class MapComponent implements AfterViewInit  {
             'Estimated maximum amount of people: ' + this.listOfEventData[i].amount + '<br />' +
             "Starts: " + this.listOfEventData[i].dateFrom.toString().split("T").shift() +
             " at: " + this.listOfEventData[i].time.toString().split("T").pop() + '<br />' + "Ends: " + this.listOfEventData[i].dateTo.toString().split("T").shift() +
-            " at: " + this.listOfEventData[i].endTime.toString().split("T").pop() + '<br />') + '<br />' + '<br />'
+            " at: " + this.listOfEventData[i].endTime.toString().split("T").pop() + '<br />') + 'Distance to: ' + meters.toFixed(2) + 'm  <br />' + '<br />'
           + ((listOfData[i].isCheckedIn == true) ? '<button class="checkIn" style="display: none">Check in</button>' :
             ((isSight) ? '<button class="checkIn">Check in ' + listOfData[i].points + 'p </button>' :
               ((dateStart <= this.dateNow && dateEnd >= this.dateNow) ? '<button class="checkIn">Check in ' +
@@ -298,7 +298,7 @@ export class MapComponent implements AfterViewInit  {
           ((isSight) ? '' : '<br />' + 'Estimated maximum amount of people: ' + this.listOfEventData[i].amount + '<br />' +
             "Starts: " + this.listOfEventData[i].dateFrom.toString().split("T").shift() +
             " at: " + this.listOfEventData[i].time.toString().split("T").pop() + '<br />' + "Ends: " + this.listOfEventData[i].dateTo.toString().split("T").shift() +
-            " at: " + this.listOfEventData[i].endTime.toString().split("T").pop() + '<br />') + '<br />' + '<br />' +
+            " at: " + this.listOfEventData[i].endTime.toString().split("T").pop() + '<br />') + 'Distance to: ' + meters.toFixed(2) + 'm <br />' + '<br />' +
           ((listOfData[i].isCheckedIn == true) ? '<button class="checkIn" style="display: none">Check in</button>' :
             '<button class="checkIn" disabled>Check in ' + listOfData[i].points + 'p </button>') +
           ((isSight) ? (this.listOfSightData[i].isGamePlayed == true) ?

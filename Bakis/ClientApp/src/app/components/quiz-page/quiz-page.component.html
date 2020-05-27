@@ -10,26 +10,33 @@
 
 <div class="table-wrapper">
   <div class="table-scroll">
-    <table mat-table [dataSource]="quizTemplatesDataSource">
+    <table mat-table [dataSource]="quizTemplatesDataSource" matSort matSortActive="id" matSortDirection="asc">
 
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
         <td mat-cell *matCellDef="let quizTemplate">{{quizTemplate.id}}</td>
       </ng-container>
 
       <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
         <td mat-cell *matCellDef="let quizTemplate"> {{quizTemplate.title}} </td>
       </ng-container>
 
       <ng-container matColumnDef="sightName">
-        <th mat-header-cell *matHeaderCellDef> Assigned Sight </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Assigned Sight </th>
         <td mat-cell *matCellDef="let quizTemplate"> {{quizTemplate.sightName}} </td>
       </ng-container>
 
       <ng-container matColumnDef="questions">
-        <th mat-header-cell *matHeaderCellDef> Questions </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Questions </th>
         <td mat-cell *matCellDef="let quizTemplate"> {{getQuestionTitles(quizTemplate).join("\n")}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="preview">
+        <th mat-header-cell *matHeaderCellDef> Preview </th>
+        <td mat-cell *matCellDef="let quizTemplate">
+          <button mat-flat-button color="warn" class="actionButtons" (click)="openPreviewForm(quizTemplate)">Preview</button>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
@@ -37,13 +44,75 @@
         <td mat-cell *matCellDef="let quizTemplate">
           <button mat-flat-button color="primary" (click)="openEditForm(quizTemplate)">Edit</button>
           &nbsp;
-          <button mat-flat-button color="warn" class="actionButtons" (click)="openPreviewForm(quizTemplate)">Preview</button>
+          <button mat-flat-button color="warn" class="actionButtons" (click)="showQuizDeleteConfirm(quizTemplate)">Delete</button>
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsQuiz"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsQuiz;"></tr>
     </table>
   </div>
 </div>
 <mat-paginator #sightPaginator [pageSize]="10" [pageSizeOptions]="[10, 20, 40]">></mat-paginator>
+
+<div>
+  <br>
+  <button mat-flat-button class="top-of-page-actions" color="primary" (click)=openNewQuestionForm()>Add new question</button>
+  <br>
+  <mat-form-field class="top-of-page-actions">
+    <input matInput (keyup)="applyQuestionFilter($event)" placeholder="Search...">
+  </mat-form-field>
+  <br>
+</div>
+
+<div class="table-wrapper">
+  <div class="table-scroll">
+    <table mat-table [dataSource]="questionTemplatesDataSource">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let question">{{question.id}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let question"> {{question.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Question </th>
+        <td mat-cell *matCellDef="let question"> {{question.title}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="choices">
+        <th mat-header-cell *matHeaderCellDef> Choices </th>
+        <td mat-cell *matCellDef="let question"> {{getQuestionChoices(question).join("\n")}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="correct">
+        <th mat-header-cell *matHeaderCellDef> Correct choice </th>
+        <td mat-cell *matCellDef="let question"> {{getQuestionCorrectAnswer(question)}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="points">
+        <th mat-header-cell *matHeaderCellDef> Points </th>
+        <td mat-cell *matCellDef="let question"> {{question.points}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let question">
+          <button mat-flat-button color="primary" (click)="openEditQuestionForm(question)">Edit</button>
+          &nbsp;
+          <button mat-flat-button color="warn" class="actionButtons" (click)="showQuestionDeleteConfirm(question)">Delete</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsQuestions"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsQuestions;"></tr>
+    </table>
+  </div>
+</div>
+<mat-paginator #sightPaginator [pageSize]="10" [pageSizeOptions]="[10, 20, 40]">></mat-paginator>
+
+
