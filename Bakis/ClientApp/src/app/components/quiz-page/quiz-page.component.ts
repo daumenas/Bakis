@@ -12,6 +12,7 @@ import { QuestionService } from '../../services/question.service';
 import { QuizGameComponent } from '../quiz-game/quiz-game.component';
 import { SendReceiveService } from '../../services/send-receive.service';
 import { BaseQuestionComponent } from '../base-question/base-question.component';
+import { MatSort } from '@angular/material/sort';
 
 
 @Component({
@@ -37,7 +38,8 @@ export class QuizPageComponent implements OnInit {
   quizTemplatesDataSource = new MatTableDataSource(this.listOfQuizData);
   questionTemplatesDataSource = new MatTableDataSource(this.listOfQuestionData);
 
-  @ViewChild('sightPaginator') paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public dialog: MatDialog,
@@ -59,6 +61,7 @@ export class QuizPageComponent implements OnInit {
       this.listOfQuizData = [...this.quizTemplates];
       this.quizTemplatesDataSource = new MatTableDataSource(this.listOfQuizData);
       this.quizTemplatesDataSource.paginator = this.paginator;
+      this.quizTemplatesDataSource.sort = this.sort;
     });
     this.questionService.getAllQuestions().subscribe(questions => {
       console.log(questions);

@@ -10,25 +10,25 @@
 
 <div class="table-wrapper">
   <div class="table-scroll">
-    <table mat-table [dataSource]="quizTemplatesDataSource">
+    <table mat-table [dataSource]="quizTemplatesDataSource" matSort matSortActive="id" matSortDirection="asc">
 
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
         <td mat-cell *matCellDef="let quizTemplate">{{quizTemplate.id}}</td>
       </ng-container>
 
       <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
         <td mat-cell *matCellDef="let quizTemplate"> {{quizTemplate.title}} </td>
       </ng-container>
 
       <ng-container matColumnDef="sightName">
-        <th mat-header-cell *matHeaderCellDef> Assigned Sight </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Assigned Sight </th>
         <td mat-cell *matCellDef="let quizTemplate"> {{quizTemplate.sightName}} </td>
       </ng-container>
 
       <ng-container matColumnDef="questions">
-        <th mat-header-cell *matHeaderCellDef> Questions </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Questions </th>
         <td mat-cell *matCellDef="let quizTemplate"> {{getQuestionTitles(quizTemplate).join("\n")}} </td>
       </ng-container>
 

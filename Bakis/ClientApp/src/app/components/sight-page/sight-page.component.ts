@@ -7,6 +7,7 @@ import { BaseSightComponent } from '../base-sight/base-sight.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { BaseSight } from '../../models/base-sight';
 import { SendReceiveService } from '../../services/send-receive.service';
+import { MatSort } from '@angular/material/sort';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class SightPageComponent implements OnInit {
 
   sightDataSource = new MatTableDataSource(this.listOfData);
 
-  @ViewChild('sightPaginator') paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public dialog: MatDialog,
@@ -48,6 +50,7 @@ export class SightPageComponent implements OnInit {
       this.listOfData = [...this.sights];
       this.sightDataSource = new MatTableDataSource(this.listOfData);
       this.sightDataSource.paginator = this.paginator;
+      this.sightDataSource.sort = this.sort;
     });
   }
 

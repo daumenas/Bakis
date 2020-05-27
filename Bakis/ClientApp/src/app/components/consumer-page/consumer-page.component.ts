@@ -9,6 +9,7 @@ import { TableRowUser } from "../../models/table-row-user";
 import { UserEditDialogComponent } from '../user-edit-dialog/user-edit-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { SendReceiveService } from '../../services/send-receive.service';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-consumer-page',
@@ -29,8 +30,8 @@ export class ConsumerPageComponent implements OnInit {
 
   consumerDataSource = new MatTableDataSource(this.listOfData);
 
-  @ViewChild('consumerPaginator') paginator: MatPaginator;
-  
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public dialog: MatDialog,
@@ -51,6 +52,7 @@ export class ConsumerPageComponent implements OnInit {
       this.listOfData = [...this.users];
       this.consumerDataSource = new MatTableDataSource(this.listOfData);
       this.consumerDataSource.paginator = this.paginator;
+      this.consumerDataSource.sort = this.sort;
     });
   }
 
