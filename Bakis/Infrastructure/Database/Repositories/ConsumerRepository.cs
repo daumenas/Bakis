@@ -32,7 +32,6 @@ namespace Bakis.Infrastructure.Database.Repositories
             consumer.UserEvent = await Context.ConsumerEvent.Where(c => c.ConsumerId == id).ToArrayAsync();
             consumer.UserQuiz = await Context.ConsumerQuiz.Where(c => c.ConsumerId == id).ToArrayAsync();
             consumer.UserPrize = await Context.ConsumerPrize.Where(c => c.ConsumerId == id).ToArrayAsync();
-
             return consumer;
         }
 

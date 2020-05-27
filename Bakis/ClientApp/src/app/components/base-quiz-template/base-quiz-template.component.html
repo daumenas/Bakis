@@ -22,7 +22,7 @@
               <mat-option *ngFor="let sight of allSights" [value]="sight.id">{{sight.name}}</mat-option>
             </mat-select>
           </mat-form-field>
-          <button (click)="addQuestion()">Add Question</button>
+          <button mat-stroked-button color="accent" (click)="addQuestion()">Add Question</button>
         </mat-card-content>
         <button type="submit" [mat-dialog-close] mat-stroked-button color="accent" (click)="onSubmit()"
                 [disabled]="!baseQuizTemplateForm.valid" class="btn-block">{{buttonText}}</button>

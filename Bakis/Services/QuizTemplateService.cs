@@ -62,11 +62,21 @@ namespace Bakis.Services
 
         public async Task<NewQuizTemplateDto> Create(NewQuizTemplateDto newQuizTemplateDto)
         {
+            List<Question> questions = new List<Question>();
             if (newQuizTemplateDto == null)
                 throw new ArgumentNullException(nameof(newQuizTemplateDto));
 
             var newQuizTemplate = _mapper.Map<QuizTemplate>(newQuizTemplateDto);
-            await _repository.Create(newQuizTemplate);
+            var newQuiz = new QuizTemplate()
+            {
+                Title = newQuizTemplate.Title,
+                SightId = newQuizTemplate.SightId
+            };
+            var newQuizId = await _repository.Create(newQuiz);
+
+            newQuiz.Id = newQuizId;
+            var update = await _repository.Update(newQuiz);
+
             var QuizTemplateDto = _mapper.Map<NewQuizTemplateDto>(newQuizTemplate);
 
             return QuizTemplateDto;
@@ -88,7 +98,10 @@ namespace Bakis.Services
             if (updateData == null)
                 throw new ArgumentNullException(nameof(updateData));
 
-            var itemToUpdate = await _repository.GetById(id);
+            var itemToUpdate = new QuizTemplate()
+            {
+                Id = id
+            };
 
             if (itemToUpdate == null)
                 throw new InvalidOperationException();

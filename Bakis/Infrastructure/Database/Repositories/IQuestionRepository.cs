@@ -9,5 +9,6 @@ namespace Bakis.Infrastructure.Database.Repositories
     public interface IQuestionRepository : IRepositoryBase<Question>
     {
         Task<ICollection<Question>> GetAllByQuizId(int quizId);
+        Task<ICollection<Question>> GetAllEmptyAndQuizQuestionChoices(int quizId);
     }
 }

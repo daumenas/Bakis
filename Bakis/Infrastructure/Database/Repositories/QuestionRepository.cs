@@ -30,6 +30,14 @@ namespace Bakis.Infrastructure.Database.Repositories
             return questions;
         }
 
+        public async Task<ICollection<Question>> GetAllEmptyAndQuizQuestionChoices(int quizId)
+        {
+            var questions = await _context.Questions.Include(c => c.QuestionChoices)
+                .Include(c => c.QuizTemplate).Where(c => c.QuizTemplate == null || c.QuizTemplate.Id == quizId).ToArrayAsync();
+
+            return questions;
+        }
+
         public async Task<Question> GetById(int id)
         {
             var questions = await _context.Questions.Include(c => c.QuestionChoices)
