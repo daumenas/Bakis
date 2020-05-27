@@ -50,6 +50,7 @@ th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
 
 .imageStyle {
   max-width: 118px;
+  padding-bottom: 3px;
 }
 
 .cardStyle {

@@ -3,6 +3,7 @@ import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { TableRowPrize } from "../models/table-row-prize";
 import { BasePrize } from "../models/base-prize";
+import { UserPrize } from "../models/user-prizes";
 
 
 @Injectable({
@@ -10,6 +11,7 @@ import { BasePrize } from "../models/base-prize";
 })
 
 export class PrizeService {
+  private thisUserId: number;
   private readonly headers = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -36,5 +38,8 @@ export class PrizeService {
     return this.http.delete(`${this.prizeApi}/${id}`);
   }
 
-
+  getAllPrizesByUserId(): Observable<UserPrize[]> {
+    this.thisUserId = JSON.parse(localStorage.getItem('userId'));
+    return this.http.get<UserPrize[]>(`${this.prizeApi}/byuser/${this.thisUserId}`);
+  }
 }

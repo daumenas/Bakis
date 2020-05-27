@@ -71,5 +71,15 @@ namespace Bakis.Controllers
 
             return NoContent();
         }
+
+        // GET: api/Prizes/byuser/1
+        [HttpGet("byuser/{id}")]
+        [Produces(typeof(GetPrizeDto[]))]
+        public async Task<IActionResult> GetAllByUserId(int id)
+        {
+            var prizes = await _prizeService.GetAllByUserId(id);
+
+            return Ok(prizes);
+        }
     }
 }

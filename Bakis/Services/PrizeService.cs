@@ -13,12 +13,14 @@ namespace Bakis.Services
     public class PrizeService : IPrizeService
     {
         private readonly IPrizeRepository _repository;
+        private readonly IConsumersService _consumersService;
         private readonly IMapper _mapper;
 
-        public PrizeService(IPrizeRepository repository, IMapper mapper)
+        public PrizeService(IPrizeRepository repository, IMapper mapper, IConsumersService consumersService)
         {
             _repository = repository;
             _mapper = mapper;
+            _consumersService = consumersService;
         }
 
         public async Task<GetPrizeDto> GetById(int id)
@@ -72,6 +74,25 @@ namespace Bakis.Services
 
             _mapper.Map(updateData, itemToUpdate);
             await _repository.Update(itemToUpdate);
+        }
+
+        public async Task<ICollection<GetPrizeDto>> GetAllByUserId(int id)
+        {
+            var prizes = await _repository.GetAll();
+            var prizesDto = _mapper.Map<GetPrizeDto[]>(prizes);
+            var consumer = await _consumersService.GetById(id);
+            foreach (var userPrize in consumer.UserPrize)
+            {
+                foreach (var prize in prizesDto)
+                {
+                    if (userPrize.PrizeId == prize.Id)
+                    {
+                        prize.IsPrizeClaimed = true;
+                        break;
+                    }
+                }
+            }
+            return prizesDto;
         }
     }
 }
