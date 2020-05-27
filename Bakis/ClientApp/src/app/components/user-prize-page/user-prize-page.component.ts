@@ -72,7 +72,7 @@ export class UserPrizePageComponent implements OnInit {
         }
       })
     } else {
-      this.snackbar.open("You aldready redeemed this prize", null, {
+      this.snackbar.open("You already redeemed this prize", null, {
         duration: 1500
       });
     }
