@@ -53,7 +53,7 @@ export class UserPrizePageComponent implements OnInit {
   }
 
   getPrize(prize: UserPrize) {
-    if (prize.isRedeemed) {
+    if (!prize.isPrizeClaimed) {
       this.thisUserId = JSON.parse(localStorage.getItem('userId'));
       this.userService.getUser().subscribe(user => {
         this.user = user;

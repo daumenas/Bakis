@@ -3,5 +3,5 @@ import { TableRowPrize } from './table-row-prize';
 
 
 export class UserPrize extends TableRowPrize {
-  isRedeemed: boolean;
+  isPrizeClaimed: boolean;
 }
