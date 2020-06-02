@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -74,10 +74,9 @@ namespace Bakis.Services
             };
             var newQuizId = await _repository.Create(newQuiz);
 
-            newQuiz.Id = newQuizId;
-            var update = await _repository.Update(newQuiz);
-
             var QuizTemplateDto = _mapper.Map<NewQuizTemplateDto>(newQuizTemplate);
+            var UpdateQuizTemplate = _mapper.Map<UpdateQuizTemplateDto>(newQuizTemplate);
+            await Update(newQuizId, UpdateQuizTemplate);
 
             return QuizTemplateDto;
         }
