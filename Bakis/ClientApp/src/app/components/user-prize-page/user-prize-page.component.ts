@@ -68,11 +68,14 @@ export class UserPrizePageComponent implements OnInit {
               this.loadPoints();
               this.refreshTable();
             });
+            this.snackbar.open("To redeem the prize come to the main office", null, {
+              duration: 1500
+            });
           }
         }
       })
     } else {
-      this.snackbar.open("You already redeemed this prize", null, {
+      this.snackbar.open("To redeem the prize come to the main office", null, {
         duration: 1500
       });
     }

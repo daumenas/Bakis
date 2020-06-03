@@ -64,7 +64,6 @@ export class QuizPageComponent implements OnInit {
       this.quizTemplatesDataSource.sort = this.sort;
     });
     this.questionService.getAllQuestions().subscribe(questions => {
-      console.log(questions);
       this.questions = questions;
       this.listOfQuestionData = [...this.questions];
       this.questionTemplatesDataSource = new MatTableDataSource(this.listOfQuestionData);
@@ -193,7 +192,6 @@ export class QuizPageComponent implements OnInit {
     });
   }
   showQuestionDeleteConfirm(questionTemplateToDelete: BaseQuizQuestion): void {
-    console.log(questionTemplateToDelete);
     if (confirm('If you confirm,' + questionTemplateToDelete.name + ' will be permanently deleted.')) {
       this.deleteQuestionById(questionTemplateToDelete.id)
     }
