@@ -81,5 +81,23 @@ namespace Bakis.Controllers
 
             return Ok(prizes);
         }
+
+        // DELETE: api/Prizes/remove/1/1
+        [HttpDelete("remove/{userid}/{prizeid}")]
+        public async Task<IActionResult> RemovePurchase(int userid, int prizeid)
+        {
+            await _prizeService.RemovePurchase(userid, prizeid);
+
+            return NoContent();
+        }
+        // GET: api/Prizes/ConsumerPrizes
+        [HttpGet("ConsumerPrizes")]
+        [Produces(typeof(GetPrizeConsumerDto[]))]
+        public async Task<IActionResult> GetConsumerPrizes()
+        {
+            var prizes = await _prizeService.GetAllPrizesConsumers();
+
+            return Ok(prizes);
+        }
     }
 }

@@ -17,6 +17,7 @@ import { AdminPrizePageComponent } from './components/admin-prize-page/admin-pri
 import { BasePrizeComponent } from './components/base-prize/base-prize.component';
 import { UserPrizePageComponent } from './components/user-prize-page/user-prize-page.component';
 import { UserRoleGuardService } from './services/user-role-guard.service';
+import { AdminPrizeListPageComponent } from './components/admin-prize-list-page/admin-prize-list-page.component';
 
 export const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -36,7 +37,8 @@ export const APP_ROUTES_ADMIN: Routes = [
   { path: 'baseevent', component: BaseEventComponent, canActivate: [RoleGuardService] },
   { path: 'adminprizepage', component: AdminPrizePageComponent, canActivate: [RoleGuardService] },
   { path: 'baseprize', component: BasePrizeComponent, canActivate: [RoleGuardService] },
-  { path: 'editevent', component: UserEditDialogComponent, canActivate: [RoleGuardService], }
+  { path: 'editevent', component: UserEditDialogComponent, canActivate: [RoleGuardService], },
+  { path: 'claimedPrizes', component: AdminPrizeListPageComponent, canActivate: [RoleGuardService], }
 ];
 
 export const APP_ROUTES_EVENT_MANAGER: Routes = [

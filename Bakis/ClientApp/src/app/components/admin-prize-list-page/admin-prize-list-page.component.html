@@ -1,0 +1,45 @@
+<div>
+  <br>
+  <mat-form-field class="top-of-page-actions">
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search...">
+  </mat-form-field>
+  <br>
+</div>
+
+<div class="table-wrapper">
+  <div class="table-scroll">
+    <table mat-table [dataSource]="prizesDataSource" matSort matSortActive="id" matSortDirection="asc">
+
+      <ng-container matColumnDef="ConsumerId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> User ID </th>
+        <td mat-cell *matCellDef="let prize">{{prize.consumerId}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> User email </th>
+        <td mat-cell *matCellDef="let prize"> {{prize.consumerEmail}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="PrizeId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Prize ID </th>
+        <td mat-cell *matCellDef="let prize">{{prize.prizeId}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Prize name </th>
+        <td mat-cell *matCellDef="let prize"> {{prize.prizeName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let prize">
+          <button mat-flat-button color="warn" class="actionButtons" (click)="showDeleteConfirm(prize)">Delete</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>
+<mat-paginator #prizePaginator [pageSize]="10" [pageSizeOptions]="[10, 20, 40]">></mat-paginator>

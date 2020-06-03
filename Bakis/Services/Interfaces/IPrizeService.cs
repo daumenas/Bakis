@@ -14,5 +14,7 @@ namespace Bakis.Services.Interfaces
         Task Update(int id, UpdatePrizeDto updateData);
         Task<bool> Delete(int id);
         Task<ICollection<GetPrizeDto>> GetAllByUserId(int id);
+        Task<bool> RemovePurchase(int userid, int prizeid);
+        Task<ICollection<GetPrizeConsumerDto>> GetAllPrizesConsumers();
     }
 }

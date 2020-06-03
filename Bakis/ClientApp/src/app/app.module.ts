@@ -61,6 +61,7 @@ import { UserPrizePageComponent } from './components/user-prize-page/user-prize-
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { EventUserListComponent } from './components/event-user-list/event-user-list.component';
+import { AdminPrizeListPageComponent } from './components/admin-prize-list-page/admin-prize-list-page.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -89,7 +90,8 @@ export function tokenGetter() {
     AdminPrizePageComponent,
     BasePrizeComponent,
     UserPrizePageComponent,
-    EventUserListComponent
+    EventUserListComponent,
+    AdminPrizeListPageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
