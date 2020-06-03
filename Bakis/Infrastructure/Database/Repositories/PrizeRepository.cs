@@ -52,5 +52,20 @@ namespace Bakis.Infrastructure.Database.Repositories
 
             return changes > 0;
         }
+
+        public async Task<bool> RemovePurchase(int userid, int prizeid)
+        {
+            var boughtPrize = Context.ConsumerPrize.Where(c => c.ConsumerId == userid && c.PrizeId == prizeid).FirstOrDefault();
+            Context.ConsumerPrize.Remove(boughtPrize);
+            var changes = await Context.SaveChangesAsync();
+
+            return changes > 0;
+        }
+        public async Task<ICollection<ConsumerPrize>> GetAllPrizesConsumers()
+        {
+            var consumerPrizes = await Context.ConsumerPrize.Include(c => c.Consumer).Include(c => c.Prize).ToArrayAsync();
+
+            return consumerPrizes;
+        }
     }
 }

@@ -94,5 +94,30 @@ namespace Bakis.Services
             }
             return prizesDto;
         }
+
+        public async Task<bool> RemovePurchase(int userid, int prizeid)
+        {
+            var item = await _repository.RemovePurchase(userid, prizeid);
+
+            return item;
+        }
+        public async Task<ICollection<GetPrizeConsumerDto>> GetAllPrizesConsumers()
+        {
+            var prizes = await _repository.GetAllPrizesConsumers();
+            var prizesDto = new List<GetPrizeConsumerDto>();
+                foreach (var prize in prizes)
+                {
+                    GetPrizeConsumerDto consumerPrize = new GetPrizeConsumerDto()
+                    {
+                        ConsumerEmail = prize.Consumer.Email,
+                        PrizeName = prize.Prize.Name,
+                        ConsumerId = prize.Consumer.Id,
+                        PrizeId = prize.Prize.Id
+                    };
+                prizesDto.Add(consumerPrize);
+                }
+
+            return prizesDto;
+        }
     }
 }

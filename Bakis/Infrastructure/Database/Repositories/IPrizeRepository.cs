@@ -8,5 +8,7 @@ namespace Bakis.Infrastructure.Database.Repositories
 {
     public interface IPrizeRepository : IRepositoryBase<Prize>
     {
+        Task<bool> RemovePurchase(int userid, int prizeid);
+        Task<ICollection<ConsumerPrize>> GetAllPrizesConsumers();
     }
 }

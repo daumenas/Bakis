@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { TableRowPrize } from "../models/table-row-prize";
 import { BasePrize } from "../models/base-prize";
 import { UserPrize } from "../models/user-prizes";
+import { TableRowConsumerPrize } from "../models/table-row-consumerprize";
 
 
 @Injectable({
@@ -41,5 +42,13 @@ export class PrizeService {
   getAllPrizesByUserId(): Observable<UserPrize[]> {
     this.thisUserId = JSON.parse(localStorage.getItem('userId'));
     return this.http.get<UserPrize[]>(`${this.prizeApi}/byuser/${this.thisUserId}`);
+  }
+
+  getAllConsumerPrizes(): Observable<TableRowConsumerPrize[]> {
+    return this.http.get<TableRowConsumerPrize[]>(`${this.prizeApi}/ConsumerPrizes`);
+  }
+
+  removeUserPrize(userId: number, prizeId: number): Observable<TableRowConsumerPrize[]> {
+    return this.http.delete<TableRowConsumerPrize[]>(`${this.prizeApi}/remove/${userId}/${prizeId}`);
   }
 }
