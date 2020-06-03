@@ -295,7 +295,7 @@ export class MapComponent implements AfterViewInit  {
           '<div style="text-align: center"><h3>' + listOfData[i].name + '</h3><p>' +
           listOfData[i].description + '</p>' + listOfData[i].address + '<br />' +
           '</p>' + 'Amount of people checked in here: ' + listOfData[i].checkedIn +
-          ((isSight) ? '<br /' : '<br />' + 'Estimated maximum amount of people: ' + this.listOfEventData[i].amount + '<br />' +
+          ((isSight) ? '<br />' : '<br />' + 'Estimated maximum amount of people: ' + this.listOfEventData[i].amount + '<br />' +
             "Starts: " + this.listOfEventData[i].dateFrom.toString().split("T").shift() +
             " at: " + this.listOfEventData[i].time.toString().split("T").pop() + '<br />' + "Ends: " + this.listOfEventData[i].dateTo.toString().split("T").shift() +
             " at: " + this.listOfEventData[i].endTime.toString().split("T").pop() + '<br />') + 'Distance to: ' + meters.toFixed(2) + 'm <br />' + '<br />' +

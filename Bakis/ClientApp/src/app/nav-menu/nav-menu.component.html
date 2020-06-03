@@ -45,7 +45,7 @@
             <a class="nav-link text-dark" [routerLink]="['/adminprizepage']">Prizes</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfAdmin()">
-            <a class="nav-link text-dark" [routerLink]="['/claimedPrizes']">User Claimed Prizes</a>
+            <a class="nav-link text-dark" [routerLink]="['/claimedPrizes']">Claimed</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfUser() || checkIfEvent()">
             <a class="nav-link text-dark" [routerLink]="['/userprizepage']">Prizes</a>
