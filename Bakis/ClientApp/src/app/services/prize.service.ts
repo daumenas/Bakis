@@ -35,8 +35,8 @@ export class PrizeService {
     return this.http.put(`${this.prizeApi}/${id}`, prize);
   }
 
-  deletePrize(id: number) {
-    return this.http.delete(`${this.prizeApi}/${id}`);
+  deletePrize(id: number): Observable<boolean> {
+    return this.http.delete<boolean>(`${this.prizeApi}/${id}`);
   }
 
   getAllPrizesByUserId(): Observable<UserPrize[]> {
