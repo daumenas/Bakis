@@ -47,7 +47,11 @@ namespace Bakis.Infrastructure.Database.Repositories
 
         public async Task<bool> Delete(Prize prize)
         {
-            Context.Prizes.Remove(prize);
+            var consumerPrize = Context.ConsumerPrize.Where(c => c.PrizeId == prize.Id).FirstOrDefault();
+            if (consumerPrize == null)
+            {
+                Context.Prizes.Remove(prize);
+            }
             var changes = await Context.SaveChangesAsync();
 
             return changes > 0;

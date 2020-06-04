@@ -67,9 +67,9 @@ namespace Bakis.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _prizeService.Delete(id);
+            var isDeleted = await _prizeService.Delete(id);
 
-            return NoContent();
+            return Ok(isDeleted);
         }
 
         // GET: api/Prizes/byuser/1

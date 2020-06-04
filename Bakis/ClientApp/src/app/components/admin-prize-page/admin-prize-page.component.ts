@@ -8,6 +8,7 @@ import { PrizeService } from '../../services/prize.service';
 import { BasePrizeComponent } from '../base-prize/base-prize.component';
 import { SendReceiveService } from '../../services/send-receive.service';
 import { MatSort } from '@angular/material/sort';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin-prize-page',
@@ -26,6 +27,7 @@ export class AdminPrizePageComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
+    public snackbar: MatSnackBar,
     public dialog: MatDialog,
     private prizeService: PrizeService,
     private sendReceiveService: SendReceiveService
@@ -111,8 +113,15 @@ export class AdminPrizePageComponent implements OnInit {
   }
 
   deletePrizeById(id: number) {
-    this.prizeService.deletePrize(id).subscribe(() => {
-      this.refreshTable();
+    this.prizeService.deletePrize(id).subscribe(isDeleted => {
+      if (isDeleted) {
+        this.refreshTable();
+      }
+      else {
+        this.snackbar.open("Prize can not be deleted while users are still claiming it", null, {
+          duration: 2500
+        });
+      }
     });
   }
 }
