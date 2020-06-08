@@ -43,6 +43,7 @@
 	"modal.newSight": "Nauja vietovė",
 	"modal.quizSubmited": "Viktorina pateikta",
 	"modal.submitEvent": "Pateikti renginį",
+	"modal.update": "Atnaujinti",
 	"modal.userList": "Aplankiusių vartotojų sąrašas",
 	"prizes": "Prizai",
 	"quizzes": "Viktorinos",
@@ -120,6 +121,7 @@
 	"table.title": "Pavadinimas",
 	"table.to": "Iki data",
 	"table.toEvents": "Perjungti į renginius",
+	"table.updateUser": "Atnaujinti vartotoją",
 	"table.userID": "Vartotojo ID",
 	"table.userMail": "Vartotojo el. paštas",
 	"table.waiting": "Laukiama"

@@ -1,7 +1,7 @@
 {
 	"claimed": "Claimed",
 	"consumers": "Consumers",
-	"enter.birthday": "Birthday data",
+	"enter.birthday": "Birthday date",
 	"enter.password": "Password",
 	"error.date": "\"From date\" happens later than \"To date\"",
 	"error.email": "Email is required",
@@ -43,6 +43,7 @@
 	"modal.newSight": "New sight",
 	"modal.quizSubmited": "Quiz submitted",
 	"modal.submitEvent": "Submit event",
+	"modal.update": "Update",
 	"modal.userList": "Visited user list",
 	"prizes": "Prizes",
 	"quizzes": "Quizzes",
@@ -120,6 +121,7 @@
 	"table.title": "Title",
 	"table.to": "To date",
 	"table.toEvents": "Switch to events",
+	"table.updateUser": "Update user",
 	"table.userID": "User ID",
 	"table.userMail": "User email",
 	"table.waiting": "Waiting"
