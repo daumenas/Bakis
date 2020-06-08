@@ -8,46 +8,46 @@
       <form [formGroup]="baseEventForm" class="event-form">
         <mat-card-content>
           <mat-form-field class="full-width">
-            <input matInput formControlName="name" placeholder="Name">
+            <input matInput formControlName="name" placeholder="{{'table.nameTitle' | translate}}">
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput formControlName="description" placeholder="Description">
+            <input matInput formControlName="description" placeholder="{{'table.description' | translate}}">
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput type="number" formControlName="points" placeholder="Points">
+            <input matInput type="number" formControlName="points" placeholder="{{'table.points' | translate}}">
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput formControlName="address" placeholder="Address">
+            <input matInput formControlName="address" placeholder="{{'table.address' | translate}}">
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput type="number" formControlName="latitude" placeholder="Latitude">
+            <input matInput type="number" formControlName="latitude" placeholder="{{'table.latitude' | translate}}">
             <button mat-button matSuffix mat-icon-button (click)="openMapModal()">
               <mat-icon>edit_location</mat-icon>
             </button>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput type="number" formControlName="longitude" placeholder="Longitude">
+            <input matInput type="number" formControlName="longitude" placeholder="{{'table.longitude' | translate}}">
             <button mat-button matSuffix mat-icon-button (click)="openMapModal()">
               <mat-icon>edit_location</mat-icon>
             </button>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <mat-label>From Date</mat-label>
+            <mat-label>{{'table.from' | translate}}</mat-label>
             <input matInput [min]="minDate" formControlName="dateFrom" [matDatepicker]="pickerFrom">
             <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
             <mat-datepicker #pickerFrom></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <mat-label>To Date</mat-label>
+            <mat-label>{{'table.to' | translate}}</mat-label>
             <input matInput [min]="baseEventForm.controls.dateFrom.value" formControlName="dateTo" [matDatepicker]="pickerTo">
             <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
             <mat-datepicker #pickerTo></mat-datepicker>
             <mat-error *ngIf="baseEventForm.controls.dateTo.invalid">
-              "From date" happens later than "To date"
+              {{'error.date' | translate}}
             </mat-error>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput formControlName="time" placeholder="Time" [format]="24" [ngxTimepicker]="fullTime" readonly>
+            <input matInput formControlName="time" placeholder="{{'table.time' | translate}}" [format]="24" [ngxTimepicker]="fullTime" readonly>
             <ngx-material-timepicker #fullTime></ngx-material-timepicker>
             <ngx-material-timepicker #buttonFullTime></ngx-material-timepicker>
             <button mat-button matSuffix mat-icon-button disabled>
@@ -55,7 +55,7 @@
             </button>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput formControlName="endTime" placeholder="End Time" [format]="24" [ngxTimepicker]="endTime" readonly>
+            <input matInput formControlName="endTime" placeholder="{{'table.endTime' | translate}}" [format]="24" [ngxTimepicker]="endTime" readonly>
             <ngx-material-timepicker #endTime></ngx-material-timepicker>
             <ngx-material-timepicker #buttonFullTime></ngx-material-timepicker>
             <button mat-button matSuffix mat-icon-button disabled>
@@ -63,7 +63,7 @@
             </button>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput type="number" formControlName="amount" placeholder="Amount">
+            <input matInput type="number" formControlName="amount" placeholder="{{'table.amount' | translate}}">
           </mat-form-field>
         </mat-card-content>
 

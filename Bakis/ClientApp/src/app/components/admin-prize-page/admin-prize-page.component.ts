@@ -9,6 +9,7 @@ import { BasePrizeComponent } from '../base-prize/base-prize.component';
 import { SendReceiveService } from '../../services/send-receive.service';
 import { MatSort } from '@angular/material/sort';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-prize-page',
@@ -30,7 +31,8 @@ export class AdminPrizePageComponent implements OnInit {
     public snackbar: MatSnackBar,
     public dialog: MatDialog,
     private prizeService: PrizeService,
-    private sendReceiveService: SendReceiveService
+    private sendReceiveService: SendReceiveService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -47,6 +49,7 @@ export class AdminPrizePageComponent implements OnInit {
       this.prizeDataSource = new MatTableDataSource(this.listOfData);
       this.prizeDataSource.paginator = this.paginator;
       this.prizeDataSource.sort = this.sort;
+      this.paginator._intl.itemsPerPageLabel = '';
     });
   }
 
@@ -107,7 +110,7 @@ export class AdminPrizePageComponent implements OnInit {
   }
 
   showDeleteConfirm(prizeToDelete: TableRowPrize): void {
-    if (confirm('If you confirm,' + prizeToDelete.name + ' will be permanently deleted.')) {
+    if (confirm(this.translate.instant('snackbar.ifConfirm') + prizeToDelete.name + this.translate.instant('snackbar.permenantly'))) {
       this.deletePrizeById(prizeToDelete.id)
     }
   }
@@ -118,7 +121,7 @@ export class AdminPrizePageComponent implements OnInit {
         this.refreshTable();
       }
       else {
-        this.snackbar.open("Prize can not be deleted while users are still claiming it", null, {
+        this.snackbar.open(this.translate.instant('snackbar.prizeCannot'), null, {
           duration: 2500
         });
       }

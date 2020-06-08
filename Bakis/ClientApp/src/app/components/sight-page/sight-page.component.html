@@ -1,9 +1,9 @@
 <div>
   <br>
-  <button mat-flat-button class="top-of-page-actions" color="primary" (click)=openAddForm()>Add new sight</button>
+  <button mat-flat-button class="top-of-page-actions" color="primary" (click)=openAddForm()>{{'table.addSight' | translate}}</button>
   <br>
   <mat-form-field class="top-of-page-actions">
-    <input matInput (keyup)="applyFilter($event)" placeholder="Search...">
+    <input matInput (keyup)="applyFilter($event)" placeholder="{{'table.search' | translate}}">
   </mat-form-field>
   <br>
 </div>
@@ -18,46 +18,46 @@
       </ng-container>
 
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.nameTitle' | translate}} </th>
         <td mat-cell *matCellDef="let sight"> {{sight.name}} </td>
       </ng-container>
 
       <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.description' | translate}} </th>
         <td mat-cell *matCellDef="let sight"> {{sight.description}} </td>
       </ng-container>
 
       <ng-container matColumnDef="points">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Points </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.points' | translate}} </th>
         <td mat-cell *matCellDef="let sight"> {{sight.points}} </td>
       </ng-container>
 
       <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.address' | translate}} </th>
         <td mat-cell *matCellDef="let sight"> {{sight.address}} </td>
       </ng-container>
 
       <ng-container matColumnDef="latitude">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Latitude </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.latitude' | translate}} </th>
         <td mat-cell *matCellDef="let sight"> {{sight.latitude}} </td>
       </ng-container>
 
       <ng-container matColumnDef="longitude">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Longitude </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.longitude' | translate}} </th>
         <td mat-cell *matCellDef="let sight"> {{sight.longitude}} </td>
       </ng-container>
 
       <ng-container matColumnDef="checkedIn">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Checked In </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.checkedIn' | translate}} </th>
       <td mat-cell *matCellDef="let sight">{{sight.checkedIn}}</td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <th mat-header-cell *matHeaderCellDef> {{'table.actions' | translate}} </th>
         <td mat-cell *matCellDef="let sight">
-          <button mat-flat-button color="primary" class="actionButtons" (click)="openEditForm(sight)">Edit</button>
+          <button mat-flat-button color="primary" class="actionButtons" (click)="openEditForm(sight)">{{'table.edit' | translate}}</button>
           &nbsp;
-          <button mat-flat-button color="warn" class="actionButtons" (click)="showDeleteConfirm(sight)">Delete</button>
+          <button mat-flat-button color="warn" class="actionButtons" (click)="showDeleteConfirm(sight)">{{'table.delete' | translate}}</button>
         </td>
       </ng-container>
 

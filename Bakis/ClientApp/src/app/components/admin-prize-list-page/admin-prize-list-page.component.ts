@@ -6,6 +6,7 @@ import { UserService } from '../../services/user.service';
 import { MatSort } from '@angular/material/sort';
 import { PrizeService } from '../../services/prize.service';
 import { TableRowConsumerPrize } from '../../models/table-row-consumerprize';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-prize-list-page',
@@ -23,7 +24,8 @@ export class AdminPrizeListPageComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private prizeService: PrizeService
+    private prizeService: PrizeService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -37,6 +39,7 @@ export class AdminPrizeListPageComponent implements OnInit {
       this.prizesDataSource = new MatTableDataSource(this.listOfData);
       this.prizesDataSource.paginator = this.paginator;
       this.prizesDataSource.sort = this.sort;
+      this.paginator._intl.itemsPerPageLabel = '';
     });
   }
 
@@ -52,7 +55,7 @@ export class AdminPrizeListPageComponent implements OnInit {
   }
 
   showDeleteConfirm(prizeToDelete: TableRowConsumerPrize): void {
-    if (confirm('If you confirm,' + prizeToDelete.prizeName + ' will be considered given to ' + prizeToDelete.consumerEmail)) {
+    if (confirm(this.translate.instant('snackbar.ifConfirm') + prizeToDelete.prizeName + this.translate.instant('snackbar.considered') + prizeToDelete.consumerEmail)) {
       this.deleteUserPrizeById(prizeToDelete.consumerId, prizeToDelete.prizeId)
     }
   }

@@ -1,60 +1,58 @@
 <header>
-  <nav
-    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
-  >
+  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+      <mat-select [(value)]="selected">
+        <mat-option value="en" (click)="useLanguage('en')">EN</mat-option>
+        <mat-option value="lt" (click)="useLanguage('lt')">LT</mat-option>
+      </mat-select>
     <div class="container">
       <a class="navbar-brand" [routerLink]="['/']"><img src="../../../assets/MeetKaunas.png" height="25px" /></a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target=".navbar-collapse"
-        aria-label="Toggle navigation"
-        [attr.aria-expanded]="isExpanded"
-        (click)="toggle()"
-      >
+      <button class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target=".navbar-collapse"
+              aria-label="Toggle navigation"
+              [attr.aria-expanded]="isExpanded"
+              (click)="toggle()">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div
-        class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
-        [ngClass]="{ show: isExpanded }"
-      >
+      <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
+           [ngClass]="{ show: isExpanded }">
         <ul class="navbar-nav flex-grow">
           <li class="nav-item">
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
+            <a class="nav-link text-dark" [routerLink]="['/']">{{'home'| translate}}</a>
           </li>
           <li class="nav-item" *ngIf="!check()">
-            <a class="nav-link text-dark" [routerLink]="['/login']">Log in</a>
+            <a class="nav-link text-dark" [routerLink]="['/login']">{{'login' | translate}}</a>
           </li>
           <li class="nav-item" *ngIf="!check()">
-            <a class="nav-link text-dark" [routerLink]="['/register']">Register</a>
+            <a class="nav-link text-dark" [routerLink]="['/register']">{{'register' | translate}}</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfAdmin()">
-            <a class="nav-link text-dark" [routerLink]="['/quizpage']">Quizzes</a>
+            <a class="nav-link text-dark" [routerLink]="['/quizpage']">{{'quizzes' | translate}}</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfAdmin()">
-            <a class="nav-link text-dark" [routerLink]="['/consumerpage']">Consumers</a>
+            <a class="nav-link text-dark" [routerLink]="['/consumerpage']">{{'consumers' | translate}}</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfAdmin()">
-            <a class="nav-link text-dark" [routerLink]="['/eventpage']">Events</a>
+            <a class="nav-link text-dark" [routerLink]="['/eventpage']">{{'events' | translate}}</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfAdmin()">
-            <a class="nav-link text-dark" [routerLink]="['/sightpage']">Sights</a>
+            <a class="nav-link text-dark" [routerLink]="['/sightpage']">{{'sights' | translate}}</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfAdmin()">
-            <a class="nav-link text-dark" [routerLink]="['/adminprizepage']">Prizes</a>
+            <a class="nav-link text-dark" [routerLink]="['/adminprizepage']">{{'prizes' | translate}}</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfAdmin()">
-            <a class="nav-link text-dark" [routerLink]="['/claimedPrizes']">Claimed</a>
+            <a class="nav-link text-dark" [routerLink]="['/claimedPrizes']">{{'claimed' | translate}}</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="checkIfUser() || checkIfEvent()">
-            <a class="nav-link text-dark" [routerLink]="['/userprizepage']">Prizes</a>
+            <a class="nav-link text-dark" [routerLink]="['/userprizepage']">{{'prizes' | translate}}</a>
           </li>
           <li class="nav-item aLink" [routerLinkActive]="['link-active']" *ngIf="checkIfEvent()">
-            <a class="nav-link text-dark" [routerLink]="['/submitevent']">Submit Event</a>
+            <a class="nav-link text-dark" [routerLink]="['/submitevent']">{{'submit' | translate}}</a>
           </li>
           <li class="nav-item" *ngIf="check()">
-            <button mat-raised-button class="nav-link text-dark button-style" (click)="logout()">Log Out</button>
+            <button mat-raised-button class="nav-link text-dark button-style" (click)="logout()">{{'logout' | translate}}</button>
           </li>
         </ul>
       </div>

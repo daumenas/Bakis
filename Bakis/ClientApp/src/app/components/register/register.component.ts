@@ -7,6 +7,7 @@ import { Router } from "@angular/router"
 import { AuthenticationService } from '../../services/authentication.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SendReceiveService } from '../../services/send-receive.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
   Roles: any = ['User', 'Event Organizer'];
 
   constructor(
+    private translate: TranslateService,
     private router: Router,
     public snackbar: MatSnackBar,
     private userService: UserService,
@@ -102,7 +104,7 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
           this.registerUserForm.get('email').updateValueAndValidity();
           this.addNewUser(user);
           if (this.registerUserForm.valid) {
-            this.snackbar.open("Registration Succesful", null, {
+            this.snackbar.open(this.translate.instant('snackbar.registrationSuccess'), null, {
               duration: 1500
             });
             if (!this.adminCheckBool)
@@ -130,8 +132,8 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
   }
 
   getErrorMessage() {
-    return this.registerUserForm.controls['email'].hasError('email') ? 'You must enter a valid email' :
-      this.registerUserForm.controls['email'].hasError('exists') ? 'Email is aldready taken' : '';
+    return this.registerUserForm.controls['email'].hasError('email') ? this.translate.instant('error.emailValid') :
+      this.registerUserForm.controls['email'].hasError('exists') ? this.translate.instant('error.emailTaken') : '';
   }
 
 }

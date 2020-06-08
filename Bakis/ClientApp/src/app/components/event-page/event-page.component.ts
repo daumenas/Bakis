@@ -9,6 +9,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { SendReceiveService } from '../../services/send-receive.service';
 import { MatSort } from '@angular/material/sort';
 import { EventUserListComponent } from '../event-user-list/event-user-list.component';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -22,9 +23,9 @@ export class EventPageComponent implements OnInit {
   ocassions: BaseEvent[] = [];
   listOfData: TableRowEvent[] = [];
   isApproval: boolean = false;
-  switchText: string = "Switch to submissions";
-  editText: string = "Edit";
-  saveEditText: string = "Edit event";
+  switchText: string;
+  editText: string;
+  saveEditText: string;
 
   displayedColumns: string[] = ['id', 'name', 'description', 'points',
     'address', 'latitude', 'longitude', 'dateFrom', 'dateTo', 'time', 'endTime', 'amount', 'checkedIn', 'userlist', 'actions'];
@@ -37,7 +38,8 @@ export class EventPageComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private eventService: CityEventService,
-    private sendReceiveService: SendReceiveService
+    private sendReceiveService: SendReceiveService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -45,6 +47,9 @@ export class EventPageComponent implements OnInit {
     this.sendReceiveService.pointsReceive$.subscribe((data) => {
       this.refreshTable();
     });
+    this.switchText = this.translate.instant('table.fromEvents');
+    this.editText = this.translate.instant('table.edit');
+    this.saveEditText = this.translate.instant('table.editEvent');
   }
 
   refreshTable() {
@@ -56,6 +61,7 @@ export class EventPageComponent implements OnInit {
       this.eventDataSource = new MatTableDataSource(this.listOfData);
       this.eventDataSource.paginator = this.paginator;
       this.eventDataSource.sort = this.sort;
+      this.paginator._intl.itemsPerPageLabel = '';
     });
   }
 
@@ -119,13 +125,13 @@ export class EventPageComponent implements OnInit {
   }
 
   showDeleteConfirm(eventToDelete: TableRowEvent): void {
-    if (confirm('If you confirm,' + eventToDelete.name + ' will be permanently deleted.')) {
+    if (confirm(this.translate.instant('snackbar.ifConfirm') + eventToDelete.name + this.translate.instant('snackbar.permenantly'))) {
       this.deleteEventById(eventToDelete.id)
     }
   }
 
   showFlushConfirm(eventToDelete: TableRowEvent): void {
-    if (confirm('If you confirm,' + eventToDelete.name + ' will have nobody checked in.')) {
+    if (confirm(this.translate.instant('snackbar.ifConfirm') + eventToDelete.name + this.translate.instant('snackbar.permenantly'))) {
       this.flushEventById(eventToDelete);
     }
   }
@@ -146,13 +152,13 @@ export class EventPageComponent implements OnInit {
   changeTable() {
     this.isApproval = !this.isApproval;
     if (this.isApproval) {
-      this.switchText = "Switch to events";
-      this.editText = "Approve"
-      this.saveEditText = "Approve event"
+      this.switchText = this.translate.instant('table.toEvents');
+      this.editText = this.translate.instant('table.approve');
+      this.saveEditText = this.translate.instant('table.approveEvent');
     } else {
-      this.switchText = "Switch to submissions";
-      this.editText = "Edit"
-      this.saveEditText = "Edit event"
+      this.switchText = this.translate.instant('table.fromEvents');
+      this.editText = this.translate.instant('table.edit');
+      this.saveEditText = this.translate.instant('table.editEvent');
     }
     this.refreshTable();
   }

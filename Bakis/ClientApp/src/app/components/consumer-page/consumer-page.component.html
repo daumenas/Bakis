@@ -1,9 +1,9 @@
 <div>
   <br>
-  <button mat-flat-button class="top-of-page-actions" color="primary" (click)=openAddForm()>Add new employee</button>
+  <button mat-flat-button class="top-of-page-actions" color="primary" (click)=openAddForm()>{{'table.addConsumer' | translate}}</button>
   <br>
   <mat-form-field class="top-of-page-actions">
-    <input matInput (keyup)="applyFilter($event)" placeholder="Search...">
+    <input matInput (keyup)="applyFilter($event)" placeholder="{{'table.search' | translate}}">
   </mat-form-field>
   <br>
 </div>
@@ -18,36 +18,36 @@
       </ng-container>
 
       <ng-container matColumnDef="role">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Role </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.role' | translate}} </th>
         <td mat-cell *matCellDef="let user"> {{user.role}} </td>
       </ng-container>
 
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.name' | translate}} </th>
         <td mat-cell *matCellDef="let user"> {{user.name}} </td>
       </ng-container>
 
       <ng-container matColumnDef="surname">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Surname </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.surname' | translate}} </th>
         <td mat-cell *matCellDef="let user"> {{user.surname}} </td>
       </ng-container>
 
       <ng-container matColumnDef="points">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Points </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.points' | translate}} </th>
         <td mat-cell *matCellDef="let user"> {{user.points}} </td>
       </ng-container>
 
       <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.email' | translate}} </th>
         <td mat-cell *matCellDef="let user"> {{user.email}} </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <th mat-header-cell *matHeaderCellDef> {{'table.actions' | translate}} </th>
         <td mat-cell *matCellDef="let user">
-          <button mat-flat-button color="primary" class="actionButtons" (click)="openEditForm(user)">Edit</button>
+          <button mat-flat-button color="primary" class="actionButtons" (click)="openEditForm(user)">{{'table.edit' | translate}}</button>
           &nbsp;
-          <button mat-flat-button color="warn" class="actionButtons" (click)="showDeleteConfirm(user)">Delete</button>
+          <button mat-flat-button color="warn" class="actionButtons" (click)="showDeleteConfirm(user)">{{'table.delete' | translate}}</button>
         </td>
       </ng-container>
 

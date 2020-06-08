@@ -9,6 +9,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { SendReceiveService } from '../../services/send-receive.service';
 import { MatSort } from '@angular/material/sort';
 import { EventUserListComponent } from '../event-user-list/event-user-list.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-submit-event',
@@ -31,7 +32,9 @@ export class SubmitEventComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(public dialog: MatDialog,
+    private translation: TranslateService,
     private eventService: CityEventService,
+    private translate: TranslateService,
     private sendReceiveService: SendReceiveService) { }
 
   ngOnInit(): void {
@@ -51,6 +54,7 @@ export class SubmitEventComponent implements OnInit {
       this.eventDataSource = new MatTableDataSource(this.listOfData);
       this.eventDataSource.paginator = this.paginator;
       this.eventDataSource.sort = this.sort;
+      this.paginator._intl.itemsPerPageLabel = '';
     });
   }
 
@@ -70,7 +74,7 @@ export class SubmitEventComponent implements OnInit {
     const dialogRef = this.dialog.open(BaseEventComponent, {
       width: '550px',
       data: {
-        submitEvent: "Submit Event"
+        submitEvent: this.translation.instant('modal.submitEvent')
       }
     });
 
@@ -90,17 +94,17 @@ export class SubmitEventComponent implements OnInit {
   }
 
   showDeleteConfirm(eventToDelete: TableRowEvent): void {
-    if (confirm('If you confirm,' + eventToDelete.name + ' will be permanently deleted.')) {
+    if (confirm(this.translate.instant('snackbar.ifConfirm') + eventToDelete.name + this.translate.instant('snackbar.permenantly'))) {
       this.deleteEventById(eventToDelete.id)
     }
   }
 
   loadStatus(event: TableRowEvent, isStyle: boolean): string {
     if (event.approval) {
-      this.status = "Approved";
+      this.status = this.translation.instant('table.approved');
       this.style = "color: green";
     } else {
-      this.status = "Waiting";
+      this.status = this.translation.instant('table.waiting');
       this.style = "color: blue";
     }
     if (isStyle) {
