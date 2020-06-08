@@ -18,6 +18,7 @@ import { BasePrizeComponent } from './components/base-prize/base-prize.component
 import { UserPrizePageComponent } from './components/user-prize-page/user-prize-page.component';
 import { UserRoleGuardService } from './services/user-role-guard.service';
 import { AdminPrizeListPageComponent } from './components/admin-prize-list-page/admin-prize-list-page.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 export const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -26,7 +27,8 @@ export const APP_ROUTES: Routes = [
 ];
 
 export const APP_ROUTES_CONSUMER: Routes = [
-  { path: 'userprizepage', component: UserPrizePageComponent, canActivate: [UserRoleGuardService] }
+  { path: 'userprizepage', component: UserPrizePageComponent, canActivate: [UserRoleGuardService] },
+  { path: 'userprofile', component: UserProfileComponent, canActivate: [UserRoleGuardService] }
 ];
 
 export const APP_ROUTES_ADMIN: Routes = [

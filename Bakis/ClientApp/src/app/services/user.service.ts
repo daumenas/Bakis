@@ -40,6 +40,11 @@ export class UserService {
     return this.http.put(`${this.userApi}/${id}`, user);
   }
 
+  editProfile(user: BaseUser) {
+    this.thisUserId = JSON.parse(localStorage.getItem('userId'));
+    return this.http.put(`${this.userApi}/${this.thisUserId}`, user);
+  }
+
   deleteUser(id: number) {
     return this.http.delete(`${this.userApi}/${id}`);
   }

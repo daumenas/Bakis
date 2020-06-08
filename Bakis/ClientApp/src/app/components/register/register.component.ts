@@ -63,7 +63,7 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
       surname: ['', [
         Validators.required
       ]],
-      birthday: ['', [
+      birthdayDate: ['', [
         Validators.required
       ]],
       role: ['', [
