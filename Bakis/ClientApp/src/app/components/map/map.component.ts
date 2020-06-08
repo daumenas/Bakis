@@ -283,7 +283,7 @@ export class MapComponent implements AfterViewInit  {
             " at: " + this.listOfEventData[i].endTime.toString().split("T").pop() + '<br />') + 'Distance to: ' + meters.toFixed(2) + 'm  <br />' + '<br />'
           + ((listOfData[i].isCheckedIn == true) ? '<button class="checkIn" style="display: none">Check in</button>' :
             ((isSight) ? '<button class="checkIn">Check in ' + listOfData[i].points + 'p </button>' :
-              ((dateStart <= this.dateNow && dateEnd >= this.dateNow) ? '<button class="checkIn">Check in ' +
+              ((dateStart <= this.dateNow || dateEnd >= this.dateNow) ? '<button class="checkIn">Check in ' +
                 listOfData[i].points + 'p </button>' : '<button class="checkIn" style="display: none">Check in</button>'))) +
           ((isSight) ? (this.listOfSightData[i].isGamePlayed == true) ?
             '<button class="playGame button" style="display: none">Play game</button>' : '<button class="playGame">Play game</button>' : '') + '</div>'
@@ -314,7 +314,7 @@ export class MapComponent implements AfterViewInit  {
       if (this.listOfEventData[event._source.options.id].isCheckedIn == false) {
         var dateStart = new Date(this.listOfEventData[event._source.options.id].dateFrom);
         var dateEnd = new Date(this.listOfEventData[event._source.options.id].dateTo);
-        if (dateStart <= this.dateNow && dateEnd >= this.dateNow) {
+        if (dateStart <= this.dateNow || dateEnd >= this.dateNow) {
         var eventId = this.listOfEventData[event._source.options.id].id;
         this.consumerService.eventCheckIn(eventId).subscribe(data => {
           this.sendReceiveService.pointSender(true);
@@ -411,6 +411,9 @@ export class MapComponent implements AfterViewInit  {
             if (points) {
               this.consumerService.sightCheckIn(sightId, true, 10).subscribe(() => {
                 if (this.listOfSightData[sight._source.options.id].isCheckedIn == false) {
+                  this.listOfSightData[sight._source.options.id].checkedIn = this.listOfSightData[sight._source.options.id].checkedIn + 1;
+                  this.sightService.editSight(this.listOfSightData[sight._source.options.id], this.listOfSightData[sight._source.options.id].id).subscribe(() => {
+                  });
                   this.listOfSightData[sight._source.options.id].isCheckedIn = true;
                 }
                 this.setAfterGameMarker(sight);
@@ -425,7 +428,7 @@ export class MapComponent implements AfterViewInit  {
   }
 
   setAfterGameMarker(sight: any) {
-    this.listOfSightData[sight._source.options.id].isGamePlayed = true;
+    this.listOfSightData[sight._source.options.id].isGamePlayed = true; 
     this.sightsMarkers[sight._source.options.id]._popup.setContent(
       '<div style="text-align: center"><h3>' + this.listOfSightData[sight._source.options.id].name +
       '</h3><p>' + this.listOfSightData[sight._source.options.id].description +
