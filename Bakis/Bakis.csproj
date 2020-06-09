@@ -59,16 +59,6 @@
     <Compile Remove="Migrations\20200515102635_EventCreatedBy.Designer.cs" />
     <Compile Remove="Migrations\20200515103133_EventCreatedBy.cs" />
     <Compile Remove="Migrations\20200515103133_EventCreatedBy.Designer.cs" />
-    <Compile Remove="Migrations\20200604174724_new.cs" />
-    <Compile Remove="Migrations\20200604174724_new.Designer.cs" />
-    <Compile Remove="Migrations\20200604175002_new.cs" />
-    <Compile Remove="Migrations\20200604175002_new.Designer.cs" />
-    <Compile Remove="Migrations\20200604175127_new.cs" />
-    <Compile Remove="Migrations\20200604175127_new.Designer.cs" />
-    <Compile Remove="Migrations\20200604182224_new.cs" />
-    <Compile Remove="Migrations\20200604182224_new.Designer.cs" />
-    <Compile Remove="Migrations\20200604182758_new.cs" />
-    <Compile Remove="Migrations\20200604182758_new.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
