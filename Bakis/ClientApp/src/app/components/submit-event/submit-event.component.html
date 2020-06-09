@@ -1,9 +1,9 @@
 <br>
-<button mat-flat-button class="top-of-page-actions" color="primary" (click)=openSubmitModal()>Submit Event</button>
+<button mat-flat-button class="top-of-page-actions" color="primary" (click)=openSubmitModal()>{{'table.submitEvent' | translate}}</button>
 <br>
 <div>
   <mat-form-field class="top-of-page-actions">
-    <input matInput (keyup)="applyFilter($event)" placeholder="Search...">
+    <input matInput (keyup)="applyFilter($event)" placeholder="{{'table.search' | translate}}">
   </mat-form-field>
   <br>
 </div>
@@ -13,75 +13,75 @@
     <table mat-table [dataSource]="eventDataSource" matSort matSortActive="id" matSortDirection="asc">
 
       <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.status' | translate}} </th>
         <td mat-cell *matCellDef="let event" style="{{loadStatus(event, true)}}"> {{loadStatus(event, false)}} </td>
       </ng-container>
 
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.nameTitle' | translate}} </th>
         <td mat-cell *matCellDef="let event"> {{event.name}} </td>
       </ng-container>
 
       <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.description' | translate}} </th>
         <td mat-cell *matCellDef="let event"> {{event.description}} </td>
       </ng-container>
 
       <ng-container matColumnDef="points">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Points </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.points' | translate}} </th>
         <td mat-cell *matCellDef="let event"> {{event.points}} </td>
       </ng-container>
 
       <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.address' | translate}} </th>
         <td mat-cell *matCellDef="let event"> {{event.address}} </td>
       </ng-container>
 
       <ng-container matColumnDef="latitude">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Latitude </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.latitude' | translate}} </th>
         <td mat-cell *matCellDef="let event"> {{event.latitude}} </td>
       </ng-container>
 
       <ng-container matColumnDef="longitude">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Longitude </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.longitude' | translate}} </th>
         <td mat-cell *matCellDef="let event"> {{event.longitude}} </td>
       </ng-container>
 
       <ng-container matColumnDef="dateFrom">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> From Date </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.from' | translate}} </th>
         <td mat-cell *matCellDef="let event"> {{event.dateFrom | date:shortDate :'+0400'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="dateTo">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> To Date </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.to' | translate}} </th>
         <td mat-cell *matCellDef="let event"> {{event.dateTo | date:shortDate :'+0400'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="time">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Time </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.time' | translate}} </th>
         <td mat-cell *matCellDef="let event"> {{event.time | date:'HH:mm':'+0400'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="endTime">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> End Time </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.endTime' | translate}} </th>
         <td mat-cell *matCellDef="let event"> {{event.endTime | date:'HH:mm':'+0300'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="amount">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.amount' | translate}} </th>
         <td mat-cell *matCellDef="let event"> {{event.amount}} </td>
       </ng-container>
 
       <ng-container matColumnDef="checkedIn">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Checked In </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.checkedIn' | translate}} </th>
         <td mat-cell *matCellDef="let event"> {{event.checkedIn}} </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <th mat-header-cell *matHeaderCellDef> {{'table.actions' | translate}} </th>
         <td mat-cell *matCellDef="let event">
-          <button mat-flat-button color="primary" class="actionButtons" *ngIf="event.approval" (click)="openUserList(event)">List</button>
-          <button mat-flat-button color="warn" class="actionButtons" (click)="showDeleteConfirm(event)">Delete</button>
+          <button mat-flat-button color="primary" class="actionButtons" *ngIf="event.approval" (click)="openUserList(event)">{{'table.list' | translate}}</button>
+          <button mat-flat-button color="warn" class="actionButtons" (click)="showDeleteConfirm(event)">{{'table.delete' | translate}}</button>
         </td>
       </ng-container>
 

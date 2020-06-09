@@ -13,6 +13,7 @@ import { PictureGameComponent } from '../picture-game/picture-game.component';
 import { QuizGameComponent } from '../quiz-game/quiz-game.component';
 import { UserSight } from '../../models/user-sight';
 import { UserEvent } from '../../models/user-event';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -40,6 +41,7 @@ export class MapComponent implements AfterViewInit  {
   dateNow: Date;
 
   constructor(
+    private translate: TranslateService,
     private eventService: CityEventService,
     private consumerService: UserService,
     private sightService: LocationService,
@@ -171,14 +173,14 @@ export class MapComponent implements AfterViewInit  {
         { title: this.listOfEventData[i].id, icon: this.eventSelectionIcon, id: i }).addTo(
         map)
         .bindPopup('<div style="text-align: center"><h3>' + this.listOfEventData[i].name + '</h3><p>' + this.listOfEventData[i].description +
-          '</p>' + this.listOfEventData[i].address + 
-        '<br />' + 'Amount of people checked in here: ' + this.listOfEventData[i].checkedIn + '<br />' +
-        'Estimated maximum amount of people: ' + this.listOfEventData[i].amount + '<br />' +
-        "Starts: " + this.listOfEventData[i].dateFrom.toString().split("T").shift() +
-        " at: " + this.listOfEventData[i].time.toString().split("T").pop() + '<br />' + "Ends: " +
+          '</p>' + this.listOfEventData[i].address +
+          '<br />' + this.translate.instant('map.amount') + this.listOfEventData[i].checkedIn + '<br />' +
+        this.translate.instant('map.max') + this.listOfEventData[i].amount + '<br />' +
+        this.translate.instant('map.start') + this.listOfEventData[i].dateFrom.toString().split("T").shift() +
+        this.translate.instant('map.at') + this.listOfEventData[i].time.toString().split("T").pop() + '<br />' + this.translate.instant('map.end') +
         this.listOfEventData[i].dateTo.toString().split("T").shift() +
-        " at: " + this.listOfEventData[i].endTime.toString().split("T").pop() + '<br />' +
-        '<button class="checkIn" style="display: none">Check in</button>' + '</div>')
+        this.translate.instant('map.at') + this.listOfEventData[i].endTime.toString().split("T").pop() + '<br />' +
+        '<button class="checkIn" style="display: none">' + this.translate.instant('map.checkin') + '</button>' + '</div>')
       .on("popupopen", (a) => {
         var popUp = a.target.getPopup()
         popUp.getElement()
@@ -201,8 +203,8 @@ export class MapComponent implements AfterViewInit  {
         .bindPopup(
           '<div style="text-align: center"><h3>' + this.listOfSightData[i].name + '</h3><p>' + this.listOfSightData[i].description +
           '</p>' + this.listOfSightData[i].address +
-          '<br />' + 'Amount of people checked in here: ' + this.listOfSightData[i].checkedIn + '<br />' +
-        '<button class="checkIn" style="display: none">Check in</button>' + '<button class="playGame" style="display: none">Play Game</button>' + '</div>')
+          '<br />' + this.translate.instant('map.amount') + this.listOfSightData[i].checkedIn + '<br />' +
+          '<button class="checkIn" style="display: none">' + this.translate.instant('map.checkin') + '</button>' + '<button class="playGame" style="display: none">' + this.translate.instant('map.game') + '</button>' + '</div>')
         .on("popupopen", (a) => {
           var popUp = a.target.getPopup()
           popUp.getElement()
@@ -276,17 +278,17 @@ export class MapComponent implements AfterViewInit  {
         markers[i]._popup.setContent(
           '<div style="text-align: center"><h3>' + listOfData[i].name + '</h3><p>' + listOfData[i].description +
           '</p>' + listOfData[i].address + '<br />' +
-          '</p>' + 'Amount of people checked in here: ' + listOfData[i].checkedIn + ((isSight) ? '<br />' : '<br />' +
-            'Estimated maximum amount of people: ' + this.listOfEventData[i].amount + '<br />' +
-            "Starts: " + this.listOfEventData[i].dateFrom.toString().split("T").shift() +
-            " at: " + this.listOfEventData[i].time.toString().split("T").pop() + '<br />' + "Ends: " + this.listOfEventData[i].dateTo.toString().split("T").shift() +
-            " at: " + this.listOfEventData[i].endTime.toString().split("T").pop() + '<br />') + 'Distance to: ' + meters.toFixed(2) + 'm  <br />' + '<br />'
-          + ((listOfData[i].isCheckedIn == true) ? '<button class="checkIn" style="display: none">Check in</button>' :
-            ((isSight) ? '<button class="checkIn">Check in ' + listOfData[i].points + 'p </button>' :
-              ((dateStart <= this.dateNow && dateEnd >= this.dateNow) ? '<button class="checkIn">Check in ' +
-                listOfData[i].points + 'p </button>' : '<button class="checkIn" style="display: none">Check in</button>'))) +
+          '</p>' + this.translate.instant('map.amount') + listOfData[i].checkedIn + ((isSight) ? '<br />' : '<br />' +
+            this.translate.instant('map.max') + this.listOfEventData[i].amount + '<br />' +
+            this.translate.instant('map.start') + this.listOfEventData[i].dateFrom.toString().split("T").shift() +
+            this.translate.instant('map.at') + this.listOfEventData[i].time.toString().split("T").pop() + '<br />' + this.translate.instant('map.end') + this.listOfEventData[i].dateTo.toString().split("T").shift() +
+            this.translate.instant('map.at') + this.listOfEventData[i].endTime.toString().split("T").pop() + '<br />') + this.translate.instant('map.distance') + meters.toFixed(2) + 'm  <br />' + '<br />'
+          + ((listOfData[i].isCheckedIn == true) ? '<button class="checkIn" style="display: none">' + this.translate.instant('map.checkin') + '</button>' :
+            ((isSight) ? '<button class="checkIn">' + this.translate.instant('map.checkin') + ' ' + listOfData[i].points + 'p </button>' :
+              ((dateStart <= this.dateNow && dateEnd >= this.dateNow) ? '<button class="checkIn">' + this.translate.instant('map.checkin') + ' ' +
+                listOfData[i].points + 'p </button>' : '<button class="checkIn" style="display: none">' + this.translate.instant('map.checkin') + '</button>'))) +
           ((isSight) ? (this.listOfSightData[i].isGamePlayed == true) ?
-            '<button class="playGame button" style="display: none">Play game</button>' : '<button class="playGame">Play game</button>' : '') + '</div>'
+            '<button class="playGame button" style="display: none">' + this.translate.instant('map.game') + '</button>' : '<button class="playGame">' + this.translate.instant('map.game') + '</button>' : '') + '</div>'
           );
         markers[i].update();
       }
@@ -294,15 +296,15 @@ export class MapComponent implements AfterViewInit  {
         markers[i]._popup.setContent(
           '<div style="text-align: center"><h3>' + listOfData[i].name + '</h3><p>' +
           listOfData[i].description + '</p>' + listOfData[i].address + '<br />' +
-          '</p>' + 'Amount of people checked in here: ' + listOfData[i].checkedIn +
-          ((isSight) ? '<br />' : '<br />' + 'Estimated maximum amount of people: ' + this.listOfEventData[i].amount + '<br />' +
-            "Starts: " + this.listOfEventData[i].dateFrom.toString().split("T").shift() +
-            " at: " + this.listOfEventData[i].time.toString().split("T").pop() + '<br />' + "Ends: " + this.listOfEventData[i].dateTo.toString().split("T").shift() +
-            " at: " + this.listOfEventData[i].endTime.toString().split("T").pop() + '<br />') + 'Distance to: ' + meters.toFixed(2) + 'm <br />' + '<br />' +
-          ((listOfData[i].isCheckedIn == true) ? '<button class="checkIn" style="display: none">Check in</button>' :
-            '<button class="checkIn" disabled>Check in ' + listOfData[i].points + 'p </button>') +
+          '</p>' + this.translate.instant('map.amount') + listOfData[i].checkedIn +
+          ((isSight) ? '<br />' : '<br />' + this.translate.instant('map.max') + this.listOfEventData[i].amount + '<br />' +
+            this.translate.instant('map.start') + this.listOfEventData[i].dateFrom.toString().split("T").shift() +
+            this.translate.instant('map.at') + this.listOfEventData[i].time.toString().split("T").pop() + '<br />' + this.translate.instant('map.end') + this.listOfEventData[i].dateTo.toString().split("T").shift() +
+            this.translate.instant('map.at') + this.listOfEventData[i].endTime.toString().split("T").pop() + '<br />') + this.translate.instant('map.distance') + meters.toFixed(2) + 'm <br />' + '<br />' +
+          ((listOfData[i].isCheckedIn == true) ? '<button class="checkIn" style="display: none">' + this.translate.instant('map.checkin') + '</button>' :
+            '<button class="checkIn" disabled>' + this.translate.instant('map.checkin') + ' ' + listOfData[i].points + 'p </button>') +
           ((isSight) ? (this.listOfSightData[i].isGamePlayed == true) ?
-            '<button class="playGame" style="display: none">Play game</button>' : '<button class="playGame" disabled>Play game</button>' : '') + '</div>'
+            '<button class="playGame" style="display: none">' + this.translate.instant('map.game') + '</button>' : '<button class="playGame" disabled>' + this.translate.instant('map.game') + '</button>' : '') + '</div>'
         );
         markers[i].update();
       }
@@ -324,13 +326,13 @@ export class MapComponent implements AfterViewInit  {
               '<div style="text-align: center"><h3>' + this.listOfEventData[event._source.options.id].name +
               '</h3><p>' + this.listOfEventData[event._source.options.id].description +
               '</p>' + this.listOfEventData[event._source.options.id].address + '<br />' +
-              'Amount of people checked in here: ' + this.listOfEventData[event._source.options.id].checkedIn +
-              '<br />' + 'Estimated maximum amount of people: ' + this.listOfEventData[event._source.options.id].amount + '<br />' +
-              "Starts: " + this.listOfEventData[event._source.options.id].dateFrom.toString().split("T").shift() +
-              " at: " + this.listOfEventData[event._source.options.id].time.toString().split("T").pop() + '<br />' + "Ends: " +
+              this.translate.instant('map.amount') + this.listOfEventData[event._source.options.id].checkedIn +
+              '<br />' + this.translate.instant('map.max') + this.listOfEventData[event._source.options.id].amount + '<br />' +
+              this.translate.instant('map.start') + this.listOfEventData[event._source.options.id].dateFrom.toString().split("T").shift() +
+              this.translate.instant('map.at') + this.listOfEventData[event._source.options.id].time.toString().split("T").pop() + '<br />' + this.translate.instant('map.end') +
               this.listOfEventData[event._source.options.id].dateTo.toString().split("T").shift() +
-              " at: " + this.listOfEventData[event._source.options.id].endTime.toString().split("T").pop() + '<br />' +
-              '<button class="checkIn" style="display: none">Check in</button>' + '</div>');
+              this.translate.instant('map.at') + this.listOfEventData[event._source.options.id].endTime.toString().split("T").pop() + '<br />' +
+              '<button class="checkIn" style="display: none">' + this.translate.instant('map.checkin') + '</button>' + '</div>');
             this.listOfEventData[event._source.options.id].isCheckedIn = true;
             this.setEventMarkerIcon(this.listOfEventData[event._source.options.id]);
             this.eventMarkers[event._source.options.id].setIcon(this.eventSelectionIcon);
@@ -356,9 +358,9 @@ export class MapComponent implements AfterViewInit  {
           '<div style="text-align: center"><h3>' + this.listOfSightData[sight._source.options.id].name +
           '</h3><p>' + this.listOfSightData[sight._source.options.id].description +
           '</p>' + this.listOfSightData[sight._source.options.id].address + '<br />' +
-          'Amount of people checked in here: ' + this.listOfSightData[sight._source.options.id].checkedIn + '<br />' + '<br />' +
-        '<button class="checkIn" style="display: none">Check in</button>' + ((this.listOfSightData[sight._source.options.id].isGamePlayed) ?
-            '<button class="playGame" style="display: none">Play Game</button>' : '<button class="playGame">Play Game</button>') + '</div>')
+          this.translate.instant('map.amount') + this.listOfSightData[sight._source.options.id].checkedIn + '<br />' + '<br />' +
+          '<button class="checkIn" style="display: none">' + this.translate.instant('map.checkin') + '</button>' + ((this.listOfSightData[sight._source.options.id].isGamePlayed) ?
+            '<button class="playGame" style="display: none">' + this.translate.instant('map.game') + '</button>' : '<button class="playGame">' + this.translate.instant('map.game') + '</button>') + '</div>')
         this.listOfSightData[sight._source.options.id].isCheckedIn = true;
         this.setSightMarkerIcon(this.listOfSightData[sight._source.options.id]);
         this.sightsMarkers[sight._source.options.id].setIcon(this.sightSelectionIcon);
@@ -432,11 +434,11 @@ export class MapComponent implements AfterViewInit  {
     this.sightsMarkers[sight._source.options.id]._popup.setContent(
       '<div style="text-align: center"><h3>' + this.listOfSightData[sight._source.options.id].name +
       '</h3><p>' + this.listOfSightData[sight._source.options.id].description +
-      '</p>' + this.listOfSightData[sight._source.options.id].address + '<br />' + 'Amount of people checked in here: ' +
+      '</p>' + this.listOfSightData[sight._source.options.id].address + '<br />' + this.translate.instant('map.amount') +
       this.listOfSightData[sight._source.options.id].checkedIn + '<br />' + '<br />' +
-      ((this.listOfSightData[sight._source.options.id].isCheckedIn) ? '<button class="checkIn" style="display: none">Check in</button>' :
-        '<button class="checkIn">Check in ' + this.listOfSightData[sight._source.options.id].points + 'p </button>') +
-      '<button style="display: none" class="playGame">Play Game</button>' + '</div>')
+      ((this.listOfSightData[sight._source.options.id].isCheckedIn) ? '<button class="checkIn" style="display: none">' + this.translate.instant('map.checkin') + '</button>' :
+        '<button class="checkIn">' + this.translate.instant('map.checkin') + ' ' + this.listOfSightData[sight._source.options.id].points + 'p </button>') +
+      '<button style="display: none" class="playGame">' + this.translate.instant('map.game') + '</button>' + '</div>')
     this.setSightMarkerIcon(this.listOfSightData[sight._source.options.id]);
     this.sightsMarkers[sight._source.options.id].setIcon(this.sightSelectionIcon);
     this.sightsMarkers[sight._source.options.id].update();

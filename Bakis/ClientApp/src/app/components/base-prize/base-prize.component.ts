@@ -7,6 +7,7 @@ import { HomeComponent } from '../../home/home.component';
 import { PrizeService } from '../../services/prize.service';
 import { BasePrize } from '../../models/base-prize';
 import { SendReceiveService } from '../../services/send-receive.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-base-prize',
@@ -26,12 +27,13 @@ export class BasePrizeComponent implements OnInit {
     private prizeService: PrizeService,
     private formBuilder: FormBuilder,
     private sendReceiveService: SendReceiveService,
+    private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {}
 
   ngOnInit() {
-    this.buttonText = "Add Prize"
-    this.titleText = "New Prize";
+    this.buttonText = this.translate.instant('modal.addPrize');
+    this.titleText = this.translate.instant('modal.newPrize');
     if (this.data.isEdit == undefined) {
       this.basePrizeForm = this.formBuilder.group({
         name: ['', [
@@ -50,8 +52,8 @@ export class BasePrizeComponent implements OnInit {
     }
     else {
       this.url = this.data.prizeToUpdate.picture;
-      this.titleText = "Edit Prize";
-      this.buttonText = "Edit Prize"
+      this.titleText = this.translate.instant('modal.editPrize');
+      this.buttonText = this.translate.instant('modal.editPrize');
       this.basePrizeForm = this.formBuilder.group({
         name: [this.data.prizeToUpdate.name, [
           Validators.required
@@ -124,7 +126,7 @@ export class BasePrizeComponent implements OnInit {
           this.url = event.target.result.toString();
         } else {
           this.basePrizeForm.get('picture').setValue(null);
-          this.snackbar.open("File too big (MAX 5mb)", null, {
+          this.snackbar.open(this.translate.instant('snackbar.tooBig'), null, {
             duration: 1500
           });
         }

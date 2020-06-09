@@ -8,6 +8,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { BaseSight } from '../../models/base-sight';
 import { SendReceiveService } from '../../services/send-receive.service';
 import { MatSort } from '@angular/material/sort';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -34,7 +35,8 @@ export class SightPageComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private sightService: LocationService,
-    private sendReceiveService: SendReceiveService
+    private sendReceiveService: SendReceiveService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -51,6 +53,7 @@ export class SightPageComponent implements OnInit {
       this.sightDataSource = new MatTableDataSource(this.listOfData);
       this.sightDataSource.paginator = this.paginator;
       this.sightDataSource.sort = this.sort;
+      this.paginator._intl.itemsPerPageLabel = '';
     });
   }
 
@@ -109,7 +112,7 @@ export class SightPageComponent implements OnInit {
   }
 
   showDeleteConfirm(sightToDelete: TableRowSight): void {
-    if (confirm('If you confirm,' + sightToDelete.name + ' will be permanently deleted.')) {
+    if (confirm(this.translate.instant('snackbar.ifConfirm') + sightToDelete.name + this.translate.instant('snackbar.permenantly'))) {
       this.deleteSightById(sightToDelete.id)
     }
   }

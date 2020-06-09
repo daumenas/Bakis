@@ -1,7 +1,7 @@
 <div>
   <br>
   <mat-form-field class="top-of-page-actions">
-    <input matInput (keyup)="applyFilter($event)" placeholder="Search...">
+    <input matInput (keyup)="applyFilter($event)" placeholder="{{'table.search' | translate}}">
   </mat-form-field>
   <br>
 </div>
@@ -11,29 +11,29 @@
     <table mat-table [dataSource]="prizesDataSource" matSort matSortActive="id" matSortDirection="asc">
 
       <ng-container matColumnDef="ConsumerId">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> User ID </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.userID' | translate}} </th>
         <td mat-cell *matCellDef="let prize">{{prize.consumerId}}</td>
       </ng-container>
 
       <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> User email </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.userMail' | translate}} </th>
         <td mat-cell *matCellDef="let prize"> {{prize.consumerEmail}} </td>
       </ng-container>
 
       <ng-container matColumnDef="PrizeId">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Prize ID </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.prizeID' | translate}} </th>
         <td mat-cell *matCellDef="let prize">{{prize.prizeId}}</td>
       </ng-container>
 
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Prize name </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.prizeName' | translate}} </th>
         <td mat-cell *matCellDef="let prize"> {{prize.prizeName}} </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <th mat-header-cell *matHeaderCellDef> {{'table.actions' | translate}} </th>
         <td mat-cell *matCellDef="let prize">
-          <button mat-flat-button color="warn" class="actionButtons" (click)="showDeleteConfirm(prize)">Delete</button>
+          <button mat-flat-button color="warn" class="actionButtons" (click)="showDeleteConfirm(prize)">{{'table.delete' | translate}}</button>
         </td>
       </ng-container>
 

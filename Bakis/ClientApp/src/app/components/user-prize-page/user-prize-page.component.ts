@@ -9,6 +9,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { BaseUser } from '../../models/base-user';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserPrize } from '../../models/user-prizes';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-prize-page',
@@ -32,6 +33,7 @@ export class UserPrizePageComponent implements OnInit {
     private userService: UserService,
     private authService: AuthenticationService,
     public dialog: MatDialog,
+    private translate: TranslateService,
     private prizeService: PrizeService,
   ) { }
 
@@ -59,23 +61,23 @@ export class UserPrizePageComponent implements OnInit {
         this.user = user;
         if (this.user.points < prize.points) {
           let need = prize.points - this.user.points;
-          this.snackbar.open("Insufficient points(Need: " + need + ")", null, {
+          this.snackbar.open(this.translate.instant('snackbar.insufficient') + need + ")", null, {
             duration: 1500
           });
         } else {
-          if (confirm("If you confirm," + prize.name + "will be yours for" + prize.points)) {
+          if (confirm(this.translate.instant('snackbar.ifConfirm') + prize.name + this.translate.instant('snackbar.willBe') + prize.points)) {
             this.userService.buyPrize(prize.id).subscribe(data => {
               this.loadPoints();
               this.refreshTable();
             });
-            this.snackbar.open("To redeem the prize come to " + prize.description, null, {
+            this.snackbar.open(this.translate.instant('snackbar.redeem') + prize.description, null, {
               duration: 1500
             });
           }
         }
       })
     } else {
-      this.snackbar.open("To redeem the prize come to " + prize.description, null, {
+      this.snackbar.open(this.translate.instant('snackbar.redeem') + prize.description, null, {
         duration: 1500
       });
     }

@@ -27,6 +27,8 @@
     "@angular/service-worker": "^9.0.7",
     "@auth0/angular-jwt": "^4.0.0",
     "@nguniversal/module-map-ngfactory-loader": "8.2.6",
+    "@ngx-translate/core": "^12.1.2",
+    "@ngx-translate/http-loader": "^4.0.0",
     "@types/hammerjs": "^2.0.36",
     "@types/mime-types": "^2.1.0",
     "aspnet-prerendering": "^3.0.1",
