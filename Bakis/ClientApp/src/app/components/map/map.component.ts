@@ -411,6 +411,9 @@ export class MapComponent implements AfterViewInit  {
             if (points) {
               this.consumerService.sightCheckIn(sightId, true, 10).subscribe(() => {
                 if (this.listOfSightData[sight._source.options.id].isCheckedIn == false) {
+                  this.listOfSightData[sight._source.options.id].checkedIn = this.listOfSightData[sight._source.options.id].checkedIn + 1;
+                  this.sightService.editSight(this.listOfSightData[sight._source.options.id], this.listOfSightData[sight._source.options.id].id).subscribe(() => {
+                  });
                   this.listOfSightData[sight._source.options.id].isCheckedIn = true;
                 }
                 this.setAfterGameMarker(sight);
@@ -425,7 +428,7 @@ export class MapComponent implements AfterViewInit  {
   }
 
   setAfterGameMarker(sight: any) {
-    this.listOfSightData[sight._source.options.id].isGamePlayed = true;
+    this.listOfSightData[sight._source.options.id].isGamePlayed = true; 
     this.sightsMarkers[sight._source.options.id]._popup.setContent(
       '<div style="text-align: center"><h3>' + this.listOfSightData[sight._source.options.id].name +
       '</h3><p>' + this.listOfSightData[sight._source.options.id].description +
