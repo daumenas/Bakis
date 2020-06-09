@@ -6,4 +6,5 @@ export abstract class BasePrize {
   description: string;
   picture: string;
   points: number;
+  available: boolean;
 }

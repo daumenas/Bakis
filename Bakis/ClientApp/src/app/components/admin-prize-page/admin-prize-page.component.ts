@@ -109,6 +109,24 @@ export class AdminPrizePageComponent implements OnInit {
     });
   }
 
+  disablePrize(prize: TableRowPrize, id: number) {
+    prize.available = false;
+    this.prizeService.editPrize(prize, prize.id).subscribe(() => {
+      this.refreshTable();
+    }, error => {
+      this.showUnexpectedError();
+    });
+  }
+
+  enablePrize(prize: TableRowPrize, id: number) {
+    prize.available = true;
+    this.prizeService.editPrize(prize, prize.id).subscribe(() => {
+      this.refreshTable();
+    }, error => {
+      this.showUnexpectedError();
+    });
+  }
+
   showDeleteConfirm(prizeToDelete: TableRowPrize): void {
     if (confirm(this.translate.instant('snackbar.ifConfirm') + prizeToDelete.name + this.translate.instant('snackbar.permenantly'))) {
       this.deletePrizeById(prizeToDelete.id)

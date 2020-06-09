@@ -40,6 +40,9 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> {{'table.actions' | translate}} </th>
         <td mat-cell *matCellDef="let prize">
+          <button *ngIf="prize.available" mat-flat-button color="primary" class="actionButtons" (click)="disablePrize(prize)">Disable</button>
+          <button *ngIf="!prize.available" mat-flat-button color="primary" class="actionButtons" (click)="enablePrize(prize)">Enable</button>
+
           <button mat-flat-button color="primary" class="actionButtons" (click)="openEditForm(prize)">{{'table.edit' | translate}}</button>
           &nbsp;
           <button mat-flat-button color="warn" class="actionButtons" (click)="showDeleteConfirm(prize)">{{'table.delete' | translate}}</button>
