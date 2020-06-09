@@ -15,7 +15,7 @@ import { BaseUser } from '../../models/base-user';
 export class UserEditDialogComponent implements OnInit {
   editUserForm: FormGroup;
   minDate: Date;
-  roles: string[] = ['User', 'Event Organizer'];
+  roles: string[] = ['User', 'Event Organizer', 'Admin'];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -35,7 +35,7 @@ export class UserEditDialogComponent implements OnInit {
       surname: [this.data.userToUpdate.surname, [
         Validators.required
       ]],
-      birthday: [this.data.userToUpdate.birthdayDate, [
+      birthdayDate: [this.data.userToUpdate.birthdayDate, [
         Validators.required
       ]],
       points: [this.data.userToUpdate.points, [

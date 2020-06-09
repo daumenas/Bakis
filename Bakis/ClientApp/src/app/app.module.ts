@@ -64,6 +64,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { EventUserListComponent } from './components/event-user-list/event-user-list.component';
 import { AdminPrizeListPageComponent } from './components/admin-prize-list-page/admin-prize-list-page.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -97,7 +98,8 @@ export function TranslationLoaderFactory(http: HttpClient) {
     BasePrizeComponent,
     UserPrizePageComponent,
     EventUserListComponent,
-    AdminPrizeListPageComponent
+    AdminPrizeListPageComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

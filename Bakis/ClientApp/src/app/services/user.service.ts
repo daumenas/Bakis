@@ -4,6 +4,7 @@ import { NewUser } from "../models/new-user";
 import { Observable } from "rxjs";
 import { BaseUser } from "../models/base-user";
 import { TableRowUser } from "../models/table-row-user"
+import { OldNewPassword } from "../models/old-new-password";
 @Injectable({ providedIn: 'root' })
 
 export class UserService {
@@ -40,6 +41,11 @@ export class UserService {
     return this.http.put(`${this.userApi}/${id}`, user);
   }
 
+  editProfile(user: BaseUser) {
+    this.thisUserId = JSON.parse(localStorage.getItem('userId'));
+    return this.http.put(`${this.userApi}/${this.thisUserId}`, user);
+  }
+
   deleteUser(id: number) {
     return this.http.delete(`${this.userApi}/${id}`);
   }
@@ -58,5 +64,10 @@ export class UserService {
 
   eventCheckIn(eventId: any) {
     return this.http.get<boolean>(`${this.userApi}/${this.thisUserId}/${eventId}`);
+  }
+
+  changePassword(password: OldNewPassword) {
+    this.thisUserId = JSON.parse(localStorage.getItem('userId'));
+    return this.http.post<boolean>(`${this.userApi}/${this.thisUserId}/ChangePassword`, password);
   }
 }
