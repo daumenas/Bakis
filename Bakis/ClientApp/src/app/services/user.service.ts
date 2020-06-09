@@ -5,6 +5,8 @@ import { Observable } from "rxjs";
 import { BaseUser } from "../models/base-user";
 import { TableRowUser } from "../models/table-row-user"
 import { OldNewPassword } from "../models/old-new-password";
+import { ResetPassword } from "../models/reset-password";
+import { ConfirmEmail } from "../models/confirm-email";
 @Injectable({ providedIn: 'root' })
 
 export class UserService {
@@ -69,5 +71,17 @@ export class UserService {
   changePassword(password: OldNewPassword) {
     this.thisUserId = JSON.parse(localStorage.getItem('userId'));
     return this.http.post<boolean>(`${this.userApi}/${this.thisUserId}/ChangePassword`, password);
+  }
+
+  confirmEmail(confirmEmail: ConfirmEmail): Observable<boolean> {
+    return this.http.post<boolean>(`${this.userApi}/ConfirmEmail`, confirmEmail);
+  }
+
+  forgotPassword(email: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.userApi}/${email}/forgot`);
+  }
+
+  resetPassword(email: string, resetPassword: ResetPassword): Observable<boolean> {
+    return this.http.post<boolean>(`${this.userApi}/resetPassword/${email}`, resetPassword);
   }
 }

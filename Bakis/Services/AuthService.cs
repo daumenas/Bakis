@@ -41,13 +41,15 @@ namespace Bakis.Services
                 return null;
             }
 
-            if (await _userManager.CheckPasswordAsync(userToVerify, password))
+            if(userToVerify.EmailConfirmed)
             {
-                var user = await _userManager.Users.Include(e => e.Consumer).SingleAsync(x => x.Email == email);
-                user.Consumer.Token = await CreateJwt(user);
-                return user;
+                if (await _userManager.CheckPasswordAsync(userToVerify, password))
+                {
+                    var user = await _userManager.Users.Include(e => e.Consumer).SingleAsync(x => x.Email == email);
+                    user.Consumer.Token = await CreateJwt(user);
+                    return user;
+                }
             }
-
             return null;
         }
 

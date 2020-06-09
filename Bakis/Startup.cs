@@ -9,6 +9,7 @@ using Bakis.Configurations;
 using Bakis.Infrastructure.Database;
 using Bakis.Infrastructure.Database.Models;
 using System;
+using Bakis.Services;
 
 namespace Bakis
 {
@@ -37,6 +38,7 @@ namespace Bakis
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("Smtp"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,8 +57,6 @@ namespace Bakis
 
             app.UseCorsExt();
             app.UseHttpsRedirection();
-
-            app.SetUpStaticFiles(Configuration);
 
             if (!env.IsDevelopment())
             {
@@ -83,9 +83,9 @@ namespace Bakis
 
                 if (env.IsDevelopment())
                 {
-                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200/");
-                    spa.UseAngularCliServer(npmScript: "start");
-                    spa.Options.StartupTimeout = TimeSpan.FromSeconds(200);
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200/");
+                    //spa.UseAngularCliServer(npmScript: "start");
+                    //spa.Options.StartupTimeout = TimeSpan.FromSeconds(200);
                 }
             });
         }

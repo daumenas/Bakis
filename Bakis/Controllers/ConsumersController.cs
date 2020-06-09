@@ -129,5 +129,32 @@ namespace Bakis.Controllers
         {
             return Ok(await _consumersService.EmailExists(email));
         }
+
+        // Post: api/Consumers/ConfirmEmail
+        [HttpPost("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmailDto confirmEmailDto)
+        {
+            await _userService.ConfirmEmail(confirmEmailDto.Email, confirmEmailDto.Token);
+
+            return NoContent();
+        }
+
+        // GET: api/Consumers/ForgotPassword/email
+        [HttpGet("{email}/forgot")]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            await _userService.ForgotPassword(email);
+
+            return NoContent();
+        }
+
+        // GET: api/Consumers/email/password/token
+        [HttpPost("resetPassword/{email}")]
+        public async Task<IActionResult> ResetPassword(string email, ResetPasswordDto resetPasswordDto)
+        {
+            await _userService.ResetPassword(email, resetPasswordDto.Password, resetPasswordDto.Token);
+
+            return NoContent();
+        }
     }
 }

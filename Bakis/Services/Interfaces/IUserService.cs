@@ -18,5 +18,8 @@ namespace Bakis.Services.Interfaces
 
         Task<Consumer> GetCurrentUser(string email);
         Task<string> GetUserRole(int id);
+        Task ConfirmEmail(string email, string token);
+        Task ForgotPassword(string email);
+        Task ResetPassword(string email, string password, string token);
     }
 }

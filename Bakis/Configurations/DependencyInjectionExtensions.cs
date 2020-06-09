@@ -44,7 +44,8 @@ namespace Bakis.Configurations
                 .AddScoped<IQuizTemplateService, QuizTemplateService>()
                 .AddScoped<IQuestionService, QuestionService>()
                 .AddScoped<IQuestionChoicesService, QuestionChoicesService>()
-                .AddScoped<IPrizeService, PrizeService>();
+                .AddScoped<IPrizeService, PrizeService>()
+                .AddTransient<IEmailService, EmailService>();
         }
     }
 }
