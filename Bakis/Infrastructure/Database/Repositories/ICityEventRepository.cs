@@ -9,5 +9,6 @@ namespace Bakis.Infrastructure.Database.Repositories
     public interface ICityEventRepository : IRepositoryBase<CityEvent>
     {
         Task<ICollection<ConsumerEvent>> GetAllUsersWhoCheckedIn(int id);
+        Task<bool> Flush(int id);
     }
 }

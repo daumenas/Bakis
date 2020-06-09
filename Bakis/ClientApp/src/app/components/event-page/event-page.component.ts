@@ -138,7 +138,7 @@ export class EventPageComponent implements OnInit {
 
   flushEventById(event: TableRowEvent) {
     event.checkedIn = 0;
-    this.eventService.editEvent(event, event.id).subscribe(() => {
+    this.eventService.flushEvent(event.id).subscribe(() => {
       this.refreshTable();
     });
   }
