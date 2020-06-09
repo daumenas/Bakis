@@ -65,6 +65,9 @@ import { environment } from '../environments/environment';
 import { EventUserListComponent } from './components/event-user-list/event-user-list.component';
 import { AdminPrizeListPageComponent } from './components/admin-prize-list-page/admin-prize-list-page.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -99,6 +102,10 @@ export function TranslationLoaderFactory(http: HttpClient) {
     UserPrizePageComponent,
     EventUserListComponent,
     AdminPrizeListPageComponent,
+    AdminPrizeListPageComponent,
+    ConfirmEmailComponent,
+    ForgotPasswordComponent,
+    ChangePasswordComponent,
     UserProfileComponent
   ],
   imports: [

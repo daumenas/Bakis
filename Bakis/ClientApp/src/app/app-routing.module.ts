@@ -19,11 +19,17 @@ import { UserPrizePageComponent } from './components/user-prize-page/user-prize-
 import { UserRoleGuardService } from './services/user-role-guard.service';
 import { AdminPrizeListPageComponent } from './components/admin-prize-list-page/admin-prize-list-page.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 export const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'login', component: LogInComponent },
-  { path: 'register', component: RegisterComponent }
+  { path: 'register', component: RegisterComponent },
+  { path: 'ConfirmEmail', component: ConfirmEmailComponent },
+  { path: 'ForgotPassword', component: ForgotPasswordComponent },
+  { path: 'ResetPassword', component: ChangePasswordComponent }
 ];
 
 export const APP_ROUTES_CONSUMER: Routes = [

@@ -23,7 +23,8 @@ namespace Bakis.Configurations
         public static void SetUpIdentity(this IServiceCollection services)
         {
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<AppDbContext>();
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -88,18 +89,6 @@ namespace Bakis.Configurations
                 //.AllowCredentials()
                 .WithExposedHeaders("Content-Disposition")
             );
-        }
-
-        public static void SetUpStaticFiles(this IApplicationBuilder app, IConfiguration configuration)
-        {
-            var baseFolder = configuration.GetValue<string>("FileConfig:BaseFolder");
-            app.UseStaticFiles();
-
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), baseFolder)),
-                RequestPath = new PathString(string.Concat("/", baseFolder))
-            });
         }
 
         public static IServiceCollection SetupJtwAuthentication(this IServiceCollection services, IConfiguration configuration)
