@@ -21,6 +21,7 @@ export class UserPrizePageComponent implements OnInit {
   prizeToUpdate: UserPrize;
   basePrizes: BasePrize[] = [];
   listOfData: UserPrize[] = [];
+  isAvailable: boolean = true;
   points: number;
   displayedColumns: string[] = ['id', 'picture', 'name', 'description', 'actions'];
   user: BaseUser;
@@ -48,7 +49,9 @@ export class UserPrizePageComponent implements OnInit {
 
   refreshTable() {
     this.prizeService.getAllPrizesByUserId().subscribe(prizes => {
-      this.prizes = prizes;
+      this.prizes = prizes.filter(prize => {
+        return prize.available === this.isAvailable;
+      });
       this.listOfData = [...this.prizes];
     });
     this.listOfData = [...this.prizes];

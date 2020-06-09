@@ -11,5 +11,6 @@ namespace Bakis.Dtos.Prizes
         public string Description { get; set; }
         public string Picture { get; set; }
         public int Points { get; set; }
+        public bool Available { get; set; }
     }
 }
