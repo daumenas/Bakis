@@ -6,6 +6,7 @@ import { UserService } from '../../../app/services/user.service';
 import { BaseUser } from '../../models/base-user';
 import { formatDate } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { OldNewPassword } from '../../models/old-new-password';
 
 @Component({
   selector: 'app-user-profile',
@@ -26,23 +27,23 @@ export class UserProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-     this.editUserForm = this.formBuilder.group({
-       email: ['', [
-         Validators.required,
-         Validators.email,
-       ]],
-       name: ['', [
-         Validators.required
-       ]],
-       surname: ['', [
-         Validators.required
-       ]],
-       birthdayDate: ['', [
-         Validators.required
-       ]]
-     });
+    this.editUserForm = this.formBuilder.group({
+      email: ['', [
+        Validators.required,
+        Validators.email,
+      ]],
+      name: ['', [
+        Validators.required
+      ]],
+      surname: ['', [
+        Validators.required
+      ]],
+      birthdayDate: ['', [
+        Validators.required
+      ]]
+    });
     this.editUserPasswordForm = this.formBuilder.group({
-      oldPassword: ['', [
+      currentPassword: ['', [
         Validators.required,
         Validators.minLength(6)
       ]],
@@ -64,6 +65,11 @@ export class UserProfileComponent implements OnInit {
     return formUserData;
   }
 
+  getFormUserPasswordData(): OldNewPassword {
+    const formUserData = Object.assign(this.editUserPasswordForm.value);
+    return formUserData;
+  }
+
   editUser(editUser: BaseUser) {
     this.userService.editProfile(editUser).subscribe(() => {
       this.snackbar.open("✓", null, {
@@ -80,13 +86,16 @@ export class UserProfileComponent implements OnInit {
   }
 
   onSubmitPassword() {
-    const password = this.getFormUserData();
-
-    //INSERT LOGIC//
-
-    this.snackbar.open("✓", null, {
-      duration: 1500
-    });
+    const password = this.getFormUserPasswordData();
+    this.userService.changePassword(password).subscribe(() => {
+      this.snackbar.open("✓", null, {
+        duration: 1500
+      });
+    },
+      error => {
+        this.snackbar.open("✗", null, {
+          duration: 1500
+        });
+      });
   }
-
 }

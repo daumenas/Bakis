@@ -40,8 +40,8 @@
         <mat-card-content>
           <mat-form-field class="full-width">
             <mat-label>Old password</mat-label>
-            <input matInput type="password" formControlName="oldPassword">
-            <mat-error *ngIf="editUserPasswordForm.controls.oldPassword.invalid">
+            <input matInput type="password" formControlName="currentPassword">
+            <mat-error *ngIf="editUserPasswordForm.controls.currentPassword.invalid">
               Password must be atleast 6 symbols
             </mat-error>
           </mat-form-field>
