@@ -16,6 +16,7 @@ import { BaseSight } from '../../models/base-sight';
 import { LocationService } from '../../services/location.service';
 import { SendReceiveService } from '../../services/send-receive.service';
 import { of } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -38,7 +39,7 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
   buttonText: string;
   titleText: string;
   dialogRef: any;
-  snackbarText: string = "Quiz Template Added";
+  snackbarText: string
 
   constructor(
     private quizTemplateService: QuizService,
@@ -48,18 +49,20 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
     public snackbar: MatSnackBar,
     private formBuilder: FormBuilder,
     private sendReceiveService: SendReceiveService,
+    private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
   }
 
   ngOnInit() {
+    this.snackbarText = this.translate.instant('snackbar.quizAdded');
     if (this.data.submitEvent == undefined) {
-      this.buttonText = "Add Quiz";
-      this.titleText = "New Quiz";
+      this.buttonText = this.translate.instant('modal.addQuiz');
+      this.titleText = this.translate.instant('modal.newQuiz');
     } else {
       this.buttonText = this.data.submitEvent;
       this.titleText = this.data.submitEvent;
-      this.snackbarText = "Quiz Submitted"
+      this.snackbarText = this.translate.instant('modal.quizSubmited');
     }
     if (this.data.isEdit == undefined) {
       this.sightService.getAllSightsWithoutQuiz().subscribe(sights => {
@@ -84,8 +87,8 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
         this.questionArray = question;
         this.toggleQuestions();
       });
-      this.buttonText = "Submit";
-      this.titleText = "Edit Quiz";
+      this.buttonText = this.translate.instant('modal.editQuiz');
+      this.titleText = this.translate.instant('modal.editQuiz');
         this.baseQuizTemplateForm = this.formBuilder.group({
           title: [this.data.quizTemplateToUpdate.title, [
           Validators.required
@@ -142,7 +145,7 @@ export class BaseQuizTemplateComponent implements OnInit, ControlValueAccessor {
     else {
       const quizTemplate = this.getFormQuizTemplateData();     
       if (this.baseQuizTemplateForm.valid) {
-        this.snackbar.open("Quiz template edited", null, {
+        this.snackbar.open(this.translate.instant('snackbar.quizEdited'), null, {
           duration: 1500
         });
       }

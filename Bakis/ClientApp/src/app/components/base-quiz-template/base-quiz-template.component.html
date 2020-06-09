@@ -8,24 +8,26 @@
       <form [formGroup]="baseQuizTemplateForm" class="quiz-template-form">
         <mat-card-content>
           <mat-form-field class="full-width">
-            <input matInput formControlName="title" placeholder="Title">
+            <input matInput formControlName="title" placeholder="{{'table.title' | translate}}">
           </mat-form-field>
           <mat-form-field class="full-width">
-            <mat-label>Assign questions</mat-label>
+            <mat-label>{{'table.assignedQuestion' | translate}}</mat-label>
             <mat-select formControlName="questions" multiple>
               <mat-option *ngFor="let question of questionArray" [value]="question">{{question.title}}</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <mat-label>Choose a sight</mat-label>
+            <mat-label>{{'table.chooseSight' | translate}}</mat-label>
             <mat-select formControlName="sightId">
               <mat-option *ngFor="let sight of allSights" [value]="sight.id">{{sight.name}}</mat-option>
             </mat-select>
           </mat-form-field>
-          <button mat-stroked-button color="accent" (click)="addQuestion()">Add Question</button>
+          <button mat-stroked-button color="accent" (click)="addQuestion()">{{'table.addQuestion' | translate}}</button>
         </mat-card-content>
         <button type="submit" [mat-dialog-close] mat-stroked-button color="accent" (click)="onSubmit()"
-                [disabled]="!baseQuizTemplateForm.valid" class="btn-block">{{buttonText}}</button>
+                [disabled]="!baseQuizTemplateForm.valid" class="btn-block">
+          {{buttonText}}
+        </button>
       </form>
     </mat-card>
   </div>

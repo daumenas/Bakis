@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { BaseUser } from '../../models/base-user';
 import { MatDialogRef } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-picture-game',
@@ -18,12 +19,13 @@ export class PictureGameComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private userService: UserService,
+    private translate: TranslateService,
     public dialogRef: MatDialogRef<PictureGameComponent>) { }
 
   ngOnInit(): void {
     this.dialogRef.disableClose = true;
     this.dialogRef.backdropClick().subscribe(() => {
-      if (confirm('Are you sure you want to close it?')) {
+      if (confirm(this.translate.instant('snackbar.youSure'))) {
         this.dialogRef.close();
       }
     });

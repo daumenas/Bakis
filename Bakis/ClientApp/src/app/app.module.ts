@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { JwtModule } from '@auth0/angular-jwt';
 
@@ -68,6 +70,10 @@ export function tokenGetter() {
   return localStorage.getItem('token');
 }
 
+export function TranslationLoaderFactory(http: HttpClient) {
+      return new TranslateHttpLoader(http);
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -97,7 +103,6 @@ export function tokenGetter() {
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-
     MatInputModule,
     MatButtonModule,
     MatChipsModule,
@@ -132,6 +137,9 @@ export function tokenGetter() {
         whitelistedDomains: ['http://localhost:4200'],
         blacklistedRoutes: ['example.com/examplebadroute/']
       }
+    }),
+    TranslateModule.forRoot({
+      loader: { provide: TranslateLoader, useFactory: TranslationLoaderFactory, deps: [HttpClient] }
     }),
     ReactiveFormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })

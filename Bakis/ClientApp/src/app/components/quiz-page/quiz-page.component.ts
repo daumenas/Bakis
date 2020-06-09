@@ -13,6 +13,7 @@ import { QuizGameComponent } from '../quiz-game/quiz-game.component';
 import { SendReceiveService } from '../../services/send-receive.service';
 import { BaseQuestionComponent } from '../base-question/base-question.component';
 import { MatSort } from '@angular/material/sort';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -38,10 +39,13 @@ export class QuizPageComponent implements OnInit {
   quizTemplatesDataSource = new MatTableDataSource(this.listOfQuizData);
   questionTemplatesDataSource = new MatTableDataSource(this.listOfQuestionData);
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('quizPaginator') paginatorQuiz: MatPaginator;
+  @ViewChild('questionPaginator') paginatorQuestion: MatPaginator;
+  @ViewChild('firstTableSort') public firstTableSort: MatSort;
+  @ViewChild('secondTableSort') public secondTableSort: MatSort;
 
   constructor(
+    private translate: TranslateService,
     public dialog: MatDialog,
     private questionService: QuestionService,
     private quizService: QuizService,
@@ -49,6 +53,7 @@ export class QuizPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    
     this.refreshTable();
     this.sendReceiveService.pointsReceive$.subscribe((data) => {
       this.refreshTable();
@@ -60,14 +65,17 @@ export class QuizPageComponent implements OnInit {
       this.quizTemplates = quizTemplates;
       this.listOfQuizData = [...this.quizTemplates];
       this.quizTemplatesDataSource = new MatTableDataSource(this.listOfQuizData);
-      this.quizTemplatesDataSource.paginator = this.paginator;
-      this.quizTemplatesDataSource.sort = this.sort;
+      this.quizTemplatesDataSource.paginator = this.paginatorQuiz;
+      this.quizTemplatesDataSource.sort = this.firstTableSort;
+      this.paginatorQuiz._intl.itemsPerPageLabel = '';
     });
     this.questionService.getAllQuestions().subscribe(questions => {
       this.questions = questions;
       this.listOfQuestionData = [...this.questions];
       this.questionTemplatesDataSource = new MatTableDataSource(this.listOfQuestionData);
-      this.questionTemplatesDataSource.paginator = this.paginator;
+      this.questionTemplatesDataSource.paginator = this.paginatorQuestion;
+      this.questionTemplatesDataSource.sort = this.secondTableSort;
+      this.paginatorQuestion._intl.itemsPerPageLabel = '';
     });
   }
 
@@ -181,7 +189,7 @@ export class QuizPageComponent implements OnInit {
   }
 
   showQuizDeleteConfirm(quizTemplateToDelete: BaseQuizTemplate): void {
-    if (confirm('If you confirm,' + quizTemplateToDelete.name + ' will be permanently deleted.')) {
+    if (confirm(this.translate.instant('snackbar.ifConfirm') + quizTemplateToDelete.name + this.translate.instant('snackbar.permenantly'))) {
       this.deleteQuizById(quizTemplateToDelete.id)
     }
   }
@@ -192,7 +200,7 @@ export class QuizPageComponent implements OnInit {
     });
   }
   showQuestionDeleteConfirm(questionTemplateToDelete: BaseQuizQuestion): void {
-    if (confirm('If you confirm,' + questionTemplateToDelete.name + ' will be permanently deleted.')) {
+    if (confirm(this.translate.instant('snackbar.ifConfirm') + questionTemplateToDelete.name + this.translate.instant('snackbar.permenantly'))) {
       this.deleteQuestionById(questionTemplateToDelete.id)
     }
   }

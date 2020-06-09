@@ -12,6 +12,7 @@ import { BaseQuizQuestionChoice } from '../../models/base-quiz-question-choice';
 import { ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { SendReceiveService } from '../../services/send-receive.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class BaseQuestionComponent implements OnInit, ControlValueAccessor {
   @ViewChild('questionChoiceInput') questionChoiceInput: ElementRef<HTMLInputElement>;
 
   constructor(
+    private translate: TranslateService,
     private questionService: QuestionService,
     private questionChoiceService: QuestionChoiceService,
     public dialog: MatDialog,
@@ -46,12 +48,12 @@ export class BaseQuestionComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit() {
     if (this.data.submitEvent == undefined) {
-      this.buttonText = "Add Question";
-      this.titleText = "New Question";
+      this.buttonText = this.translate.instant('modal.addQuestion');
+      this.titleText = this.translate.instant('modal.newQuestion');
     } else {
       this.buttonText = this.data.submitEvent;
       this.titleText = this.data.submitEvent;
-      this.snackbarText = "Question Submitted"
+      this.snackbarText = this.translate.instant('snackbar.questionSubmitted');
     }
     if (this.data.isEdit == undefined) {
       this.baseQuestionForm = this.formBuilder.group({
@@ -71,8 +73,8 @@ export class BaseQuestionComponent implements OnInit, ControlValueAccessor {
       });
     }
     else {
-      this.buttonText = "Edit Question"
-      this.titleText = "Edit Question";
+      this.buttonText = this.translate.instant('modal.editQuestion');
+      this.titleText = this.translate.instant('modal.editQuestion');
       this.baseQuestionForm = this.formBuilder.group({
           name: [this.data.question.name, [
             Validators.required
@@ -124,7 +126,7 @@ export class BaseQuestionComponent implements OnInit, ControlValueAccessor {
     else {
       const question = this.getFormQuestionData();     
       if (this.baseQuestionForm.valid) {
-        this.snackbar.open("Question edited", null, {
+        this.snackbar.open(this.translate.instant('snackbar.questionEdited'), null, {
           duration: 1500
         });
       }

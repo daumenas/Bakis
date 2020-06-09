@@ -29,3 +29,7 @@ html {
 .box-shadow {
   z-index: 2000;
 }
+
+.mat-select {
+  width: 50px;
+}

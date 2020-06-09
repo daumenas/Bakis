@@ -9,6 +9,7 @@ import { formatDate } from '@angular/common';
 import { HomeComponent } from '../../home/home.component';
 import { SendReceiveService } from '../../services/send-receive.service';
 import { AuthenticationService } from '../../services/authentication.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -24,9 +25,10 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
   buttonText: string;
   titleText: string;
   dialogRef: any;
-  snackbarText: string = "Event Added";
+  snackbarText: string
 
   constructor(
+    private translate: TranslateService,
     private latlngService: SendReceiveService,
     public dialog: MatDialog,
     public snackbar: MatSnackBar,
@@ -46,13 +48,14 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
+    this.snackbarText = this.translate.instant('snackbar.eventAdded');
     if (this.data.submitEvent == undefined) {
-      this.buttonText = "Add Event";
-      this.titleText = "New Event";
+      this.buttonText = this.translate.instant('modal.addEvent');
+      this.titleText = this.translate.instant('modal.newEvent'); 
     } else {
       this.buttonText = this.data.submitEvent;
       this.titleText = this.data.submitEvent;
-      this.snackbarText = "Event Submitted"
+      this.snackbarText = this.translate.instant('modal.eventSubmit'); 
     }
     if (this.data.isEdit == undefined) {
       this.baseEventForm = this.formBuilder.group({
@@ -93,7 +96,7 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
     }
     else {
       this.buttonText = this.data.saveEditText;
-      this.titleText = "Edit Event";
+      this.titleText = this.translate.instant('modal.editEvent'); 
       this.baseEventForm = this.formBuilder.group({
         name: [this.data.eventToUpdate.name, [
           Validators.required
@@ -181,7 +184,7 @@ export class BaseEventComponent implements OnInit, ControlValueAccessor {
     else {
       const event = this.getFormEventData();     
       if (this.baseEventForm.valid) {
-        this.snackbar.open("Event edited", null, {
+        this.snackbar.open(this.translate.instant('snackbar.eventEdited'), null, {
           duration: 1500
         });
       }

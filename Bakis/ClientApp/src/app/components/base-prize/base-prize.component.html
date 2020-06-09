@@ -8,16 +8,16 @@
       <form [formGroup]="basePrizeForm" class="event-form">
         <mat-card-content>
           <mat-form-field class="full-width">
-            <input matInput maxlength="18" formControlName="name" placeholder="Name">
+            <input matInput maxlength="18" formControlName="name" placeholder="{{'table.nameTitle' | translate}}">
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput maxlength="18" formControlName="description" placeholder="Address">
+            <input matInput maxlength="18" formControlName="description" placeholder="{{'table.address' | translate}}">
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput formControlName="points" type="number" placeholder="Points">
+            <input matInput formControlName="points" type="number" placeholder="{{'table.points' | translate}}">
           </mat-form-field>
         </mat-card-content>
-        <button type="button" mat-raised-button (click)="fileInput.click()">Choose Image</button>
+        <button type="button" mat-raised-button (click)="fileInput.click()">{{'modal.choose' | translate}}</button>
         <input hidden formControlName="picture" (change)="onSelectFile($event)" #fileInput type="file" id="file">
         <br />
         <br />

@@ -10,6 +10,7 @@ import { UserEditDialogComponent } from '../user-edit-dialog/user-edit-dialog.co
 import { MatPaginator } from '@angular/material/paginator';
 import { SendReceiveService } from '../../services/send-receive.service';
 import { MatSort } from '@angular/material/sort';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-consumer-page',
@@ -36,7 +37,8 @@ export class ConsumerPageComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private userService: UserService,
-    private sendReceiveService: SendReceiveService
+    private sendReceiveService: SendReceiveService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -53,6 +55,7 @@ export class ConsumerPageComponent implements OnInit {
       this.consumerDataSource = new MatTableDataSource(this.listOfData);
       this.consumerDataSource.paginator = this.paginator;
       this.consumerDataSource.sort = this.sort;
+      this.paginator._intl.itemsPerPageLabel = '';
     });
   }
 
@@ -101,7 +104,7 @@ export class ConsumerPageComponent implements OnInit {
   }
 
   showDeleteConfirm(userToDelete: TableRowUser): void {
-    if (confirm('If you confirm,' + userToDelete.name + ' ' + userToDelete.surname + ' will be permanently deleted.')) {
+    if (confirm(this.translate.instant('snackbar.ifConfirm') + userToDelete.name + ' ' + userToDelete.surname + this.translate.instant('snackbar.permenantly'))) {
       this.deleteUserById(userToDelete.id)
     }
   }

@@ -7,6 +7,7 @@ import { BaseSight } from '../../models/base-sight';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SendReceiveService } from '../../services/send-receive.service';
 import { HomeComponent } from '../../home/home.component';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class BaseSightComponent implements OnInit, ControlValueAccessor {
     private sightService: LocationService,
     private formBuilder: FormBuilder,
     private sendReceiveService: SendReceiveService,
+    private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.latlngService.latLngReceive$.subscribe((data) => {
@@ -38,8 +40,8 @@ export class BaseSightComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
-    this.buttonText = "Add Sight"
-    this.titleText = "New Sight";
+    this.buttonText = this.translate.instant('modal.addSight');
+    this.titleText = this.translate.instant('modal.newSight');
     if (this.data.isEdit == undefined) {
       this.baseSightForm = this.formBuilder.group({
         name: ['', [
@@ -62,8 +64,8 @@ export class BaseSightComponent implements OnInit, ControlValueAccessor {
       });
     }
     else {
-      this.titleText = "Edit Sight";
-      this.buttonText = "Edit Sight"
+      this.titleText = this.translate.instant('modal.editSight');
+      this.buttonText = this.translate.instant('modal.editSight');
       this.baseSightForm = this.formBuilder.group({
         name: [this.data.sightToUpdate.name, [
           Validators.required

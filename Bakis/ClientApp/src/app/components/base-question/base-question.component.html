@@ -8,21 +8,21 @@
       <form [formGroup]="baseQuestionForm" class="question-form">
         <mat-card-content>
           <mat-form-field class="full-width">
-            <input matInput formControlName="name" placeholder="Name">
+            <input matInput formControlName="name" placeholder="{{'table.nameTitle' | translate}}">
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput formControlName="points" type="number" placeholder="Points">
+            <input matInput formControlName="points" type="number" placeholder="{{'table.points' | translate}}">
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput formControlName="title" placeholder="Title">
+            <input matInput formControlName="title" placeholder="{{'table.title' | translate}}">
           </mat-form-field>
           <mat-form-field class="full-width">
-            <mat-select placeholder="Correct answer" formControlName="correctAnswer">
+            <mat-select placeholder="{{'table.correct' | translate}}" formControlName="correctAnswer">
               <mat-option *ngFor="let choice of questionChoicesSelected" [value]="choice.id">{{choice.title}}</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <mat-label>Question Choices:</mat-label>
+            <mat-label>{{'modal.choices' | translate}}</mat-label>
             <mat-chip-list #chipList aria-label="Question choice selection">
               <mat-chip *ngFor="let choice of questionChoicesSelected"
                         [removable]="true"
@@ -35,7 +35,7 @@
                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                      (matChipInputTokenEnd)="add($event)"
                      [formControl]="questionChoiceControl"
-                     placeholder="New question choice...">
+                     placeholder="{{'modal.newQuestionChoice' | translate}}">
             </mat-chip-list>
           </mat-form-field>
         </mat-card-content>

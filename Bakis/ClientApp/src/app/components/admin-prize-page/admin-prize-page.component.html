@@ -1,9 +1,9 @@
 <div>
   <br>
-  <button mat-flat-button class="top-of-page-actions" color="primary" (click)=openAddForm()>Add new prize</button>
+  <button mat-flat-button class="top-of-page-actions" color="primary" (click)=openAddForm()>{{'table.addPrize' | translate}}</button>
   <br>
   <mat-form-field class="top-of-page-actions">
-    <input matInput (keyup)="applyFilter($event)" placeholder="Search...">
+    <input matInput (keyup)="applyFilter($event)" placeholder="{{'table.search' | translate}}">
   </mat-form-field>
   <br>
 </div>
@@ -18,31 +18,31 @@
       </ng-container>
 
       <ng-container matColumnDef="picture">
-        <th mat-header-cell *matHeaderCellDef> Picture </th>
+        <th mat-header-cell *matHeaderCellDef> {{'table.picture' | translate}} </th>
         <td mat-cell *matCellDef="let prize"><img src="{{prize.picture}}" height="100"> </td>
       </ng-container>
 
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.nameTitle' | translate}} </th>
         <td mat-cell *matCellDef="let prize"> {{prize.name}} </td>
       </ng-container>
 
       <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.address' | translate}} </th>
         <td mat-cell *matCellDef="let prize"> {{prize.description}} </td>
       </ng-container>
 
       <ng-container matColumnDef="points">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Points </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'table.points' | translate}} </th>
         <td mat-cell *matCellDef="let prize"> {{prize.points}} </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <th mat-header-cell *matHeaderCellDef> {{'table.actions' | translate}} </th>
         <td mat-cell *matCellDef="let prize">
-          <button mat-flat-button color="primary" class="actionButtons" (click)="openEditForm(prize)">Edit</button>
+          <button mat-flat-button color="primary" class="actionButtons" (click)="openEditForm(prize)">{{'table.edit' | translate}}</button>
           &nbsp;
-          <button mat-flat-button color="warn" class="actionButtons" (click)="showDeleteConfirm(prize)">Delete</button>
+          <button mat-flat-button color="warn" class="actionButtons" (click)="showDeleteConfirm(prize)">{{'table.delete' | translate}}</button>
         </td>
       </ng-container>
 
