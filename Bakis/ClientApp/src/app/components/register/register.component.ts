@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit, ControlValueAccessor {
   emailCheck: Boolean;
   adminCheckBool: Boolean;
 
-  Roles: any = ['User', 'Event Organizer', 'Admin'];
+  Roles: any = ['User', 'Event Organizer'];
 
   constructor(
     private translate: TranslateService,
