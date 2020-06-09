@@ -54,6 +54,15 @@ namespace Bakis.Controllers
             return Ok(cityEvent);
         }
 
+        // GET: api/CityEvents/flush/1
+        [HttpGet("flush/{id}")]
+        public async Task<IActionResult> Flush(int id)
+        {
+            var changes = await _cityEventService.Flush(id);
+
+            return NoContent();
+        }
+
         // PUT: api/CityEvents/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateCityEventDto newCityEvent)

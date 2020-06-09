@@ -49,6 +49,10 @@ export class CityEventService {
     return this.http.put(`${this.eventApi}/${id}`, event);
   }
 
+  flushEvent(id: number) {
+    return this.http.get(`${this.eventApi}/flush/${id}`);
+  }
+
   deleteEvent(id: number) {
     return this.http.delete(`${this.eventApi}/${id}`);
   }

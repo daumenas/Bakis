@@ -30,6 +30,12 @@ namespace Bakis.Services
 
             return cityEventDto;
         }
+        public async Task<bool> Flush(int id)
+        {
+            var changes = await _repository.Flush(id);
+
+            return changes;
+        }
 
         public async Task<ICollection<GetCityEventDto>> GetAll()
         {

@@ -15,5 +15,6 @@ namespace Bakis.Services.Interfaces
         Task<bool> Delete(int id);
         Task<ICollection<GetCityEventDto>> GetAllByUserId(int id);
         Task<GetCityEventDto> GetAllUsersWhoCheckedIn(int id);
+        Task<bool> Flush(int id);
     }
 }

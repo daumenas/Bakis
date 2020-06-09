@@ -28,6 +28,20 @@ namespace Bakis.Infrastructure.Database.Repositories
             return cityEvent;
         }
 
+        public async Task<bool> Flush(int id)
+        {
+            var flushEvent = await GetById(id);
+            flushEvent.CheckedIn = 0;
+            Context.CityEvent.Attach(flushEvent);
+            var cityEvent = await Context.ConsumerEvent.Where(c => c.EventId == id).ToListAsync();
+            if(cityEvent != null)
+            {
+                Context.ConsumerEvent.RemoveRange(cityEvent);
+            }
+            var changes = await Context.SaveChangesAsync();
+            return changes > 0;
+        }
+
         public async Task<int> Create(CityEvent newCityEvent)
         {
             Context.CityEvent.Add(newCityEvent);
